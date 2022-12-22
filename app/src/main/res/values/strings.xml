@@ -43,5 +43,9 @@
     <string name="national_id">National ID</string>
     <string name="nationality">Nationality</string>
     <string name="syndicate_id">Syndicate ID</string>
+    <string name="choose_your_specialty">Choose_your_Specialty</string>
+    <string name="seniority_level">Seniority level</string>
+    <string name="bio_in_english">Bio in English</string>
+    <string name="bio_in_arabic">Bio in Arabic</string>
 
 </resources>
