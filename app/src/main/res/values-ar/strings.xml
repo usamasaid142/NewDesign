@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="togetstartpickyourlanguage">To Get Start Pick Your Language</string>
+    <string name="english">انجليزى</string>
+    <string name="arabic">عربى</string>
+    <string name="salamtakbooking">Salamtak Booking</string>
+    <string name="screen_booking_text">Is designed to accommodate an easy way and professional tool to book reservations while furnishing all related information that would be of an interest for both patient and doctor. Nevertheless, reservations confirmation and reminder technique are also part of the features that Salamtak booking provides.</string>
+    <string name="skip">Skip</string>
+    <string name="salamtakhomebooking">Salamtak Home Visit</string>
+    <string name="salamtakconnect">Salamtak Connect</string>
+    <string name="choose">choose</string>
+    <string name="login">Login</string>
+    <string name="help">Help</string>
+    <string name="next">Next</string>
+    <string name="mobile_number">mobile number</string>
+    <string name="password">Password</string>
+    <string name="forgetpasword">Forget Password ?</string>
+    <string name="doyothaveacount">Don\'t have an acount</string>
+    <string name="signup">Sign up</string>
+    <string name="forsupportcallus">For Support Call Us</string>
+    <string name="callnumber">17143</string>
+    <string name="mobile_number_email">Phone Nuber or Email</string>
+    <string name="send">Send</string>
+    <string name="resetpasword">Forget Password</string>
+    <string name="verification_code">Please enter the verification code you received from *********50</string>
+    <string name="resend_verification_code">Resend verification code</string>
+    <string name="change_password">Change password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm new Password</string>
+    <string name="save">Save</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="upload_your_photo">Upload your photo</string>
+    <string name="full_name_in_english_first_middle_last">Full Name in English (first - middle - last)</string>
+    <string name="full_name_in_arabic_first_middle_last">Full Name in Arabic (first - middle - last)</string>
+    <string name="e_mail">E-mail</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="the_terms_and_conditions">the terms and conditions</string>
+
+</resources>

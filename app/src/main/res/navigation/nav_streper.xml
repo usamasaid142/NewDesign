@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_streper"
+    app:startDestination="@id/personalInfoFragment">
+
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment"
+        android:label="personalinfofragment"
+        tools:layout="@layout/personalinfofragment" />
+    <fragment
+        android:id="@+id/specialtyFragment"
+        android:name="com.example.newdesign.fragment.navstrepercontent.SpecialtyFragment"
+        android:label="specialtyfragment"
+        tools:layout="@layout/specialtyfragment" />
+    <fragment
+        android:id="@+id/legalDocFragment"
+        android:name="com.example.newdesign.fragment.navstrepercontent.LegalDocFragment"
+        android:label="legal_docfragment"
+        tools:layout="@layout/legal_docfragment" />
+    <fragment
+        android:id="@+id/certificatesFragment"
+        android:name="com.example.newdesign.fragment.navstrepercontent.CertificatesFragment"
+        android:label="certificatesfragment"
+        tools:layout="@layout/certificatesfragment" />
+</navigation>

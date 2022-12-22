@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+
+
+    <fragment
+        android:id="@+id/chooseLanguageFragment"
+        android:name="com.example.newdesign.fragment.splash.ChooseLanguageFragment"
+        android:label="choose Language"
+        tools:layout="@layout/choose_languagefragment" >
+        <action
+            android:id="@+id/action_chooseLanguageFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.newdesign.fragment.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/splashfragment"
+
+        >
+        <action
+            android:id="@+id/action_splashFragment_to_chooseLanguageFragment"
+            app:destination="@id/chooseLanguageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.example.newdesign.fragment.splash.OnboardingFragment"
+        android:label="onboarding"
+        tools:layout="@layout/onboardingfragment"
+
+        >
+
+        <action
+            android:id="@+id/action_onboardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.newdesign.fragment.loginandforgetpassword.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/loginfragment"
+        >
+        <action
+            android:id="@+id/action_loginFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialogBottomSheetFragment"
+        android:name="com.example.newdesign.fragment.DialogBottomSheetFragment"
+        android:label="dialog_bottom_sheetfragment"
+        tools:layout="@layout/dialog_bottom_sheetfragment" />
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.example.newdesign.fragment.loginandforgetpassword.ForgetPasswordFragment"
+        android:label="forget_passwordfragment"
+        tools:layout="@layout/forget_passwordfragment" >
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.example.newdesign.fragment.loginandforgetpassword.OtpFragment"
+        android:label="otpfragment"
+        tools:layout="@layout/otpfragment" >
+        <action
+            android:id="@+id/action_otpFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_otpFragment_to_changepasswordFragment"
+            app:destination="@id/changepasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changepasswordFragment"
+        android:name="com.example.newdesign.fragment.loginandforgetpassword.ChangepasswordFragment"
+        android:label="changepasswordfragment"
+        tools:layout="@layout/changepasswordfragment" />
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.newdesign.fragment.signupanddocotorprofile.SignupFragment"
+        android:label="SignupFragment" />
+</navigation>
