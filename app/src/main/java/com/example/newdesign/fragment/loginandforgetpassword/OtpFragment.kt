@@ -38,7 +38,7 @@ class OtpFragment : Fragment() {
         }
 
         binding.btnSend.setOnClickListener {
-            findNavController().navigate(R.id.changepasswordFragment)
+            findNavController().navigate(R.id.docotorProfileFragment)
         }
 
     }

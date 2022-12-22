@@ -96,4 +96,9 @@
         android:id="@+id/signupFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.SignupFragment"
         android:label="SignupFragment" />
+    <fragment
+        android:id="@+id/docotorProfileFragment"
+        android:name="com.example.newdesign.fragment.signupanddocotorprofile.DocotorProfileFragment"
+        android:label="docotor_profilefragment"
+        tools:layout="@layout/docotor_profilefragment" />
 </navigation>
