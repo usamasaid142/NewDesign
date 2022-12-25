@@ -45,5 +45,27 @@
     <string name="seniority_level">Seniority level</string>
     <string name="bio_in_english">Bio in English</string>
     <string name="bio_in_arabic">Bio in Arabic</string>
+    <string name="stepper_type_tab">Stepper_type_tab</string>
+    <string name="enter_english_data_for_your_certificate">Enter English Data for your certificate</string>
+    <string name="title_in_english">Title in English</string>
+    <string name="description_in_english_optional">Description in English (Optional)</string>
+    <string name="title_in_arabic">Title in Arabic</string>
+    <string name="description_in_arabic_optional">Description in Arabic (Optional)</string>
+    <string name="enter_arabic_data_for_your_certificate">Enter Arabic Data for your certificate</string>
+    <string name="enter_the_year_of_obtaining_the_certificate">Enter the year of obtaining the certificate</string>
+    <string name="choose_year">Choose year</string>
+    <string name="add_another_certificate">+ Add Another Certificate</string>
+    <string name="upload_certificate_image">Upload Certificate image</string>
+    <string name="front_and_back_national_id_image_is_required">Front and back National ID Image is required</string>
+    <string name="upload_front_national_id_image">Upload front national ID image</string>
+    <string name="upload_back_national_id_image">Upload back national ID image</string>
+    <string name="profession_certificate">Profession Certificate</string>
+    <string name="front_and_back_profession_certificate_image_is_required">Front and back Profession Certificate Image is required</string>
+    <string name="upload_front_profession_certificate_image">Upload front Profession Certificate image</string>
+    <string name="upload_back_profession_certificate_image">Upload back Profession Certificate image</string>
+    <string name="syndicate_card">Syndicate Card</string>
+    <string name="front_and_back_syndicate_card_image_is_required">Front and back Syndicate Card Image is required</string>
+    <string name="upload_front_syndicate_card_image">Upload front Syndicate Card image</string>
+    <string name="upload_back_syndicate_card_image">Upload back Syndicate Card image</string>
 
 </resources>
