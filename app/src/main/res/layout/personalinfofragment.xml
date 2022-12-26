@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.navstrepercontent.PersonalInfoFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="3dp"
-            >
+            android:padding="3dp">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_doctorProfile"
                 android:layout_width="80dp"
@@ -25,25 +31,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_circle"
                 android:layout_marginStart="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/iv_doctorProfile"
+                android:background="@drawable/bg_circle"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_doctorProfile"
-                >
+                app:layout_constraintEnd_toEndOf="@+id/iv_doctorProfile">
+
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_cam"
                     android:layout_width="18dp"
                     android:layout_height="15dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_camera"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -61,6 +67,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_doctorProfile"
                 app:layout_constraintWidth_percent=".85" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_fullName_En"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -78,16 +85,17 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_fullName_En"
                     android:layout_width="match_parent"
+                    android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
                     android:hint="@string/full_name_in_english_first_middle_last"
+                    android:inputType="phone"
                     android:textColor="@color/gray"
-                    android:fontFamily="@font/avenirltstd_roman"
-                    android:textSize="12sp"
-                    android:layout_height="60dp"
-                    android:inputType="phone" />
+                    android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_fullName_Ar"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -96,8 +104,8 @@
                 android:layout_margin="15dp"
                 android:background="@drawable/bg_edittext"
                 android:elevation="1dp"
-                android:paddingTop="2dp"
                 android:hint="@string/full_name_in_arabic_first_middle_last"
+                android:paddingTop="2dp"
                 app:boxBackgroundMode="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,15 +114,16 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_fullName_AR"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:textColor="@color/gray"
-                    android:fontFamily="@font/avenirltstd_roman"
-                    android:textSize="12sp"
                     android:layout_height="60dp"
-                    android:inputType="phone" />
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/avenirltstd_roman"
+                    android:gravity="start"
+                    android:inputType="phone"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_PhoneNumber"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -123,8 +132,8 @@
                 android:layout_margin="15dp"
                 android:background="@drawable/bg_edittext"
                 android:elevation="1dp"
-                android:paddingTop="2dp"
                 android:hint="@string/mobile_number"
+                android:paddingTop="2dp"
                 app:boxBackgroundMode="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,14 +142,15 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_PhoneNumber"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:textColor="@color/gray"
-                    android:fontFamily="@font/avenirltstd_roman"
-                    android:textSize="12sp"
                     android:layout_height="60dp"
-                    android:inputType="phone" />
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/avenirltstd_roman"
+                    android:gravity="start"
+                    android:inputType="phone"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_Email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -149,8 +159,8 @@
                 android:layout_margin="15dp"
                 android:background="@drawable/bg_edittext"
                 android:elevation="1dp"
-                android:paddingTop="2dp"
                 android:hint="@string/e_mail"
+                android:paddingTop="2dp"
                 app:boxBackgroundMode="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -159,302 +169,300 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_Email"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    android:textColor="@color/gray"
-                    android:fontFamily="@font/avenirltstd_roman"
-                    android:textSize="12sp"
                     android:layout_height="60dp"
-                    android:inputType="phone" />
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/avenirltstd_roman"
+                    android:gravity="start"
+                    android:inputType="phone"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginTop="12dp"
-                android:elevation="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_Email"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                >
+                android:background="@drawable/bg_edittext"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textinput_Email">
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_arrowdown"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/ic_arrowdwon"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:gravity="start"
+                    android:src="@drawable/ic_arrowdwon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textinput_gender"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/gender"
                     android:paddingTop="2dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxBackgroundMode="none"
-                    android:hint="@string/gender"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_gender"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textColor="@color/gray"
-                        android:fontFamily="@font/avenirltstd_roman"
-                        android:textSize="12sp"
                         android:layout_gravity="center_horizontal"
-                        android:inputType="numberPassword" />
+                        android:fontFamily="@font/avenirltstd_roman"
+                        android:inputType="numberPassword"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_Date_ofbirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginTop="12dp"
-                android:elevation="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_gender"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                >
+                android:background="@drawable/bg_edittext"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_gender">
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_Date"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/ic_calender"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:gravity="start"
+                    android:src="@drawable/ic_calender"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textinput_Date_ofbirth"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/date_of_birth"
                     android:paddingTop="2dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxBackgroundMode="none"
-                    android:hint="@string/date_of_birth"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_Date_ofbirth"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textColor="@color/gray"
-                        android:fontFamily="@font/avenirltstd_roman"
-                        android:textSize="12sp"
                         android:layout_gravity="center_horizontal"
-                        android:inputType="numberPassword" />
+                        android:fontFamily="@font/avenirltstd_roman"
+                        android:inputType="numberPassword"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_Nationality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginTop="12dp"
-                android:elevation="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_Date_ofbirth"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                >
+                android:background="@drawable/bg_edittext"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Date_ofbirth">
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_Nationality"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/ic_arrowdwon"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:gravity="start"
+                    android:src="@drawable/ic_arrowdwon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textinput_Nationality"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/nationality"
                     android:paddingTop="2dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxBackgroundMode="none"
-                    android:hint="@string/nationality"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_Nationality"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textColor="@color/gray"
-                        android:fontFamily="@font/avenirltstd_roman"
-                        android:textSize="12sp"
                         android:layout_gravity="center_horizontal"
-                        android:inputType="numberPassword" />
+                        android:fontFamily="@font/avenirltstd_roman"
+                        android:inputType="numberPassword"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_National_ID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginTop="12dp"
-                android:elevation="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_Nationality"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                >
+                android:background="@drawable/bg_edittext"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Nationality">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textinput_NationalID"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginBottom="5dp"
+                    android:hint="@string/national_id"
                     android:paddingTop="2dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxBackgroundMode="none"
-                    android:hint="@string/national_id"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_NationalID"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textColor="@color/gray"
-                        android:fontFamily="@font/avenirltstd_roman"
-                        android:textSize="12sp"
                         android:layout_gravity="center_horizontal"
-                        android:inputType="numberPassword" />
+                        android:fontFamily="@font/avenirltstd_roman"
+                        android:inputType="numberPassword"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_SyndicateID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginTop="12dp"
-                android:elevation="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_National_ID"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="5dp"
-                >
+                android:background="@drawable/bg_edittext"
+                android:elevation="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_National_ID">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textinput_SyndicateID"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginBottom="5dp"
+                    android:hint="@string/syndicate_id"
                     android:paddingTop="2dp"
                     app:boxBackgroundColor="@color/white"
                     app:boxBackgroundMode="none"
-                    android:hint="@string/syndicate_id"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_SyndicateID"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:textColor="@color/gray"
-                        android:fontFamily="@font/avenirltstd_roman"
-                        android:textSize="12sp"
                         android:layout_gravity="center_horizontal"
-                        android:inputType="numberPassword" />
+                        android:fontFamily="@font/avenirltstd_roman"
+                        android:inputType="numberPassword"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_next"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_chooselang_button"
-                android:fontFamily="@font/avenirltstd_black"
-                android:padding="5dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/next"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_SyndicateID"
-                app:layout_constraintBottom_toTopOf="@+id/imageView"
-                app:layout_constraintWidth_percent=".9"
-                />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="100dp"
-                android:layout_height="4dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
-                android:adjustViewBounds="true"
-                android:background="@color/black"
-                android:contentDescription="TODO"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_chooselang_button"
+        android:fontFamily="@font/avenirltstd_black"
+        android:padding="5dp"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/layout"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent=".9" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
+        android:background="@color/black"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

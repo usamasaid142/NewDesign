@@ -67,5 +67,6 @@
     <string name="front_and_back_syndicate_card_image_is_required">Front and back Syndicate Card Image is required</string>
     <string name="upload_front_syndicate_card_image">Upload front Syndicate Card image</string>
     <string name="upload_back_syndicate_card_image">Upload back Syndicate Card image</string>
+    <string name="required">" required *"</string>
 
 </resources>
