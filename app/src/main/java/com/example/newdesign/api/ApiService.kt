@@ -1,17 +1,27 @@
 package com.example.newdesign.api
 
 import com.example.newdesign.model.register.CreateUser
+import com.example.newdesign.model.register.CreateUserResponse
 import com.example.newdesign.model.register.RegisterReponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
     @POST("{culture}/User/Register")
+    suspend fun registerUser(@Path("culture") culture: String,
+                           @Body registerUser: CreateUser):Response<RegisterReponse>
+
+    @POST("{culture}/User/SendOTP")
+    suspend fun SendOTP(@Path("culture") culture: String,
+                           @Body mobile: String):Response<RegisterReponse>
+
+    @POST("{culture}/User/CreateUser")
     suspend fun createUser(@Path("culture") culture: String,
-                           @Body createUser: CreateUser):Response<RegisterReponse>
+                             @Body createUser: CreateUser):Response<CreateUserResponse>
 
 
 }

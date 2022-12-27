@@ -86,6 +86,14 @@
         <action
             android:id="@+id/action_otpFragment_to_changepasswordFragment"
             app:destination="@id/changepasswordFragment" />
+        <argument
+            android:name="responsemodel"
+            app:argType="com.example.newdesign.model.register.Data"
+            app:nullable="true" />
+        <argument
+            android:name="user"
+            app:argType="com.example.newdesign.model.register.CreateUser"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/changepasswordFragment"
@@ -95,7 +103,12 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.SignupFragment"
-        android:label="SignupFragment" />
+       tools:layout="@layout/signupfragment"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
+    </fragment>
     <fragment
         android:id="@+id/docotorProfileFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.DocotorProfileFragment"

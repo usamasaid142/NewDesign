@@ -2,6 +2,8 @@ package com.example.newdesign.model.register
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 
 data class RegisterReponse(
     @SerializedName("Data")
@@ -12,7 +14,7 @@ data class RegisterReponse(
     val messageCode: Int,
     @SerializedName("Success")
     val success: Boolean
-)
+): Serializable
 
 data class Data(
     @SerializedName("Code")
@@ -21,4 +23,4 @@ data class Data(
     val reSendCounter: Int,
     @SerializedName("UserId")
     val userId: Int
-)
+):Serializable

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color_gray"
     tools:context=".fragment.splash.ChooseLanguageFragment">
 
 <androidx.core.widget.NestedScrollView
@@ -72,7 +73,7 @@
         android:layout_margin="15dp"
         android:background="@drawable/bg_edittext"
         android:elevation="1dp"
-        android:paddingTop="2dp"
+        android:paddingTop="4dp"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +84,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="start"
+            android:layout_marginTop="5dp"
             android:hint="@string/full_name_in_english_first_middle_last"
             android:textColor="@color/gray"
             android:fontFamily="@font/avenirltstd_roman"
@@ -91,6 +93,24 @@
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fullNameError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/avenirltstd_roman"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_En"
+            app:layout_constraintBottom_toTopOf="@+id/textinput_fullName_Ar"
+             />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textinput_fullName_Ar"
@@ -100,7 +120,7 @@
         android:layout_margin="15dp"
         android:background="@drawable/bg_edittext"
         android:elevation="1dp"
-        android:paddingTop="2dp"
+        android:paddingTop="4dp"
         android:hint="@string/full_name_in_arabic_first_middle_last"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,10 +135,29 @@
             android:textColor="@color/gray"
             android:fontFamily="@font/avenirltstd_roman"
             android:textSize="12sp"
+            android:layout_marginTop="5dp"
             android:layout_height="60dp"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fullNameARError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/avenirltstd_roman"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_Ar"
+            app:layout_constraintBottom_toTopOf="@+id/textinput_PhoneNumber"
+            />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textinput_PhoneNumber"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -127,7 +166,7 @@
         android:layout_margin="15dp"
         android:background="@drawable/bg_edittext"
         android:elevation="1dp"
-        android:paddingTop="2dp"
+        android:paddingTop="4dp"
         android:hint="@string/mobile_number"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,9 +181,28 @@
             android:textColor="@color/gray"
             android:fontFamily="@font/avenirltstd_roman"
             android:textSize="12sp"
+            android:layout_marginTop="5dp"
             android:layout_height="60dp"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_pohneError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/avenirltstd_roman"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textinput_PhoneNumber"
+            app:layout_constraintBottom_toTopOf="@+id/textinput_Email"
+            />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textinput_Email"
@@ -154,7 +212,7 @@
         android:layout_margin="15dp"
         android:background="@drawable/bg_edittext"
         android:elevation="1dp"
-        android:paddingTop="2dp"
+        android:paddingTop="4dp"
         android:hint="@string/e_mail"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -169,17 +227,36 @@
             android:textColor="@color/gray"
             android:fontFamily="@font/avenirltstd_roman"
             android:textSize="12sp"
+            android:layout_marginTop="5dp"
             android:layout_height="60dp"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_emailError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/avenirltstd_roman"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textinput_Email"
+            app:layout_constraintBottom_toTopOf="@+id/layout_password"
+            />
 
  <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_edittext"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="13dp"
         android:elevation="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -195,7 +272,7 @@
             android:gravity="start"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_eyeshow"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -206,7 +283,7 @@
             android:layout_height="55dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="25dp"
-            android:paddingTop="2dp"
+            android:paddingTop="4dp"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="none"
             android:hint="@string/password"
@@ -222,12 +299,31 @@
                 android:textColor="@color/gray"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:textSize="12sp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"
                 android:inputType="numberPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_passwordError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/avenirltstd_roman"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_password"
+            app:layout_constraintBottom_toTopOf="@+id/layout_confirmpassword"
+            />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_signup"
@@ -300,7 +396,7 @@
             android:gravity="start"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_eyeshow"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -311,7 +407,7 @@
             android:layout_height="55dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="25dp"
-            android:paddingTop="2dp"
+            android:paddingTop="4dp"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="none"
             android:hint="@string/confirm_new_password"
@@ -325,6 +421,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:textColor="@color/gray"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:textSize="12sp"
                 android:layout_gravity="center_horizontal"
@@ -333,28 +430,50 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_confirmpasswordError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/avenirltstd_roman"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_confirmpassword"
+            />
 
-     <androidx.appcompat.widget.AppCompatCheckBox
-         android:id="@id/ch_terms"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginStart="15dp"
-         android:text="Agree to"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toBottomOf="@+id/layout_confirmpassword"/>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@id/ch_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="14dp"
+            android:minWidth="0dp"
+            android:minHeight="48dp"
+            android:text="Agree to"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_confirmpassword" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_termsandconditions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="2dp"
             android:fontFamily="@font/avenirltstd_roman"
            android:text="the terms and conditions"
             android:textColor="@color/green"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/ch_terms"
             app:layout_constraintTop_toBottomOf="@+id/layout_confirmpassword"
+            app:layout_constraintBottom_toBottomOf="@+id/ch_terms"
             />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -364,6 +483,7 @@
         android:background="@drawable/bg_chooselang_button"
         android:fontFamily="@font/avenirltstd_black"
         android:padding="5dp"
+        android:layout_marginTop="10dp"
         android:text="@string/sign_up"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -372,6 +492,18 @@
         app:layout_constraintTop_toBottomOf="@+id/ch_terms"
         app:layout_constraintWidth_percent=".9"
          />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
+            app:layout_constraintTop_toTopOf="@+id/btn_signUp"
+            android:visibility="gone"
+            />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_haveAcount"

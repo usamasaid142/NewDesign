@@ -1,15 +1,15 @@
 package com.example.newdesign.fragment.signupanddocotorprofile
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,6 +25,7 @@ class SignupFragment : Fragment() {
 
     private lateinit var binding: SignupfragmentBinding
     private val viewmodel: RegisterViewmodel by viewModels()
+    private var user: CreateUser? = null
     var isValid = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,30 @@ class SignupFragment : Fragment() {
 
     private fun initButton() {
 
+        binding.ivShowpassword.setOnClickListener {
+
+            if (binding.etPassword.transformationMethod is PasswordTransformationMethod) {
+                binding.etPassword.transformationMethod = null
+                binding.ivShowpassword.setImageResource(R.drawable.ic_eyehide)
+            } else {
+                binding.etPassword.transformationMethod = PasswordTransformationMethod()
+                binding.ivShowpassword.setImageResource(R.drawable.ic_eyeshow)
+
+            }
+        }
+        binding.ivConfirmshowpassword.setOnClickListener {
+
+            if (binding.confirmEtPassword.transformationMethod is PasswordTransformationMethod) {
+                binding.confirmEtPassword.transformationMethod = null
+                binding.ivConfirmshowpassword.setImageResource(R.drawable.ic_eyehide)
+            } else {
+                binding.confirmEtPassword.transformationMethod = PasswordTransformationMethod()
+                binding.ivConfirmshowpassword.setImageResource(R.drawable.ic_eyeshow)
+
+            }
+        }
+
+
         binding.tvLogin.setOnClickListener {
             findNavController().navigate(R.id.loginFragment)
         }
@@ -52,60 +77,81 @@ class SignupFragment : Fragment() {
             findNavController().navigate(R.id.dialogBottomSheetFragment)
         }
 
+
         binding.btnSignUp.setOnClickListener {
-            var fullNameEn = binding.etFullNameEn.text.toString()
-            var fullNameAr = binding.etFullNameAR.text.toString()
-            var mobileNumber = binding.etPhoneNumber.text.toString()
-            var email = binding.etEmail.text.toString()
-            var password = binding.etPassword.text.toString()
-            var confirmPassword = binding.confirmEtPassword.text.toString()
-            if (isvalidateFeilds(
-                    fullNameEn,
-                    fullNameAr,
-                    mobileNumber,
-                    email,
-                    password,
-                    confirmPassword
-                )
-            ) {
-                Toast.makeText(requireContext(), " logged", Toast.LENGTH_SHORT).show()
-                val user=CreateUser(email,fullNameEn,password,mobileNumber,2)
-                viewmodel.createUser("En",user)
-                findNavController().navigate(R.id.otpFragment)
+            if (binding.chTerms.isChecked) {
+                var fullNameEn = binding.etFullNameEn.text.toString()
+                var fullNameAr = binding.etFullNameAR.text.toString()
+                var mobileNumber = binding.etPhoneNumber.text.toString()
+                var email = binding.etEmail.text.toString()
+                var password = binding.etPassword.text.toString()
+                var confirmPassword = binding.confirmEtPassword.text.toString()
+                if (isvalidateFeilds(
+                        fullNameEn,
+                        fullNameAr,
+                        mobileNumber,
+                        email,
+                        password,
+                        confirmPassword
+                    )
+                ) {
+                    user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
+                    viewmodel.registerUser("En", user!!)
+                }
+
+
             } else {
-                Toast.makeText(requireContext(), " not logged", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "check terms and conditions",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
 
         }
-
     }
 
     private fun callBack() {
         viewmodel.response.observe(viewLifecycleOwner, Observer {
 
-               when(it){
 
-                   is Resource.Loading->{
-                       showprogtessbar()
-                   }
+            when (it) {
 
-                   is Resource.sucess ->{
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
 
-                   }
-                   is Resource.Error ->{
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    it?.data?.let { response ->
+                        val action =
+                            SignupFragmentDirections.actionSignupFragmentToOtpFragment(
+                                response.data,
+                                user
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    it.data?.message?.let { error ->
+                        Log.e("error", error)
+                    }
+                }
 
-                   }
-
-               }
+            }
 
         })
-
 
     }
 
     private fun showprogtessbar() {
-        TODO("Not yet implemented")
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideprogressbar() {
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
 
@@ -126,35 +172,24 @@ class SignupFragment : Fragment() {
                 R.drawable.ic_error,
                 0
             )
-            // binding.textinputMobile.boxBackgroundMode= TextInputLayout.BOX_BACKGROUND_OUTLINE
-            binding.etFullNameEn.hint = getString(R.string.required)
-            binding.etFullNameEn.setHintTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.red
-                )
-            )
+            binding.tvFullNameError.text = getString(R.string.required)
+            binding.tvFullNameError.visibility = View.VISIBLE
             binding.textinputFullNameEn.setBackgroundResource(R.drawable.bg_edittext_error)
             isValid = false
         } else if (fullNameEn.trim().split(" ").size < 3) {
-            binding.etFullNameEn.setText(null)
-            binding.etFullNameEn.hint = getString(R.string.full_name_in_english_first_middle_last)
+            binding.tvFullNameError.visibility = View.VISIBLE
+            binding.tvFullNameError.text = getString(R.string.Enter_fullName_english)
             binding.etFullNameEn.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_error,
                 0
             )
-            binding.etFullNameEn.setHintTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.red
-                )
-            )
             binding.textinputFullNameEn.setBackgroundResource(R.drawable.bg_edittext_error)
             isValid = false
 
         } else {
+            binding.tvFullNameError.visibility = View.GONE
             binding.textinputFullNameEn.setBackgroundResource(R.drawable.bg_edittext)
             binding.etFullNameEn.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             isValid = true
@@ -168,48 +203,43 @@ class SignupFragment : Fragment() {
                 R.drawable.ic_error,
                 0
             )
-            // binding.textinputMobile.boxBackgroundMode= TextInputLayout.BOX_BACKGROUND_OUTLINE
-            binding.etFullNameAR.hint = getString(R.string.required)
-            binding.etFullNameAR.setHintTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.red
-                )
-            )
+            binding.tvFullNameARError.text = getString(R.string.required)
+            binding.tvFullNameARError.visibility = View.VISIBLE
             binding.textinputFullNameAr.setBackgroundResource(R.drawable.bg_edittext_error)
 
             isValid = false
         } else if (fullNameAr.trim().split(" ").size < 3) {
-            binding.etFullNameAR.setText(null)
-            binding.etFullNameAR.hint = getString(R.string.full_name_in_english_first_middle_last)
+            binding.tvFullNameARError.text = getString(R.string.Enter_fullName_Arabic)
+            binding.tvFullNameARError.visibility = View.VISIBLE
             binding.etFullNameAR.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_error,
                 0
             )
-            binding.etFullNameAR.setHintTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.red
-                )
-            )
             binding.textinputFullNameAr.setBackgroundResource(R.drawable.bg_edittext_error)
             isValid = false
 
         } else {
+            binding.tvFullNameARError.visibility = View.GONE
             binding.textinputFullNameAr.setBackgroundResource(R.drawable.bg_edittext)
             binding.etFullNameAR.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             isValid = true
         }
 
         if (mobileNumber.trim().isEmpty()) {
-            // binding.textinputPassword.error = "no *"
+            binding.tvPohneError.text = getString(R.string.required)
+            binding.tvPohneError.visibility = View.VISIBLE
             binding.textinputPhoneNumber.setBackgroundResource(R.drawable.bg_edittext_error)
-            binding.etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            binding.etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_error,
+                0
+            )
             isValid = false
         } else {
-            //  binding.textinputPassword.error = null
+            binding.tvPohneError.visibility = View.GONE
             binding.textinputPhoneNumber.setBackgroundResource(R.drawable.bg_edittext)
             binding.etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
 
@@ -219,18 +249,19 @@ class SignupFragment : Fragment() {
 
 
         if (email.trim().isEmpty()) {
-           // binding.textinputPassword.error = "no *"
+            binding.tvEmailError.text = getString(R.string.required)
+            binding.tvEmailError.visibility = View.VISIBLE
             binding.textinputEmail.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             isValid = false
-        }else if(!email.isValidEmail()){
+        } else if (!email.isValidEmail()) {
+            binding.tvEmailError.text = getString(R.string.match_email)
+            binding.tvEmailError.visibility = View.VISIBLE
             binding.textinputEmail.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             isValid = false
-        }
-
-        else {
-          //  binding.textinputPassword.error = null
+        } else {
+            binding.tvEmailError.visibility = View.GONE
             binding.textinputEmail.setBackgroundResource(R.drawable.bg_edittext)
             binding.etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
 
@@ -239,25 +270,28 @@ class SignupFragment : Fragment() {
 
 
         if (password.trim().isEmpty()) {
-            binding.textinputPassword.error = "no *"
+            binding.tvPasswordError.text = getString(R.string.required)
+            binding.tvPasswordError.visibility = View.VISIBLE
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             isValid = false
         } else if (password.length < 6) {
-            binding.textinputPassword.error = "passwored should > 6 "
+            binding.tvPasswordError.text = getString(R.string.lesstthan6number)
+            binding.tvPasswordError.visibility = View.VISIBLE
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             isValid = false
         } else {
-            binding.textinputPassword.error = null
+            binding.tvPasswordError.visibility = View.GONE
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
 
             isValid = true
         }
 
-        if (confirmPassword.trim().isEmpty()) {
-            // binding.textinputPassword.error = "no *"
+        if (confirmPassword.trim().isNullOrEmpty()) {
+            binding.tvConfirmpasswordError.text = getString(R.string.required)
+            binding.tvConfirmpasswordError.visibility = View.VISIBLE
             binding.layoutConfirmpassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.confirmEtPassword.setCompoundDrawablesWithIntrinsicBounds(
                 0,
@@ -266,8 +300,9 @@ class SignupFragment : Fragment() {
                 0
             )
             isValid = false
-        } else if (password.length < 6) {
-            //binding.textinputPassword.error = "passwored should > 6 "
+        } else if (confirmPassword.length < 6) {
+            binding.tvConfirmpasswordError.text = getString(R.string.lesstthan6number)
+            binding.tvConfirmpasswordError.visibility = View.VISIBLE
             binding.layoutConfirmpassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.confirmEtPassword.setCompoundDrawablesWithIntrinsicBounds(
                 0,
@@ -277,6 +312,16 @@ class SignupFragment : Fragment() {
             )
             isValid = false
         } else if (password != confirmPassword) {
+            binding.tvConfirmpasswordError.text = getString(R.string.doesnotmatch)
+            binding.tvPasswordError.text = getString(R.string.doesnotmatch)
+            binding.tvConfirmpasswordError.visibility = View.VISIBLE
+            binding.layoutConfirmpassword.setBackgroundResource(R.drawable.bg_edittext_error)
+            binding.confirmEtPassword.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_error,
+                0
+            )
             binding.layoutConfirmpassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.confirmEtPassword.setCompoundDrawablesWithIntrinsicBounds(
                 0,
@@ -286,17 +331,23 @@ class SignupFragment : Fragment() {
             )
             isValid = false
         } else {
-            binding.textinputPassword.error = null
+            binding.tvConfirmpasswordError.visibility = View.GONE
+            binding.tvPasswordError.visibility = View.GONE
+            binding.layoutConfirmpassword.setBackgroundResource(R.drawable.bg_edittext)
+            binding.confirmEtPassword.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                null,
+                null
+            )
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-
             isValid = true
         }
 
         return isValid
 
     }
-
 
     fun String.isValidEmail() =
         !TextUtils.isEmpty(this) && Patterns.EMAIL_ADDRESS.matcher(this).matches()

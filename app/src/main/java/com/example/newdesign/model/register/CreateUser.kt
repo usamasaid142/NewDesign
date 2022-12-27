@@ -2,6 +2,7 @@ package com.example.newdesign.model.register
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CreateUser(
     @SerializedName("Email")
@@ -14,4 +15,4 @@ data class CreateUser(
     val phone: String,
     @SerializedName("UserTypeId")
     val userTypeId: Int
-)
+): Serializable

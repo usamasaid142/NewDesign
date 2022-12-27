@@ -22,7 +22,7 @@
     <string name="mobile_number_email">Phone Nuber or Email</string>
     <string name="send">Send</string>
     <string name="resetpasword">Forget Password</string>
-    <string name="verification_code">Please enter the verification code you received from *********50</string>
+    <string name="verification_code">Please enter the verification code you received from</string>
     <string name="resend_verification_code">Resend verification code</string>
     <string name="change_password">Change password</string>
     <string name="new_password">New Password</string>
@@ -68,5 +68,10 @@
     <string name="upload_front_syndicate_card_image">Upload front Syndicate Card image</string>
     <string name="upload_back_syndicate_card_image">Upload back Syndicate Card image</string>
     <string name="required">" required *"</string>
+    <string name="Enter_fullName_english">Enter Full Name in English (first - middle - last)</string>
+    <string name="Enter_fullName_Arabic">Enter Full Name in Arabic (first - middle - last)</string>
+    <string name="match_email">invalid mail</string>
+    <string name="lesstthan6number"><![CDATA[password should be >6]]></string>
+    <string name="doesnotmatch">Doesn\'t Match</string>
 
 </resources>
