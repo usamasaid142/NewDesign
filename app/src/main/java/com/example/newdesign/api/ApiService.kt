@@ -1,8 +1,6 @@
 package com.example.newdesign.api
 
-import com.example.newdesign.model.register.CreateUser
-import com.example.newdesign.model.register.CreateUserResponse
-import com.example.newdesign.model.register.RegisterReponse
+import com.example.newdesign.model.register.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -11,6 +9,9 @@ import retrofit2.http.Query
 
 interface ApiService {
 
+    @POST("{culture}/User/Login")
+    suspend fun Login(@Path("culture") culture: String,
+                             @Body loginUser: LoginUser):Response<LoginResponse>
     @POST("{culture}/User/Register")
     suspend fun registerUser(@Path("culture") culture: String,
                            @Body registerUser: CreateUser):Response<RegisterReponse>

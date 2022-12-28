@@ -135,7 +135,7 @@ class SignupFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     hideprogressbar()
-                    it.data?.message?.let { error ->
+                    it.message?.let { error ->
                         Log.e("error", error)
                     }
                 }
