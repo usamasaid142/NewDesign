@@ -56,7 +56,6 @@ class LoginFragment : Fragment() {
         }
 
         binding.next.setOnClickListener {
-            //   findNavController().navigate(R.id.loginFragment)
             val mobile = binding.textinputMobile.editText?.text.toString()
             val password = binding.textinputPassword.editText?.text.toString()
 

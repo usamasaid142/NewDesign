@@ -78,7 +78,6 @@ class ChooseLanguageFragment : Fragment() {
 
     }
 
-
     private fun setLocal(context: Activity, lang:String){
 
         val local= Locale(lang)

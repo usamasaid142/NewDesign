@@ -1,4 +1,5 @@
 package com.example.newdesign.di
+import android.util.Log
 import com.example.newdesign.BuildConfig
 import com.example.newdesign.api.ApiService
 import com.example.newdesign.utils.Constans.BASE_URL
@@ -11,6 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,8 +32,30 @@ object AppModule {
     @Provides
     @Singleton
     fun getInterceptor(): Interceptor {
+
         return Interceptor {
             val request = it.request().newBuilder()
+            val requests: Request = it.request()
+            val response = it.proceed(requests)
+            when (response.code) {
+                400 -> {
+                    //Show Bad Request Error Message
+                    Log.e("tag","bad request")
+                }
+                401 -> {
+                    //Show UnauthorizedError Message
+
+                }
+                403 -> {
+                    //Show Forbidden Message
+                }
+                404 -> {
+                    //Show NotFound Message
+                    Log.e("tag","404")
+                }
+                // ... and so on
+            }
+
             request.addHeader("Authorization", "<Your token here>")
             val actualRequest = request.build()
             it.proceed(actualRequest)
@@ -43,6 +67,11 @@ object AppModule {
     fun getOkHttpClient(
         interceptor: Interceptor
     ): OkHttpClient {
+
+        val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
+            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        val logging = HttpLoggingInterceptor()
+            logging.setLevel(levelType)
         val httpBuilder = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -51,6 +80,7 @@ object AppModule {
 
         return httpBuilder
             .protocols(mutableListOf(Protocol.HTTP_1_1))
+            .addInterceptor(logging)
             .build()
     }
 
@@ -79,7 +109,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient())
+            .client(getOkHttpClient(getInterceptor()))
             .build()
             .create(ApiService::class.java)
     }
