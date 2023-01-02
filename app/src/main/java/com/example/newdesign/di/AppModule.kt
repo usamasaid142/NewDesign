@@ -70,8 +70,7 @@ object AppModule {
 
         val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
             HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        val logging = HttpLoggingInterceptor()
-            logging.setLevel(levelType)
+        val logging = HttpLoggingInterceptor().setLevel(levelType)
         val httpBuilder = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .connectTimeout(30, TimeUnit.SECONDS)

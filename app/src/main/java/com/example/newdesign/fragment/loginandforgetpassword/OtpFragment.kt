@@ -40,7 +40,7 @@ class OtpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.tvVerification.text= format(getString(R.string.verification_code)+args.user?.phone)
         initButton()
-        //setupFocusEdittext()
+        setupFocusEdittext()
         callBack()
         otpCallBack()
     }

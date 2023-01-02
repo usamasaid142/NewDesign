@@ -13,4 +13,5 @@
     <color name="move">#E8E8FD</color>
     <color name="red">#F60707</color>
     <color name="green">#00D2CB</color>
+    <color name="button_color_disabled">#AEB3BE</color>
 </resources>
