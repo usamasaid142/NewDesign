@@ -22,8 +22,6 @@ data class DataLogin(
     val image: Any,
     @SerializedName("Name")
     val name: String,
-    @SerializedName("NameAR")
-    val nameAR: Any,
     @SerializedName("Phone")
     val phone: String,
     @SerializedName("ProfileStatus")

@@ -14,9 +14,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.LoginfragmentBinding
 import com.example.newdesign.model.register.LoginUser
+import com.example.newdesign.utils.Constans.NameAR
+import com.example.newdesign.utils.Constans.UserLOGIN
 import com.example.newdesign.utils.Resource
+import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -25,6 +29,8 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: LoginfragmentBinding
     private val viewmodel:RegisterViewmodel by viewModels()
+    @Inject
+    lateinit var sp: SpUtil
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -123,8 +129,8 @@ class LoginFragment : Fragment() {
 
     private fun callBack(){
 
-        viewmodel.loginResponse.observe(viewLifecycleOwner, Observer {
-            when(it){
+        viewmodel.loginResponse.observe(viewLifecycleOwner, Observer {loginresponse->
+            when(loginresponse){
 
                 is Resource.Loading->{
                     showprogtessbar()
@@ -133,12 +139,18 @@ class LoginFragment : Fragment() {
                 is Resource.sucess->{
                     hideprogressbar()
                     findNavController().navigate(R.id.docotorProfileFragment)
+                    loginresponse.let {
+
+                        it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
+                    }
+
+
                     Toast.makeText(requireContext(), " your are login", Toast.LENGTH_SHORT).show()
                 }
 
                 is Resource.Error->{
                     hideprogressbar()
-                    it.data?.let {
+                    loginresponse.data?.let {
                         Log.e("msg : ",it.message)
 
                     }

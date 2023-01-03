@@ -7,16 +7,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
-import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.PersonalinfofragmentBinding
-import com.example.newdesign.model.register.CreateUser
+import com.example.newdesign.utils.Constans.NameAR
+import com.example.newdesign.utils.SpUtil
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PersonalInfoFragment : Fragment() {
 
     private lateinit var binding:PersonalinfofragmentBinding
+    @Inject
+    lateinit var sp: SpUtil
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +40,9 @@ class PersonalInfoFragment : Fragment() {
 
     private fun initbutton()
     {
+
+        binding.etFullNameEn.setText(sp.getUser()?.name.toString())
+        binding.etFullNameAR.setText(sp.getUserNameInArabic(NameAR))
         val fullNameEn = binding.etFullNameEn.text.toString()
         val fullNameAr = binding.etFullNameAR.text.toString()
         val mobileNumber = binding.etPhoneNumber.text.toString()

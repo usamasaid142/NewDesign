@@ -3,6 +3,7 @@ import android.util.Log
 import com.example.newdesign.BuildConfig
 import com.example.newdesign.api.ApiService
 import com.example.newdesign.utils.Constans.BASE_URL
+import com.example.newdesign.utils.SpUtil
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -23,6 +24,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+
+
+
     @Provides
     @Singleton
     fun getGson(): Gson {
@@ -33,6 +38,8 @@ object AppModule {
     @Singleton
     fun getInterceptor(): Interceptor {
 
+
+        var sp:SpUtil?=null
         return Interceptor {
             val request = it.request().newBuilder()
             val requests: Request = it.request()
@@ -56,7 +63,8 @@ object AppModule {
                 // ... and so on
             }
 
-            request.addHeader("Authorization", "<Your token here>")
+            val token=sp?.getUser()?.token
+            request.addHeader("Authorization", "Bearer${sp?.getUser()?.token}")
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }

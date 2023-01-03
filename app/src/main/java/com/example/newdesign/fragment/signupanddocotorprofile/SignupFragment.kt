@@ -16,9 +16,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.SignupfragmentBinding
 import com.example.newdesign.model.register.CreateUser
+import com.example.newdesign.model.register.CreateUserResponse
+import com.example.newdesign.utils.Constans.NameAR
 import com.example.newdesign.utils.Resource
+import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignupFragment : Fragment() {
@@ -26,6 +30,8 @@ class SignupFragment : Fragment() {
     private lateinit var binding: SignupfragmentBinding
     private val viewmodel: RegisterViewmodel by viewModels()
     private var user: CreateUser? = null
+    @Inject
+    lateinit var sp:SpUtil
     var isValid = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,6 +102,7 @@ class SignupFragment : Fragment() {
                     )
                 ) {
                     user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
+                    sp.saveUserNameInArabic(NameAR, fullNameAr)
                     viewmodel.registerUser("En", user!!)
                 }
 
