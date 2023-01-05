@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import com.example.newdesign.R
 import com.example.newdesign.databinding.DocotorProfilefragmentBinding
 
 
@@ -40,6 +42,10 @@ private lateinit var binding:DocotorProfilefragmentBinding
 //        binding.btnNext.setOnClickListener {
 //            findNavController().navigate(R.id.personalInfoFragment)
 //        }
+
+        binding.layoutHelp.setOnClickListener {
+            findNavController().navigate(R.id.dialogBottomSheetFragment)
+        }
 
     }
 

@@ -9,7 +9,11 @@
         android:id="@+id/personalInfoFragment"
         android:name="com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment"
         android:label="personalinfofragment"
-        tools:layout="@layout/personalinfofragment" />
+        tools:layout="@layout/personalinfofragment" >
+        <action
+            android:id="@+id/action_personalInfoFragment_to_dialogBottomSheetFragment2"
+            app:destination="@id/dialogBottomSheetFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/specialtyFragment"
         android:name="com.example.newdesign.fragment.navstrepercontent.SpecialtyFragment"
@@ -25,4 +29,9 @@
         android:name="com.example.newdesign.fragment.navstrepercontent.CertificatesFragment"
         android:label="certificatesfragment"
         tools:layout="@layout/certificatesfragment" />
+    <dialog
+        android:id="@+id/dialogBottomSheetFragment2"
+        android:name="com.example.newdesign.fragment.DialogBottomSheetFragment"
+        android:label="dialog_bottom_sheetfragment"
+        tools:layout="@layout/dialog_bottom_sheetfragment" />
 </navigation>

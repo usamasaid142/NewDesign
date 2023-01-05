@@ -75,5 +75,7 @@
     <string name="match_email">invalid mail</string>
     <string name="lesstthan6number"><![CDATA[password should be >6]]></string>
     <string name="doesnotmatch">Doesn\'t Match</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 
 </resources>

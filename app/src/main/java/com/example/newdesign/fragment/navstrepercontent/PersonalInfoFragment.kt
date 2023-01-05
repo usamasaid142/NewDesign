@@ -1,24 +1,48 @@
 package com.example.newdesign.fragment.navstrepercontent
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.PersonalinfofragmentBinding
+import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
+import com.example.newdesign.utils.*
 import com.example.newdesign.utils.Constans.NameAR
-import com.example.newdesign.utils.SpUtil
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class PersonalInfoFragment : Fragment() {
 
     private lateinit var binding:PersonalinfofragmentBinding
+    private lateinit var imageFile: File
+
     @Inject
     lateinit var sp: SpUtil
 
@@ -35,11 +59,14 @@ class PersonalInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initbutton()
+
     }
 
 
     private fun initbutton()
     {
+
+
 
         binding.etFullNameEn.setText(sp.getUser()?.name.toString())
         binding.etFullNameAR.setText(sp.getUserNameInArabic(NameAR))
@@ -51,15 +78,14 @@ class PersonalInfoFragment : Fragment() {
         val birthDate = binding.etDateOfbirth.text.toString()
         val nationality = binding.etNationality.text.toString()
 
-        if(fullNameEn.trim().isEmpty() || fullNameAr.trim().isEmpty()|| mobileNumber.trim().isEmpty()
-            ||  email.trim().isEmpty()|| gender.trim().isEmpty() ||birthDate.trim().isEmpty() ||nationality.trim().isEmpty()){
-            binding.btnNext.isEnabled=false
-            binding.btnNext.background= getDrawable(requireContext(),R.color.button_color_disabled)
-
-        }else{
-            binding.btnNext.isEnabled = true
-            binding.btnNext.background= getDrawable(requireContext(),R.color.red)
-        }
+//        if(fullNameEn.trim().isEmpty() || fullNameAr.trim().isEmpty()|| mobileNumber.trim().isEmpty()
+//            ||  email.trim().isEmpty()|| gender.trim().isEmpty() ||birthDate.trim().isEmpty() ||nationality.trim().isEmpty()){
+//
+//
+//        }else{
+//            binding.btnNext.isEnabled = true
+//            binding.btnNext.background= getDrawable(requireContext(),R.color.red)
+//        }
         binding.btnNext.setOnClickListener {
         //    findNavController().navigate(R.id.specialtyFragment)
 
@@ -82,6 +108,22 @@ class PersonalInfoFragment : Fragment() {
 
 
         }
+
+        binding.layoutUploadImage.setOnClickListener {
+            selectPic(it)
+        }
+
+
+        binding.ivArrowdown.setOnClickListener {
+            findNavController().navigate(R.id.dialogBottomSheetFragment2)
+        }
+        binding.ivDate.setOnClickListener {
+            findNavController().navigate(R.id.dialogBottomSheetFragment2)
+        }
+        binding.ivNationality.setOnClickListener {
+            findNavController().navigate(R.id.dialogBottomSheetFragment2)
+        }
+
 
     }
 
@@ -243,17 +285,154 @@ class PersonalInfoFragment : Fragment() {
         }
 
 
-
         return isValid
 
     }
 
 
-
-
-
     fun String.isValidEmail() =
         !TextUtils.isEmpty(this) && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
+
+    private fun selectPic(view: View) {
+        val pictureImageDialog = AlertDialog.Builder(requireContext())
+        if (view.id == binding.layoutUploadImage.id) {
+            pictureImageDialog.setTitle("Select Action")
+            val pictureImageItem = arrayOf("Select From Camera", "Select From Gallery", "Cancel")
+            pictureImageDialog.setItems(pictureImageItem) { dialog, which ->
+                when (which) {
+                    0 -> checkPermissionFromCamera()
+                    1 -> checkPicPermission()
+                    2 -> dialog.dismiss()
+                }
+            }
+        }
+        pictureImageDialog.show()
+
+    }
+    private fun checkPermissionFromCamera() {
+
+        Dexter.withContext(requireActivity())
+            .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+            .withListener(
+                object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                        report?.let {
+
+                            if (report.areAllPermissionsGranted()) {
+                                openCamera()
+                            }
+                        }
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        p0: MutableList<PermissionRequest>?,
+                        p1: PermissionToken?
+                    ) {
+
+                        requireActivity().showRationalePermission()
+
+                    }
+
+                }
+            ).onSameThread().check()
+    }
+    private fun openCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraOpening.launch(cameraIntent)
+    }
+    private fun getPicFromGallery() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "image/*"
+        galleryOpening.launch(intent)
+    }
+    private var galleryOpening =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                if (data?.clipData != null) {
+                    val count = data.clipData?.itemCount
+                    for (i in 0 until count!!) {
+                        val imageUri =
+                            data.clipData?.getItemAt(i)?.uri ?: return@registerForActivityResult
+                        val imageStream = imageUri.let {
+                            requireActivity().contentResolver.openInputStream(it)
+                        }
+                        val selectedImage = BitmapFactory.decodeStream(imageStream)
+                        val resizedBitmap = selectedImage.resizePic(1000)
+                        val file = resizedBitmap.toFile(requireContext(), 20.getRandomString())
+                        binding.ivDoctorProfile.load(file) {
+                            crossfade(true)
+                            crossfade(1000)
+                            transformations(CircleCropTransformation())
+                        }
+                    }
+                } else if (data?.data != null) {
+                    val imageUri = data.data ?: return@registerForActivityResult
+                    val imageStream = imageUri.let {
+                        requireActivity().contentResolver.openInputStream(it)
+                    }
+                    val selectedImage = BitmapFactory.decodeStream(imageStream)
+                    val resizedBitmap = selectedImage.resizePic(1000)
+                    val file = resizedBitmap.toFile(requireContext(), 20.getRandomString())
+                    imageFile=file
+                    binding.ivDoctorProfile.load(file) {
+                        crossfade(true)
+                        crossfade(1000)
+                        transformations(CircleCropTransformation())
+                    }
+                }
+            }
+        }
+    private var cameraOpening =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                data?.let {
+                    val bitmap = data.extras?.get("data") as Bitmap
+                    val resizedBitmap = bitmap.resizePic(2000)
+                    val file = resizedBitmap.toFile(requireContext(), 20.getRandomString())
+                    imageFile=file
+                    binding.ivDoctorProfile.load(bitmap) {
+                        crossfade(true)
+                        crossfade(1000)
+                        transformations(CircleCropTransformation())
+                    }
+                }
+            }
+        }
+
+    private fun checkPicPermission() {
+        Dexter.withContext(requireContext())
+            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+
+                    getPicFromGallery()
+                }
+
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+
+                    Toast.makeText(
+                        requireContext(),
+                        "you have denied permission for select image",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    requireActivity().showRationalePermission()
+
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: PermissionRequest?,
+                    p1: PermissionToken?
+                ) {
+                    requireActivity().showRationalePermission()
+
+                }
+
+            }).onSameThread().check()
+    }
 
 }

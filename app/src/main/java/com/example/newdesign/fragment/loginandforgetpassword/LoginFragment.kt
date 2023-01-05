@@ -28,9 +28,15 @@ class LoginFragment : Fragment() {
 
 
     private lateinit var binding: LoginfragmentBinding
-    private val viewmodel:RegisterViewmodel by viewModels()
+     val viewmodel:RegisterViewmodel by viewModels()
+
     @Inject
     lateinit var sp: SpUtil
+
+    companion object{
+        var instance:LoginFragment?=null
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +48,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        instance=this
         initButton()
         callBack()
     }
@@ -140,7 +147,6 @@ class LoginFragment : Fragment() {
                     hideprogressbar()
                     findNavController().navigate(R.id.docotorProfileFragment)
                     loginresponse.let {
-
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                     }
 
