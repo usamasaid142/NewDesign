@@ -75,5 +75,7 @@
     <string name="doesnotmatch">Doesn\'t Match</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="choose_your_nationality">Choose your nationality</string>
+    <string name="search_by_name_of_country">Search by name of country</string>
 
 </resources>
