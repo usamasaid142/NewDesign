@@ -70,6 +70,7 @@ class PersonalInfoFragment : Fragment() {
 
         binding.etFullNameEn.setText(sp.getUser()?.name.toString())
         binding.etFullNameAR.setText(sp.getUserNameInArabic(NameAR))
+
         val fullNameEn = binding.etFullNameEn.text.toString()
         val fullNameAr = binding.etFullNameAR.text.toString()
         val mobileNumber = binding.etPhoneNumber.text.toString()

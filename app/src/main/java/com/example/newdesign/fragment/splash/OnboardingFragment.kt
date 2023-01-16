@@ -57,22 +57,21 @@ class OnboardingFragment : Fragment() {
 
         list.add(
             Onboarding(
-            R.drawable.ic_doctors,
-            "text1",
-                "djhjkhkksjlkjjll"
+            R.drawable.ic_doctor_patient,
+                getString(R.string.salamtak_booking),
+                getString(R.string.screen_booking_text)
         )
         )
 
         list.add(Onboarding(
-            R.drawable.ic_medical_care,
-            "text2",
-            "djhjkhkksjlkjjll"
+            R.drawable.ic_connect_salamtak,
+            getString(R.string.salamtak_booking),
+            getString(R.string.screen_booking_text)
         ))
         list.add(Onboarding(
-            R.drawable.ic_online,
-            "text1",
-
-            "djhjkhkksjlkjjll"
+            R.drawable.ic_patient,
+            getString(R.string.salamtak_booking),
+            getString(R.string.screen_booking_text)
         ))
         onBoardingAdapter.submitList(list)
         binding.vpContainer.adapter=onBoardingAdapter

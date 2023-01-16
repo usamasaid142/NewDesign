@@ -1,6 +1,7 @@
 package com.example.newdesign.adapter
 
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,6 +24,7 @@ class OnBoardingAdapter():ListAdapter<Onboarding,OnBoardingAdapter.ViewHolder>(D
 
         holder.binding.tvTitle.text=onboard.title
         holder.binding.tvDescription.text=onboard.description
+      //  holder.binding.layoutView.setBackgroundResource(onboard.image_onboarding)
         holder.binding.ivOnboarding.setImageResource(onboard.image_onboarding)
 
     }
