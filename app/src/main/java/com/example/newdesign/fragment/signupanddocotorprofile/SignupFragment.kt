@@ -122,7 +122,6 @@ class SignupFragment : Fragment() {
     private fun callBack() {
         viewmodel.response.observe(viewLifecycleOwner, Observer {
 
-
             when (it) {
 
                 is Resource.Loading -> {
