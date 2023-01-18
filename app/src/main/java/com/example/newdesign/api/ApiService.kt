@@ -16,9 +16,9 @@ interface ApiService {
     suspend fun registerUser(@Path("culture") culture: String,
                            @Body registerUser: CreateUser):Response<RegisterReponse>
 
-    @POST("{culture}/User/SendOTP")
+    @POST("{culture}/User/Register")
     suspend fun SendOTP(@Path("culture") culture: String,
-                           @Body mobile: String):Response<RegisterReponse>
+                        @Body registerUser: CreateUser):Response<RegisterReponse>
 
     @POST("{culture}/User/CreateUser")
     suspend fun createUser(@Path("culture") culture: String,

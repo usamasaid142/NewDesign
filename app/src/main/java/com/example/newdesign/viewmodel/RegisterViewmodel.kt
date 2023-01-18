@@ -44,10 +44,10 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
         return Resource.Error(response.message())
     }
 
-    fun Sentotp(culture:String,mobile: String)=viewModelScope.launch(Dispatchers.IO) {
+    fun Sentotp(culture:String,registerUser: CreateUser)=viewModelScope.launch(Dispatchers.IO) {
 
         otpResponse.postValue(Resource.Loading())
-        val response=repositry.SendOTP(culture,mobile)
+        val response=repositry.SendOTP(culture,registerUser)
         otpResponse.postValue(handleOTP(response))
     }
 

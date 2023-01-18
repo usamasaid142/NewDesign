@@ -1,6 +1,7 @@
 package com.example.newdesign.utils
 
 import android.content.SharedPreferences
+import com.example.newdesign.model.register.CreateUser
 import com.example.newdesign.model.register.DataLogin
 import com.example.newdesign.utils.Constans.UserLOGIN
 import com.google.gson.Gson
@@ -37,6 +38,22 @@ class SpUtil @Inject constructor(private val sharedpref:SharedPreferences){
         return Gson().fromJson(data, DataLogin::class.java)
     }
 
+    fun saveUserfromSignup(Key_Name: String,user:CreateUser){
+        val editor:SharedPreferences.Editor=sharedpref.edit()
+        editor.putString(Key_Name, Gson().toJson(user)).apply()
+        editor.apply()
+    }
+
+    // to retrieve dataclass usersignup
+    fun getUserfromSignup(): CreateUser? {
+        val data = sharedpref.getString(UserLOGIN, null)
+        if (data == null) {
+            return null
+        }
+        return Gson().fromJson(data, CreateUser::class.java)
+    }
+
+
     //to store int
     fun save(Key_Name:String,value:Int){
         val editor:SharedPreferences.Editor=sharedpref.edit()
@@ -61,8 +78,5 @@ class SpUtil @Inject constructor(private val sharedpref:SharedPreferences){
     fun getvalueBoolean(Key_Name: String,deafultvalue:Boolean):Boolean{
         return sharedpref.getBoolean(Key_Name,deafultvalue)
     }
-
-
-
 
 }

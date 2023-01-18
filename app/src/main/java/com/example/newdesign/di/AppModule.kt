@@ -88,19 +88,19 @@ object AppModule {
     }
 
 
-//    @Provides
-//    fun okHttpClient(): OkHttpClient {
-//
-//        val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
-//            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-//
-//        val logging = HttpLoggingInterceptor()
-//        logging.setLevel(levelType)
-//
-//        return OkHttpClient.Builder()
-//            .addInterceptor(logging)
-//            .build()
-//    }
+    @Provides
+    fun okHttpClient(): OkHttpClient {
+
+        val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
+            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(levelType)
+
+        return OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+    }
 
 
     @Provides
@@ -111,7 +111,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(getOkHttpClient(getInterceptor()))
+            .client(okHttpClient())
             .build()
             .create(ApiService::class.java)
     }

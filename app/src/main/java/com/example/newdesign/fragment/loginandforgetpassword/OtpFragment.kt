@@ -1,6 +1,7 @@
 package com.example.newdesign.fragment.loginandforgetpassword
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -11,13 +12,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.newdesign.R
 import com.example.newdesign.databinding.OtpfragmentBinding
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.RegisterViewmodel
+import com.karumi.dexter.Dexter.withContext
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.internal.format
 
 @AndroidEntryPoint
@@ -26,7 +32,7 @@ class OtpFragment : Fragment() {
     private lateinit var binding: OtpfragmentBinding
     private val args: OtpFragmentArgs by navArgs()
     private val viewmodel: RegisterViewmodel by viewModels()
-    private var otpCode:String?=null
+    private var otpCode: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,11 +44,19 @@ class OtpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvVerification.text= format(getString(R.string.verification_code)+args.user?.phone)
+        if (args.responsemodel?.code.toString().isNullOrEmpty()) {
+            binding.tvVerification.text =
+                format(getString(R.string.verification_code) + args.userforgetpassword?.phone)
+        } else {
+            binding.tvVerification.text =
+                format(getString(R.string.verification_code) + args.user?.phone)
+        }
+
         initButton()
         setupFocusEdittext()
         callBack()
         otpCallBack()
+        timer()
     }
 
     private fun initButton() {
@@ -60,18 +74,23 @@ class OtpFragment : Fragment() {
                 args.user?.let { it1 -> viewmodel.createuser("en", it1) }
                 findNavController().navigate(R.id.docotorProfileFragment)
                 Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
-            }else if (otpCode == getCodeFromEdittext()){
+            } else if (otpCode == getCodeFromEdittext()) {
                 args.user?.let { it1 -> viewmodel.createuser("en", it1) }
                 findNavController().navigate(R.id.docotorProfileFragment)
                 Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
-            }else{
+            } else if (args.userforgetpassword?.code.toString() == getCodeFromEdittext()) {
+                args.user?.let { it1 -> viewmodel.createuser("en", it1) }
+                findNavController().navigate(R.id.changepasswordFragment)
+                Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
+            } else {
                 Toast.makeText(requireContext(), "invalid code", Toast.LENGTH_SHORT).show()
             }
 
         }
 
         binding.tvResendCode.setOnClickListener {
-            args.user?.phone?.let { it1 -> viewmodel.Sentotp("en", it1) }
+            binding.tvResendCode.visibility = View.GONE
+            args.user?.let { it1 -> viewmodel.Sentotp("en", it1) }
         }
 
 
@@ -80,21 +99,6 @@ class OtpFragment : Fragment() {
     private fun setupFocusEdittext() {
 
         binding.etOtpFirst.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.toString().trim().isEmpty()) {
-                    binding.etOtpFirst.requestFocus()
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-        })
-
-        binding.etOtpsecond.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -109,13 +113,28 @@ class OtpFragment : Fragment() {
 
         })
 
-        binding.etOtpthird.addTextChangedListener(object : TextWatcher {
+        binding.etOtpsecond.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.toString().trim().isEmpty()) {
                     binding.etOtpthird.requestFocus()
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+        binding.etOtpthird.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.toString().trim().isEmpty()) {
+                    binding.etOtpforth.requestFocus()
                 }
             }
 
@@ -166,22 +185,23 @@ class OtpFragment : Fragment() {
 
     }
 
-    private fun otpCallBack(){
+    private fun otpCallBack() {
         viewmodel.otpResponse.observe(viewLifecycleOwner, Observer {
 
             when (it) {
                 is Resource.Loading -> {
-                    //     showprogtessbar()
+                    showprogtessbar()
                 }
 
                 is Resource.sucess -> {
-                    //   hideprogressbar()
+                    hideprogressbar()
+                    timer()
                     it?.data?.let { response ->
-                        otpCode= response.data.code.toString()
+                        otpCode = response.data.code.toString()
                     }
                 }
                 is Resource.Error -> {
-                    //   hideprogressbar()
+                    hideprogressbar()
                     it.message?.let { error ->
                         Log.e("error", error)
                     }
@@ -193,13 +213,14 @@ class OtpFragment : Fragment() {
 
     }
 
-//    private fun showprogtessbar() {
-//        binding.progressBar.visibility = View.VISIBLE
-//    }
-//
-//    private fun hideprogressbar() {
-//        binding.progressBar.visibility = View.INVISIBLE
-//    }
+    private fun showprogtessbar() {
+        binding.progressBar.visibility = View.VISIBLE
+
+    }
+
+    private fun hideprogressbar() {
+        binding.progressBar.visibility = View.GONE
+    }
 
     private fun getCodeFromEdittext(): String {
 
@@ -211,11 +232,24 @@ class OtpFragment : Fragment() {
             Toast.makeText(requireContext(), "please enter valid code", Toast.LENGTH_SHORT).show()
         }
 
-        val etCode = binding.etOtpFirst.text.toString() + binding.etOtpsecond.text.toString() +
+        val etOtpCode = binding.etOtpFirst.text.toString() + binding.etOtpsecond.text.toString() +
                 binding.etOtpthird.text.toString() + binding.etOtpforth.text.toString()
 
-        return etCode
+        return etOtpCode
     }
 
+    fun timer() {
+        object : CountDownTimer(120000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                binding.tvCounter.setText("(${millisUntilFinished / 1000})")
+
+            }
+            override fun onFinish() {
+                binding.tvCounter.setText("(0)")
+                binding.tvResendCode.visibility = View.VISIBLE
+            }
+        }.start()
+    }
 
 }

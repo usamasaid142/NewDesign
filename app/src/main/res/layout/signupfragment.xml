@@ -476,22 +476,35 @@
             app:layout_constraintBottom_toBottomOf="@+id/ch_terms"
             />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_signUp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_chooselang_button"
-        android:fontFamily="@font/avenirltstd_black"
-        android:padding="5dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/sign_up"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ch_terms"
-        app:layout_constraintWidth_percent=".9"
-         />
+        <androidx.constraintlayout.widget.ConstraintLayout
+           android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ch_terms"
+            app:layout_constraintWidth_percent=".9"
+            android:layout_marginTop="10dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_signUp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chooselang_button"
+                android:fontFamily="@font/avenirltstd_black"
+                android:padding="5dp"
+                android:text="@string/sign_up"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -499,8 +512,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_signUp"
-            app:layout_constraintTop_toTopOf="@+id/btn_signUp"
+            app:layout_constraintTop_toBottomOf="@+id/layout"
+            app:layout_constraintTop_toTopOf="@+id/layout"
             android:visibility="gone"
             />
 
@@ -519,7 +532,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_login"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signUp" />
+        app:layout_constraintTop_toBottomOf="@+id/layout" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_login"
@@ -535,7 +548,7 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_haveAcount"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signUp" />
+        app:layout_constraintTop_toBottomOf="@+id/layout" />
 
         <ImageView
             android:id="@+id/imageView"

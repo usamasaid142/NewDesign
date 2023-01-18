@@ -16,8 +16,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.SignupfragmentBinding
 import com.example.newdesign.model.register.CreateUser
-import com.example.newdesign.model.register.CreateUserResponse
 import com.example.newdesign.utils.Constans.NameAR
+import com.example.newdesign.utils.Constans.UserSIGNUP
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.RegisterViewmodel
@@ -101,8 +101,9 @@ class SignupFragment : Fragment() {
                         confirmPassword
                     )
                 ) {
-                    user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
+                    user = CreateUser(email, fullNameEn, password, mobileNumber, 3)
                     sp.saveUserNameInArabic(NameAR, fullNameAr)
+                    sp.saveUserfromSignup(UserSIGNUP, user!!)
                     viewmodel.registerUser("En", user!!)
                 }
 
@@ -135,7 +136,7 @@ class SignupFragment : Fragment() {
                             SignupFragmentDirections.actionSignupFragmentToOtpFragment(
                                 response.data,
                                 user
-                            )
+                            ,null)
                         findNavController().navigate(action)
                     }
                 }
@@ -157,7 +158,7 @@ class SignupFragment : Fragment() {
     }
 
     private fun hideprogressbar() {
-        binding.progressBar.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.GONE
     }
 
 
