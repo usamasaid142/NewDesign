@@ -1,11 +1,9 @@
 package com.example.newdesign.api
 
+import com.example.newdesign.model.HomeAdsResponse
 import com.example.newdesign.model.register.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -24,5 +22,11 @@ interface ApiService {
     suspend fun createUser(@Path("culture") culture: String,
                              @Body createUser: CreateUser):Response<CreateUserResponse>
 
+    @GET("{culture}/Ads/GetVidoesAds")
+    suspend fun getHomeAds(
+        @Path("culture") culture: String,
+        @Query("PageID") PageID: Int,
+        @Query("DoctorApp") DoctorApp: Boolean
+    ): Response<HomeAdsResponse>
 
 }

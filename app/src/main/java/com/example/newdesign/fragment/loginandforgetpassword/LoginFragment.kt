@@ -73,7 +73,7 @@ class LoginFragment : Fragment() {
             val password = binding.textinputPassword.editText?.text.toString()
 
             if (isvalidateFeilds(mobile, password)) {
-                val userlogin=LoginUser("",password,mobile,2)
+                val userlogin=LoginUser("",password,mobile,3)
                 viewmodel.loginUser("en",userlogin)
             }
 
@@ -145,11 +145,10 @@ class LoginFragment : Fragment() {
 
                 is Resource.sucess->{
                     hideprogressbar()
-                    findNavController().navigate(R.id.docotorProfileFragment)
                     loginresponse.let {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                     }
-
+                    findNavController().navigate(R.id.homeFragment)
 
                     Toast.makeText(requireContext(), " your are login", Toast.LENGTH_SHORT).show()
                 }

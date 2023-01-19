@@ -83,6 +83,23 @@
     <string name="salamtak_booking">Salamtak Booking</string>
     <string name="verification_code_will_be_sent_within_1_30">Verification code will be sent within </string>
     <string name="conter">1:30</string>
+    <string name="good_morning">Good Morning</string>
+    <string name="complete_your_profile">Complete your profile</string>
+    <string name="you_must_complete_your_profile_to_can_book_your_doctor">You must complete your profile to can book your doctor</string>
+    <string name="salamtak_services">Salamtak Services</string>
+    <string name="Clinic_Booking">Clinic Booking</string>
+    <string name="Home_Visit">Home Visit</string>
+    <string name="Chat">Chat</string>
+    <string name="Call">Call</string>
+    <string name="Video_Call">Video Call</string>
+    <string name="medical_services_directory">Medical Services Directory</string>
+    <string name="see_all">See All</string>
+    <string name="hospitals">Hospitals</string>
+    <string name="polyclinics">Polyclinics</string>
+    <string name="pharmacies">Pharmacies</string>
+    <string name="laboratories">Laboratories</string>
+    <string name="search">Search</string>
+    <string name="search_by_doctor_name">Search by doctor name...</string>
 
 
 </resources>

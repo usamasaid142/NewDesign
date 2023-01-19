@@ -3,6 +3,7 @@ package com.example.newdesign.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newdesign.model.HomeAdsResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
@@ -20,6 +21,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     val otpResponse=MutableLiveData<Resource<RegisterReponse>>()
     val createResponse=MutableLiveData<Resource<CreateUserResponse>>()
     val loginResponse=MutableLiveData<Resource<LoginResponse>>()
+    val imagevedioresponse=MutableLiveData<Resource<HomeAdsResponse>>()
 
     fun registerUser(culture:String,createUser: CreateUser)=viewModelScope.launch(Dispatchers.IO)  {
 
@@ -94,5 +96,21 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
 
     }
 
+
+    fun getHomeAdds()=viewModelScope.launch(Dispatchers.IO)  {
+
+        imagevedioresponse.postValue(Resource.Loading())
+        val imageVedioResponse=repositry.getHomeAds()
+        imagevedioresponse.postValue(handleImageVedio(imageVedioResponse))
+    }
+
+    private fun handleImageVedio(imageVedioResponse: Response<HomeAdsResponse>): Resource<HomeAdsResponse>? {
+        if (imageVedioResponse.isSuccessful){
+            imageVedioResponse.body()?.let { it->
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(imageVedioResponse.message())
+    }
 
 }

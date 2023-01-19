@@ -11,4 +11,5 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun registerUser(culture:String,registerUser: CreateUser)=apiService.registerUser(culture,registerUser)
     suspend fun SendOTP(culture:String,registerUser: CreateUser)=apiService.SendOTP(culture,registerUser)
     suspend fun createUser(culture:String,createUser: CreateUser)=apiService.createUser(culture,createUser)
+    suspend fun getHomeAds()=apiService.getHomeAds("En",1,true)
 }

@@ -101,6 +101,9 @@
             android:name="userforgetpassword"
             app:argType="com.example.newdesign.model.register.UserForgetInfo"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_otpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/changepasswordFragment"
@@ -121,4 +124,22 @@
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.DocotorProfileFragment"
         android:label="docotor_profilefragment"
         tools:layout="@layout/docotor_profilefragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.newdesign.fragment.home.HomeFragment"
+        android:label="homefragment"
+        tools:layout="@layout/homefragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.newdesign.fragment.home.SearchFragment"
+        android:label="searchfragment"
+        tools:layout="@layout/searchfragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

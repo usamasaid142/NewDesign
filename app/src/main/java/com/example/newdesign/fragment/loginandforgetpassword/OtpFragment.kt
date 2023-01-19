@@ -72,11 +72,11 @@ class OtpFragment : Fragment() {
 
             if (args.responsemodel?.code.toString() == getCodeFromEdittext()) {
                 args.user?.let { it1 -> viewmodel.createuser("en", it1) }
-                findNavController().navigate(R.id.docotorProfileFragment)
+                findNavController().navigate(R.id.homeFragment)
                 Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
             } else if (otpCode == getCodeFromEdittext()) {
                 args.user?.let { it1 -> viewmodel.createuser("en", it1) }
-                findNavController().navigate(R.id.docotorProfileFragment)
+                findNavController().navigate(R.id.homeFragment)
                 Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
             } else if (args.userforgetpassword?.code.toString() == getCodeFromEdittext()) {
                 args.user?.let { it1 -> viewmodel.createuser("en", it1) }

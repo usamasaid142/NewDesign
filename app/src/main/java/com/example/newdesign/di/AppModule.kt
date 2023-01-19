@@ -60,7 +60,7 @@ object AppModule {
             }
 
 
-             request.addHeader("Authorization", "Bearer${token}")
+             request.addHeader("Authorization", "Bearer "+token)
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }
@@ -111,7 +111,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient())
+            .client(getOkHttpClient(getInterceptor()))
             .build()
             .create(ApiService::class.java)
     }

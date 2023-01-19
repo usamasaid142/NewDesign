@@ -14,4 +14,12 @@
     <color name="red">#F60707</color>
     <color name="green">#00D2CB</color>
     <color name="button_color_disabled">#AEB3BE</color>
+    <color name="color_completeprofile">#E8E8FD</color>
+    <color name="transparent_black">#B3D7D3D3</color>
+    <color name="color_primary">#262D70</color>
+    <color name="color_1">#BEB4D6</color>
+    <color name="color_2">#F8B3CA</color>
+    <color name="color_3">#C0ECCC</color>
+    <color name="color_4">#F4CDA6</color>
+
 </resources>
