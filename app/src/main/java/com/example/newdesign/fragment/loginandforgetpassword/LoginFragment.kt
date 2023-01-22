@@ -155,8 +155,8 @@ class LoginFragment : Fragment() {
 
                 is Resource.Error->{
                     hideprogressbar()
-                    loginresponse.data?.let {
-                        Log.e("msg : ",it.message)
+                    loginresponse.message?.let {
+                        Log.e("msg : ",it)
 
                     }
                 }

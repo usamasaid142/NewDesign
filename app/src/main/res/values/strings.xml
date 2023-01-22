@@ -100,6 +100,8 @@
     <string name="laboratories">Laboratories</string>
     <string name="search">Search</string>
     <string name="search_by_doctor_name">Search by doctor name...</string>
+    <string name="all">All</string>
+    <string name="doctors_found">Doctors Found</string>
 
 
 </resources>

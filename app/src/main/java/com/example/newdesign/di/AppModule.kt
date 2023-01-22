@@ -1,4 +1,5 @@
 package com.example.newdesign.di
+
 import android.util.Log
 import com.example.newdesign.BuildConfig
 import com.example.newdesign.api.ApiService
@@ -20,6 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -35,7 +37,7 @@ object AppModule {
     @Singleton
     fun getInterceptor(): Interceptor {
 
-        val token= LoginFragment.instance?.sp?.getUser()?.token
+        val token = LoginFragment.instance?.sp?.getUser()?.token
         return Interceptor {
             val request = it.request().newBuilder()
             val requests: Request = it.request()
@@ -43,7 +45,7 @@ object AppModule {
             when (response.code) {
                 400 -> {
                     //Show Bad Request Error Message
-                    Log.e("tag","bad request")
+                    Log.e("tag", "bad request")
                 }
                 401 -> {
                     //Show UnauthorizedError Message
@@ -54,13 +56,13 @@ object AppModule {
                 }
                 404 -> {
                     //Show NotFound Message
-                    Log.e("tag","404")
+                    Log.e("tag", "404")
                 }
                 // ... and so on
             }
 
 
-             request.addHeader("Authorization", "Bearer "+token)
+            request.addHeader("Authorization", "Bearer " + token)
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }
