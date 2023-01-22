@@ -114,6 +114,9 @@
     <string name="upcoming">Upcoming</string>
     <string name="canceled">Canceled</string>
     <string name="finished">Finished</string>
+    <string name="address">Address</string>
+    <string name="waiting_time">Waiting Time</string>
+    <string name="fees">Fees</string>
 
 
 </resources>
