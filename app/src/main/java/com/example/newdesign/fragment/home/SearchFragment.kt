@@ -43,6 +43,11 @@ class SearchFragment : Fragment() {
         binding.ivArrow.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
         }
+
+        binding.layoutFilter.setOnClickListener {
+            findNavController().navigate(R.id.filterFragment)
+        }
+
     }
 
     private fun servicesRecylerview() {

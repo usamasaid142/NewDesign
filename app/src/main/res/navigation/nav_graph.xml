@@ -141,6 +141,9 @@
         <action
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/myScheduleFragment"
@@ -152,4 +155,9 @@
         android:name="com.example.newdesign.fragment.navbottom.MoreFragment"
         android:label="morefragment"
         tools:layout="@layout/morefragment" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.newdesign.fragment.home.FilterFragment"
+        android:label="filterfragment"
+        tools:layout="@layout/filterfragment" />
 </navigation>

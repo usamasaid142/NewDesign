@@ -117,6 +117,19 @@
     <string name="address">Address</string>
     <string name="waiting_time">Waiting Time</string>
     <string name="fees">Fees</string>
+    <string name="reset">RESET</string>
+    <string name="specialization">Specialization</string>
+    <string name="choose_specialization">Choose_Specialization</string>
+    <string name="choose_sub_specialization">Choose_Sub_Specialization</string>
+    <string name="choose_city">Choose City</string>
+    <string name="choose_area">Choose Area</string>
+    <string name="to">To</string>
+    <string name="egp">EGP</string>
+    <string name="from">From</string>
+    <string name="choose_seniority_level">Choose Seniority Level</string>
+    <string name="choose_gender">Choose Gender</string>
+    <string name="apply">Apply</string>
+    <string name="location">Location</string>
 
 
 </resources>
