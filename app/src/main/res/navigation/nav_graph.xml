@@ -142,4 +142,14 @@
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myScheduleFragment"
+        android:name="com.example.newdesign.fragment.navbottom.MyScheduleFragment"
+        android:label="my_schedulefragment"
+        tools:layout="@layout/my_schedulefragment" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.example.newdesign.fragment.navbottom.MoreFragment"
+        android:label="morefragment"
+        tools:layout="@layout/morefragment" />
 </navigation>

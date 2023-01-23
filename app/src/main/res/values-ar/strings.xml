@@ -98,8 +98,22 @@
     <string name="laboratories">Laboratories</string>
     <string name="search">Search</string>
     <string name="search_by_doctor_name">Search by doctor name...</string>
-    <string name="all">All</string>
     <string name="doctors_found">Doctors Found</string>
+    <string name="all">All</string>
+    <string name="home">Home</string>
+    <string name="my_schedule">My Schedule</string>
+    <string name="more">More</string>
+    <string name="reviews">Reviews</string>
+    <string name="next_available_booking_at_08_nov_from_06_30_pm">Next Available Booking at 08 Nov. from 06:30 PM</string>
+    <string name="sub_specialization">Sub specialization</string>
+    <string name="book_now">Book Now</string>
+    <string name="osama">Osama</string>
+    <string name="said">Said</string>
+    <string name="click_here_to_edit_your_profile">Click here to edit your profile</string>
+    <string name="filter">Filter</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="canceled">Canceled</string>
+    <string name="finished">Finished</string>
 
 
 </resources>
