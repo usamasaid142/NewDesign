@@ -80,7 +80,8 @@ class LoginFragment : Fragment() {
         }
 
         binding.layoutHelp.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment)
+            val action=LoginFragmentDirections.actionLoginFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
         }
         binding.tvForgetPassword.setOnClickListener {
             findNavController().navigate(R.id.forgetPasswordFragment)
@@ -148,9 +149,9 @@ class LoginFragment : Fragment() {
                     loginresponse.let {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                     }
-                    findNavController().navigate(R.id.homeFragment)
+                    findNavController().navigate(R.id.docotorProfileFragment)
 
-                    Toast.makeText(requireContext(), " your are login", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), " your are login Successfully", Toast.LENGTH_SHORT).show()
                 }
 
                 is Resource.Error->{

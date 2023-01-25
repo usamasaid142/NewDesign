@@ -22,6 +22,11 @@ interface ApiService {
     suspend fun createUser(@Path("culture") culture: String,
                              @Body createUser: CreateUser):Response<CreateUserResponse>
 
+    @GET("{culture}/LookUp/GetCountries")
+    suspend fun getCountries(
+        @Path("culture") culture: String,
+    ): Response<GetCountry>
+
     @GET("{culture}/Ads/GetVidoesAds")
     suspend fun getHomeAds(
         @Path("culture") culture: String,

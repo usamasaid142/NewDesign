@@ -4,14 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_gender"
+        android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
         android:fontFamily="@font/avenirltstd_black"
-        android:text="@string/gender"
+        android:text="@string/date_of_birth"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,46 +21,20 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <RadioGroup
-        android:id="@+id/radio"
-        android:layout_width="match_parent"
+
+    <DatePicker
+        android:id="@+id/datePicker1"
+        style="@style/MyDatePickerStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:dayOfWeekBackground="#000"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_gender"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
-        <RadioButton
-            android:id="@+id/radio_english"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:drawableStart="@drawable/ic_en"
-            android:drawablePadding="10dp"
-            android:elevation="1dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/avenirltstd_black"
-            android:text="@string/male"
-            android:layout_margin="5dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <RadioButton
-            android:id="@+id/radio_arabic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_ar"
-            android:text="@string/female"
-            android:textSize="14sp"
-            android:elevation="1dp"
-            android:layout_margin="5dp"
-            android:fontFamily="@font/avenirltstd_black"
-            android:textColor="@color/black"
-            android:drawablePadding="10dp"
-            />
-    </RadioGroup>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -68,7 +44,7 @@
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio">
+        app:layout_constraintTop_toBottomOf="@+id/datePicker1">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_calling"

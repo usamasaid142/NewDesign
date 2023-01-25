@@ -33,5 +33,10 @@
         android:id="@+id/dialogBottomSheetFragment2"
         android:name="com.example.newdesign.fragment.DialogBottomSheetFragment"
         android:label="dialog_bottom_sheetfragment"
-        tools:layout="@layout/dialog_bottom_sheetfragment" />
+        tools:layout="@layout/dialog_bottom_sheetfragment" >
+        <argument
+            android:name="changeview"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
 </navigation>

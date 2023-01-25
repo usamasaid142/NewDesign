@@ -30,7 +30,6 @@
         android:adjustViewBounds="true"
         android:layout_margin="15dp"
         android:visibility="gone"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_callus"/>
@@ -40,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_call">
@@ -64,36 +64,68 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:id="@+id/layout_Date_ofbirth"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:visibility="gone"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     >
+
+     <include
+         android:id="@+id/item_datespiner"
+         layout="@layout/selectdatefromspinnercalender"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         />
+
+ </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/layout_gender"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/iv_call"
-        app:layout_constraintBottom_toBottomOf="parent"
         >
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_showpassword"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_calling"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+        <include
+            android:id="@+id/item_gender"
+            layout="@layout/item_layoutgender"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_Nationality"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+         android:visibility="gone"
+        >
+
+        <include
+            android:id="@+id/item_Nationality"
+            layout="@layout/item_layout_selectcountry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <include
-        android:id="@+id/item_country"
-        layout="@layout/item_layout_selectcountry"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,7 +44,8 @@ private lateinit var binding:DocotorProfilefragmentBinding
 //        }
 
         binding.layoutHelp.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment)
+            val action=DocotorProfileFragmentDirections.actionDocotorProfileFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
         }
 
     }

@@ -116,13 +116,16 @@ class PersonalInfoFragment : Fragment() {
 
 
         binding.ivArrowdown.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment2)
+            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragmentToDialogBottomSheetFragment2("gender")
+            findNavController().navigate(action)
         }
         binding.ivDate.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment2)
+            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragmentToDialogBottomSheetFragment2("date")
+            findNavController().navigate(action)
         }
         binding.ivNationality.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment2)
+            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragmentToDialogBottomSheetFragment2("Nationality")
+            findNavController().navigate(action)
         }
 
 

@@ -1,76 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_selectCountry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
+
         <TextView
             android:id="@+id/tv_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:fontFamily="@font/avenirltstd_black"
             android:text="@string/choose_your_nationality"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <AutoCompleteTextView
-        android:id="@+id/tv_selectCountry"
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout_nationality"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:completionThreshold="1"
-        android:background="@drawable/bg_auocompleteselector"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="5dp"
-        android:hint="@string/search_by_name_of_country"
-        android:minHeight="48dp"
-        android:padding="3dp"
-        android:ems="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_selectCountry" />
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_btnDone"
+        app:layout_constraintTop_toBottomOf="@+id/layout_selectCountry">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_nationality"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/item_layout_countery" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_nationality"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/rv_nationality" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_btn_login"
+        android:id="@+id/layout_btnDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_selectCountry">
+        app:layout_constraintTop_toBottomOf="@+id/layout_nationality"
+        >
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/next"
+            android:id="@+id/btn_calling"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_chooselang_button"
             android:fontFamily="@font/avenirltstd_black"
-            android:padding="5dp"
-            android:text="@string/login"
+            android:text="@string/done"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent=".9"
-            />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".85" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

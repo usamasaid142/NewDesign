@@ -62,7 +62,12 @@
         android:id="@+id/dialogBottomSheetFragment"
         android:name="com.example.newdesign.fragment.DialogBottomSheetFragment"
         android:label="dialog_bottom_sheetfragment"
-        tools:layout="@layout/dialog_bottom_sheetfragment" />
+        tools:layout="@layout/dialog_bottom_sheetfragment" >
+        <argument
+            android:name="changeview"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
     <fragment
         android:id="@+id/forgetPasswordFragment"
         android:name="com.example.newdesign.fragment.loginandforgetpassword.ForgetPasswordFragment"
@@ -123,7 +128,11 @@
         android:id="@+id/docotorProfileFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.DocotorProfileFragment"
         android:label="docotor_profilefragment"
-        tools:layout="@layout/docotor_profilefragment" />
+        tools:layout="@layout/docotor_profilefragment" >
+        <action
+            android:id="@+id/action_docotorProfileFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.newdesign.fragment.home.HomeFragment"

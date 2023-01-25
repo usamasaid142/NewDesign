@@ -132,6 +132,8 @@
     <string name="choose_gender">Choose Gender</string>
     <string name="apply">Apply</string>
     <string name="location">Location</string>
+    <string name="done">Done</string>
+    <string name="occupation">Occupation</string>
 
 
 </resources>
