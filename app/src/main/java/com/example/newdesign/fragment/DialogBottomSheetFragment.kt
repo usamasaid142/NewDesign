@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.AutoCompleteAdapter
 import com.example.newdesign.adapter.CounteriesAdapter
+import com.example.newdesign.adapter.SpecialistAdapter
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.model.CountryList
 import com.example.newdesign.model.register.DataCountry
@@ -45,6 +46,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
     private val args:DialogBottomSheetFragmentArgs by navArgs()
     private lateinit var counteriesAdapter: CounteriesAdapter
+    private lateinit var specialistAdapter:SpecialistAdapter
   //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
 
@@ -85,8 +87,10 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
 //
 //        }
         setupresyclerview()
+        setupresyclerviewSpecialist()
         initButton()
         callBack()
+        callBackSpecialist()
     }
 
     fun setupresyclerview() {
@@ -100,6 +104,23 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
     }
+
+    fun setupresyclerviewSpecialist() {
+        specialistAdapter = SpecialistAdapter()
+        binding.itemSpecialist.rvSpecialist.apply {
+            adapter = specialistAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(false)
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            counteriesAdapter.notifyDataSetChanged()
+
+        }
+    }
+
+
+
+
+
     private fun initButton(){
         binding.btnCalling.setOnClickListener {
             dismiss()
@@ -151,12 +172,14 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             "Nationality"->{
                 binding.layoutNationality.visibility=View.VISIBLE
             }
+            "Specialist"->{
+                binding.layoutSpecialist.visibility=View.VISIBLE
+            }
         }
 
     }
 
     private fun callBack(){
-
         viewmodel.nationalityResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -196,7 +219,35 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
         viewmodel.getCountries()
+    }
 
+    private fun callBackSpecialist(){
+        viewmodel.specialistResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        specialistAdapter.submitList(it)
+
+                    }
+
+                }
+
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getSpecialist()
     }
 
     private fun showprogtessbar() {

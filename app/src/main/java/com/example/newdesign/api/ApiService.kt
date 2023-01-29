@@ -1,5 +1,6 @@
 package com.example.newdesign.api
 
+import com.example.newdesign.model.GetSpecialistResponse
 import com.example.newdesign.model.HomeAdsResponse
 import com.example.newdesign.model.register.*
 import retrofit2.Response
@@ -33,5 +34,12 @@ interface ApiService {
         @Query("PageID") PageID: Int,
         @Query("DoctorApp") DoctorApp: Boolean
     ): Response<HomeAdsResponse>
+
+
+    @GET("{culture}/Specialist/GetSpecialist")
+    suspend fun getSpecialist(
+        @Path("culture") culture: String,
+    ): Response<GetSpecialistResponse>
+
 
 }

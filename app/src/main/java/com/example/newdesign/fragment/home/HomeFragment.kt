@@ -1,7 +1,6 @@
 package com.example.newdesign.fragment.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,13 +20,14 @@ import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),ServicesAdapter.Action {
 
     private lateinit var binding:HomefragmentBinding
     private lateinit var imageServicesAdapter:ServicesAdapter
     private lateinit var imageMedicalServicesAdapter:MedicalServicesAdapter
     private lateinit var imageVideoAdapter:ImageVideoAdapter
     val viewmodel: RegisterViewmodel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun servicesRecylerview() {
-        imageServicesAdapter = ServicesAdapter()
+        imageServicesAdapter = ServicesAdapter(this)
         binding.rvSalamtakServices.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = imageServicesAdapter
@@ -195,6 +195,12 @@ class HomeFragment : Fragment() {
     private fun hideprogressbar() {
         binding.progressBar.visibility = View.GONE
     }
+
+    override fun onItemClick(services: String) {
+      findNavController().navigate(R.id.searchFragment)
+    }
+
+
 
 
 }

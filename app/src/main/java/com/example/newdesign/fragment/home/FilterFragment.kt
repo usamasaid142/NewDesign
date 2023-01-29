@@ -5,16 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.FilterfragmentBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilterFragment : Fragment() {
+class FilterFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FilterfragmentBinding
+    private lateinit var bottomsheetbeahavoir:BottomSheetBehavior<ConstraintLayout>
 
 
     override fun onCreateView(
@@ -28,37 +34,38 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bottomsheetbeahavoir=BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
         initButton()
     }
 
     private fun initButton() {
 
         collabsedFiller(
-            binding.layoutSpecializationHeader,
-            binding.layoutSpecializationDetails,
-            binding.ivCollabsarrowdown,
-            binding.ivArrowRight
+            binding.layoutBottomsheetpersistant.layoutSpecializationHeader,
+            binding.layoutBottomsheetpersistant.layoutSpecializationDetails,
+            binding.layoutBottomsheetpersistant.layoutIvCollabsarrowdown,
+            binding.layoutBottomsheetpersistant.ivArrowRight
         )
         collabsedFiller(
-            binding.layoutLocationHeader,
-            binding.layoutLocationDetails,
-            binding.ivHideLocationarrowRight,
-            binding.ivLocationarrowRight
+            binding.layoutBottomsheetpersistant.layoutLocationHeader,
+            binding.layoutBottomsheetpersistant.layoutLocationDetails,
+            binding.layoutBottomsheetpersistant.layoutIvHideLocationarrowRight,
+            binding.layoutBottomsheetpersistant.ivLocationarrowRight
         )
         collabsedFiller(
-            binding.layoutFeesHeader,
-            binding.layoutFeesDetails,
-            binding.ivHideFeesarrowRight,
-            binding.ivFeesarrowRight
+            binding.layoutBottomsheetpersistant.layoutFeesHeader,
+            binding.layoutBottomsheetpersistant.layoutFeesDetails,
+            binding.layoutBottomsheetpersistant.layoutIvHideFeesarrowRight,
+            binding.layoutBottomsheetpersistant.ivFeesarrowRight
         )
         collabsedFiller(
-            binding.layoutGenderHeader,
-            binding.layoutGenderDetails,
-            binding.ivHideGenderarrowRight,
-            binding.ivGenderarrowRight
+            binding.layoutBottomsheetpersistant.layoutGenderHeader,
+            binding.layoutBottomsheetpersistant.layoutGenderDetails,
+            binding.layoutBottomsheetpersistant.layoutIvHideGenderarrowRight,
+            binding.layoutBottomsheetpersistant.ivGenderarrowRight
         )
 
-        binding.ivArrow.setOnClickListener {
+        binding.layoutBottomsheetpersistant.ivArrow.setOnClickListener {
             findNavController().navigate(R.id.searchFragment)
         }
 
@@ -68,19 +75,19 @@ class FilterFragment : Fragment() {
     private fun collabsedFiller(
         view: View,
         hideview: View,
-        image: ShapeableImageView,
+        layout: View,
         imagearrowup: ShapeableImageView
     ) {
         var isVisible = true
         view.setOnClickListener {
             if (isVisible) {
                 hideview.visibility = View.GONE
-                image.visibility = View.VISIBLE
+                layout.visibility = View.VISIBLE
                 imagearrowup.visibility = View.GONE
                 isVisible = false
             } else {
                 hideview.visibility = View.VISIBLE
-                image.visibility = View.GONE
+                layout.visibility = View.GONE
                 imagearrowup.visibility = View.VISIBLE
                 isVisible = true
             }

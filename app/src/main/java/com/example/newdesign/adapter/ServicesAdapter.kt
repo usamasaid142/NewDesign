@@ -14,7 +14,7 @@ import com.example.newdesign.model.ImageServices
 import com.example.newdesign.model.Onboarding
 
 
-class ServicesAdapter():ListAdapter<ImageServices,ServicesAdapter.ViewHolder>(DiffCallback()) {
+class ServicesAdapter(private val onServicesClick:Action ):ListAdapter<ImageServices,ServicesAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -29,6 +29,10 @@ class ServicesAdapter():ListAdapter<ImageServices,ServicesAdapter.ViewHolder>(Di
             .into(holder.binding.ivServices)
 
         holder.binding.tvServiceName.text=services.textService
+
+        holder.binding.cardview.setOnClickListener {
+            onServicesClick.onItemClick(services.textService)
+        }
 
     }
 
@@ -49,6 +53,9 @@ class ServicesAdapter():ListAdapter<ImageServices,ServicesAdapter.ViewHolder>(Di
         }
     }
 
+    interface Action{
+        fun onItemClick(services: String)
+    }
 
 
 
