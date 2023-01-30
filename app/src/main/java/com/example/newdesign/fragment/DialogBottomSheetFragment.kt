@@ -89,8 +89,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         setupresyclerview()
         setupresyclerviewSpecialist()
         initButton()
-        callBack()
-        callBackSpecialist()
+
     }
 
     fun setupresyclerview() {
@@ -112,8 +111,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
-            counteriesAdapter.notifyDataSetChanged()
-
+            specialistAdapter.notifyDataSetChanged()
         }
     }
 
@@ -171,9 +169,12 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             }
             "Nationality"->{
                 binding.layoutNationality.visibility=View.VISIBLE
+                callBack()
             }
             "Specialist"->{
                 binding.layoutSpecialist.visibility=View.VISIBLE
+                callBackSpecialist()
+
             }
         }
 
@@ -233,7 +234,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
                     hideprogressbar()
                     response.data?.data.let {
                         specialistAdapter.submitList(it)
-
+                        specialistAdapter.notifyDataSetChanged()
                     }
 
                 }
@@ -252,10 +253,12 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun showprogtessbar() {
         binding.itemNationality.progressBar.visibility = View.VISIBLE
+        binding.itemSpecialist.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideprogressbar() {
         binding.itemNationality.progressBar.visibility = View.GONE
+        binding.itemSpecialist.progressBar.visibility = View.GONE
     }
 
 //    private fun updateUi(it: List<DataCountry>?) {
