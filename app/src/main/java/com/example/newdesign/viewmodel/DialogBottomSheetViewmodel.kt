@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newdesign.model.GetSpecialistResponse
+import com.example.newdesign.model.GetSubSpecilistResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
@@ -21,6 +22,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
 
     val nationalityResponse=MutableLiveData<Resource<GetCountry>>()
     val specialistResponse=MutableLiveData<Resource<GetSpecialistResponse>>()
+    val subSpecialistResponse=MutableLiveData<Resource<GetSubSpecilistResponse>>()
 
 
 
@@ -53,8 +55,20 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
     }
 
-
-
+//    fun getSubSpecialist(specialListId:Int)=viewModelScope.launch(Dispatchers.IO) {
+//        subSpecialistResponse.postValue(Resource.Loading())
+//        val response=repositry.getSubSpecialist(specialListId)
+//        subSpecialistResponse.postValue(handelGetSUBSpecialist(response))
+//    }
+//
+//    private fun handelGetSUBSpecialist(response: Response<GetSubSpecilistResponse>): Resource<GetSubSpecilistResponse>? {
+//        if (response.isSuccessful){
+//            response.body()?.let {
+//                return Resource.sucess(it)
+//            }
+//        }
+//        return Resource.Error(response.message())
+//    }
 
 
 }
