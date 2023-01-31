@@ -35,7 +35,7 @@ class SpecialistAdapter():ListAdapter<SpecialistData,SpecialistAdapter.ViewHolde
 
     private class DiffCallback : DiffUtil.ItemCallback<SpecialistData>() {
         override fun areItemsTheSame(oldItem: SpecialistData, newItem: SpecialistData): Boolean {
-            return oldItem.id==newItem.id
+            return oldItem==newItem
         }
 
         override fun areContentsTheSame(oldItem: SpecialistData, newItem: SpecialistData): Boolean {

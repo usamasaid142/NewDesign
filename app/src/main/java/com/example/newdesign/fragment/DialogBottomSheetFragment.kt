@@ -97,7 +97,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         binding.itemNationality.rvNationality.apply {
             adapter = counteriesAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(false)
+            setHasFixedSize(true)
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
             counteriesAdapter.notifyDataSetChanged()
 
@@ -109,9 +109,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         binding.itemSpecialist.rvSpecialist.apply {
             adapter = specialistAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(false)
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
-            specialistAdapter.notifyDataSetChanged()
         }
     }
 
