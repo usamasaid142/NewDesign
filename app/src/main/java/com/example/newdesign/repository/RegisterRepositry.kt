@@ -16,4 +16,6 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun getSpecialist()=apiService.getSpecialist("En")
     suspend fun getSubSpecialist(specialListId:Int)=apiService.getSubSpecialist("En",specialListId)
     suspend fun getSeniorityLevel()=apiService.getSeniorityLevel("En")
+    suspend fun getAllCities()=apiService.getAllCities("En")
+    suspend fun getAreasByCityId(cityId:Int)=apiService.getAreasByCityId("En",cityId)
 }

@@ -63,6 +63,21 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_gender"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/item_gender"
+            layout="@layout/item_layoutgender"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,48 +92,7 @@
         <include
             android:id="@+id/item_datespiner"
             layout="@layout/selectdatefromspinnercalender"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_gender"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include
-            android:id="@+id/item_gender"
-            layout="@layout/item_layoutgender"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_Nationality"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include
-            android:id="@+id/item_Nationality"
-            layout="@layout/item_layout_selectcountry"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -161,7 +135,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_Specialist"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="300dp"
             android:layout_marginBottom="5dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -180,7 +154,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_subSpecialist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_marginBottom="5dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +172,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_SeniorityLevel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_marginBottom="5dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -212,6 +186,59 @@
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_AllCities"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <include
+                android:id="@+id/item_Allcities"
+                layout="@layout/layout_bottomsheet_allcities"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_AllArea"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <include
+                android:id="@+id/item_AllArea"
+                layout="@layout/layout_bottomsheet_allarea"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_Nationality"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/item_Nationality"
+                layout="@layout/item_layout_selectcountry"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,8 +34,8 @@
             android:id="@+id/radio_english"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawableStart="@drawable/ic_en"
-            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_male"
+            android:drawablePadding="5dp"
             android:elevation="1dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/avenirltstd_black"
@@ -49,14 +49,14 @@
             android:id="@+id/radio_arabic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_ar"
+            android:drawableStart="@drawable/ic_female"
             android:text="@string/female"
             android:textSize="14sp"
             android:elevation="1dp"
             android:layout_margin="5dp"
             android:fontFamily="@font/avenirltstd_black"
             android:textColor="@color/black"
-            android:drawablePadding="10dp"
+            android:drawablePadding="5dp"
             />
     </RadioGroup>
 

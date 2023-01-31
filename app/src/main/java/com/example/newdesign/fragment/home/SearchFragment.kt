@@ -77,6 +77,24 @@ class SearchFragment : Fragment() {
                 SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("SeniorityLevel")
             findNavController().navigate(action)
         }
+        binding.layoutBottomsheetpersistant.layoutChooseCity.setOnClickListener {
+
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("AllCity")
+            findNavController().navigate(action)
+        }
+        binding.layoutBottomsheetpersistant.layoutChooseArea.setOnClickListener {
+
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("AllArea")
+            findNavController().navigate(action)
+        }
+        binding.layoutBottomsheetpersistant.layoutChooseGender.setOnClickListener {
+
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("gender")
+            findNavController().navigate(action)
+        }
 
     }
 

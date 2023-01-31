@@ -1,9 +1,6 @@
 package com.example.newdesign.api
 
-import com.example.newdesign.model.GetSeniorityLevelResponse
-import com.example.newdesign.model.GetSpecialistResponse
-import com.example.newdesign.model.GetSubSpecilistResponse
-import com.example.newdesign.model.HomeAdsResponse
+import com.example.newdesign.model.*
 import com.example.newdesign.model.register.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -53,5 +50,16 @@ interface ApiService {
     suspend fun getSeniorityLevel(
         @Path("culture") culture: String,
     ): Response<GetSeniorityLevelResponse>
+
+    @GET("{culture}/City/GetAllCities")
+    suspend fun getAllCities(
+        @Path("culture") culture: String,
+    ): Response<GetAllCitiesResponse>
+
+    @GET("{culture}/Area/GetAreasByCityId")
+    suspend fun getAreasByCityId(
+        @Path("culture") culture: String,
+        @Query("cityId") cityId:Int,
+    ): Response<GetAreasByCityIdResponse>
 
 }

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -13,12 +12,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
-import com.example.newdesign.adapter.CounteriesAdapter
-import com.example.newdesign.adapter.SeniorityLevelAdapter
-import com.example.newdesign.adapter.SpecialistAdapter
-import com.example.newdesign.adapter.SubSpecialistAdapter
+import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
-import com.example.newdesign.model.CountryList
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
@@ -41,6 +36,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var specialistAdapter:SpecialistAdapter
     private lateinit var subSpecialistAdapter: SubSpecialistAdapter
     private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
+    private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
+    private lateinit var getAllAreaAdapter: GetAllAreaAdapter
   //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
 
@@ -84,6 +81,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         setupresyclerviewSpecialist()
         setupresyclerviewSubSpecialist()
         setupresyclerviewSeniorityLevel()
+        setupresyclerviewGetAllCities()
+        setupresyclerviewGetAllArea()
         initButton()
 
     }
@@ -125,9 +124,22 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
         }
     }
-
-
-
+    fun setupresyclerviewGetAllCities(){
+        getAllCitiesAdapter = GetAllCitiesAdapter()
+        binding.itemAllcities.rvAllCities.apply {
+            adapter = getAllCitiesAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+        }
+    }
+    fun setupresyclerviewGetAllArea(){
+        getAllAreaAdapter = GetAllAreaAdapter()
+        binding.itemAllArea.rvAllArea.apply {
+            adapter = getAllAreaAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+        }
+    }
 
 
     private fun initButton(){
@@ -169,17 +181,24 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         when(selectviews){
             "date"->{
                 binding.layoutDateOfbirth.visibility=View.VISIBLE
+                binding.btnDone.visibility=View.GONE
+                binding.tvAllSpecial.visibility=View.GONE
             }
             "help"->{
                 binding.tvCallus.visibility=View.VISIBLE
                 binding.ivCall.visibility=View.VISIBLE
                 binding.btnCalling.visibility=View.VISIBLE
+                binding.btnDone.visibility=View.GONE
+                binding.tvAllSpecial.visibility=View.GONE
             }
             "gender"->{
                 binding.layoutGender.visibility=View.VISIBLE
+                binding.btnDone.visibility=View.GONE
+                binding.tvAllSpecial.visibility=View.GONE
             }
             "Nationality"->{
                 binding.layoutNationality.visibility=View.VISIBLE
+                binding.tvAllSpecial.text=getString(R.string.nationality)
                 callBack()
             }
             "Specialist"->{
@@ -198,6 +217,16 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
                 binding.tvAllSpecial.text=getString(R.string.choose_seniority_level)
                 callBackSeniorityLevel()
             }
+            "AllCity"->{
+                binding.layoutAllCities.visibility=View.VISIBLE
+                binding.tvAllSpecial.text=getString(R.string.choose_city)
+                callBackGetAllCities()
+            }
+            "AllArea"->{
+                binding.layoutAllArea.visibility=View.VISIBLE
+                binding.tvAllSpecial.text=getString(R.string.choose_area)
+                callBackGetAllArea()
+            }
         }
 
     }
@@ -213,21 +242,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
                 is Resource.sucess -> {
                     hideprogressbar()
                     response.data?.data.let {
-
-
-                        if (Build.VERSION.SDK_INT<=Build.VERSION_CODES.N){
-                            val list= mutableListOf<DataCountry>()
-                            for (i in 0..10){
-                                list.add(it!![i])
-                            }
-                            counteriesAdapter.submitList(list)
-                            counteriesAdapter.notifyDataSetChanged()
-                        }else{
-                            counteriesAdapter.submitList(it)
-                            counteriesAdapter.notifyDataSetChanged()
-                        }
-
-
+                        counteriesAdapter.submitList(it)
+                        counteriesAdapter.notifyDataSetChanged()
                     }
 
                 }
@@ -300,7 +316,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         }
         viewmodel.getSubSpecialist(2)
     }
-
     private fun callBackSeniorityLevel(){
         viewmodel.seniorityLevelResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -327,6 +342,58 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         }
         viewmodel.getSeniorityLevel()
     }
+    private fun callBackGetAllCities(){
+        viewmodel.allCitiesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        getAllCitiesAdapter.submitList(it)
+                        getAllCitiesAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getAllCities()
+    }
+    private fun callBackGetAllArea(){
+        viewmodel.allAreasByCityIdResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        getAllAreaAdapter.submitList(it)
+                        getAllAreaAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getAreasByCityId(1)
+    }
 
 
     private fun showprogtessbar() {
@@ -334,6 +401,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         binding.itemSpecialist.progressBar.visibility = View.VISIBLE
         binding.itemSubSpecialist.progressBar.visibility = View.VISIBLE
         binding.itemSeniorityLevel.progressBar.visibility = View.VISIBLE
+        binding.itemAllcities.progressBar.visibility = View.VISIBLE
+        binding.itemAllArea.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideprogressbar() {
@@ -341,6 +410,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         binding.itemSpecialist.progressBar.visibility = View.GONE
         binding.itemSubSpecialist.progressBar.visibility = View.GONE
         binding.itemSeniorityLevel.progressBar.visibility = View.GONE
+        binding.itemAllcities.progressBar.visibility = View.GONE
+        binding.itemAllArea.progressBar.visibility = View.GONE
     }
 
 //    private fun updateUi(it: List<DataCountry>?) {
