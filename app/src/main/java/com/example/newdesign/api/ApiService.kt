@@ -1,6 +1,8 @@
 package com.example.newdesign.api
 
+import com.example.newdesign.model.GetSeniorityLevelResponse
 import com.example.newdesign.model.GetSpecialistResponse
+import com.example.newdesign.model.GetSubSpecilistResponse
 import com.example.newdesign.model.HomeAdsResponse
 import com.example.newdesign.model.register.*
 import retrofit2.Response
@@ -41,5 +43,15 @@ interface ApiService {
         @Path("culture") culture: String,
     ): Response<GetSpecialistResponse>
 
+    @GET("{culture}/Specialist/GetSubSpecialist")
+    suspend fun getSubSpecialist(
+        @Path("culture") culture: String,
+        @Query("specialListId") specialListId:Int,
+    ): Response<GetSubSpecilistResponse>
+
+    @GET("{culture}/SeniorityLevel/GetSeniorityLevel")
+    suspend fun getSeniorityLevel(
+        @Path("culture") culture: String,
+    ): Response<GetSeniorityLevelResponse>
 
 }

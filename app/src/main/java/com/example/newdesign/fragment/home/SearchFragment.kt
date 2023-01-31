@@ -64,6 +64,20 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.layoutBottomsheetpersistant.layoutChooseSubSpecialization.setOnClickListener {
+
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("SubSpecialist")
+            findNavController().navigate(action)
+        }
+
+        binding.layoutBottomsheetpersistant.layoutChooseSeniorityLevel.setOnClickListener {
+
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("SeniorityLevel")
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun servicesRecylerview() {

@@ -129,12 +129,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/layout_Specialist"
+        app:layout_constraintBottom_toTopOf="@+id/layout_All"
         android:layout_marginBottom="15dp"
         >
 
         <TextView
-            android:id="@+id/tv_gender"
+            android:id="@+id/tv_allSpecial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -149,22 +149,74 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_Specialist"
+        android:id="@+id/layout_All"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/layout_btnDone"
         app:layout_constraintTop_toBottomOf="@+id/layout_selectCountry">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_Specialist"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
 
-        <include
-            android:id="@+id/item_Specialist"
-            layout="@layout/layout_bottomsheetspecialist"
-          />
+            <include
+                android:id="@+id/item_Specialist"
+                layout="@layout/layout_bottomsheetspecialist"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_subSpecialist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+          >
+
+            <include
+                android:id="@+id/item_subSpecialist"
+                layout="@layout/layout_bottomsheetsubspecialist"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_SeniorityLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <include
+                android:id="@+id/item_SeniorityLevel"
+                layout="@layout/layout_bottomsheetlayoutsenioritylevel"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_btnDone"
@@ -174,7 +226,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_Specialist"
+        app:layout_constraintTop_toBottomOf="@+id/layout_All"
         >
 
         <androidx.appcompat.widget.AppCompatButton

@@ -2,40 +2,32 @@ package com.example.newdesign.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
+
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
-import com.example.newdesign.adapter.AutoCompleteAdapter
 import com.example.newdesign.adapter.CounteriesAdapter
+import com.example.newdesign.adapter.SeniorityLevelAdapter
 import com.example.newdesign.adapter.SpecialistAdapter
+import com.example.newdesign.adapter.SubSpecialistAdapter
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.model.CountryList
 import com.example.newdesign.model.register.DataCountry
-import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
-import com.example.newdesign.viewmodel.RegisterViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.log
+
 
 @AndroidEntryPoint
 class DialogBottomSheetFragment : BottomSheetDialogFragment() {
@@ -47,6 +39,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
     private val args:DialogBottomSheetFragmentArgs by navArgs()
     private lateinit var counteriesAdapter: CounteriesAdapter
     private lateinit var specialistAdapter:SpecialistAdapter
+    private lateinit var subSpecialistAdapter: SubSpecialistAdapter
+    private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
   //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
 
@@ -88,6 +82,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
 //        }
         setupresyclerview()
         setupresyclerviewSpecialist()
+        setupresyclerviewSubSpecialist()
+        setupresyclerviewSeniorityLevel()
         initButton()
 
     }
@@ -108,6 +104,23 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         specialistAdapter = SpecialistAdapter()
         binding.itemSpecialist.rvSpecialist.apply {
             adapter = specialistAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+        }
+    }
+
+    fun setupresyclerviewSubSpecialist() {
+        subSpecialistAdapter = SubSpecialistAdapter()
+        binding.itemSubSpecialist.rvSubspecialist.apply {
+            adapter = subSpecialistAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+        }
+    }
+    fun setupresyclerviewSeniorityLevel() {
+        seniorityLevelAdapter = SeniorityLevelAdapter()
+        binding.itemSeniorityLevel.rvSeniorityLevel.apply {
+            adapter = seniorityLevelAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
         }
@@ -171,8 +184,19 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             }
             "Specialist"->{
                 binding.layoutSpecialist.visibility=View.VISIBLE
+                binding.tvAllSpecial.text=getString(R.string.choose_specialization)
                 callBackSpecialist()
 
+            }
+            "SubSpecialist"->{
+                binding.layoutSubSpecialist.visibility=View.VISIBLE
+                binding.tvAllSpecial.text=getString(R.string.choose_sub_specialization)
+                callBackSubSpecialist()
+            }
+            "SeniorityLevel"->{
+                binding.layoutSeniorityLevel.visibility=View.VISIBLE
+                binding.tvAllSpecial.text=getString(R.string.choose_seniority_level)
+                callBackSeniorityLevel()
             }
         }
 
@@ -248,15 +272,75 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         }
         viewmodel.getSpecialist()
     }
+    private fun callBackSubSpecialist(){
+        viewmodel.subSpecialistResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        subSpecialistAdapter.submitList(it)
+                        subSpecialistAdapter.notifyDataSetChanged()
+                    }
+
+                }
+
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getSubSpecialist(2)
+    }
+
+    private fun callBackSeniorityLevel(){
+        viewmodel.seniorityLevelResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        seniorityLevelAdapter.submitList(it)
+                        seniorityLevelAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getSeniorityLevel()
+    }
+
 
     private fun showprogtessbar() {
         binding.itemNationality.progressBar.visibility = View.VISIBLE
         binding.itemSpecialist.progressBar.visibility = View.VISIBLE
+        binding.itemSubSpecialist.progressBar.visibility = View.VISIBLE
+        binding.itemSeniorityLevel.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideprogressbar() {
         binding.itemNationality.progressBar.visibility = View.GONE
         binding.itemSpecialist.progressBar.visibility = View.GONE
+        binding.itemSubSpecialist.progressBar.visibility = View.GONE
+        binding.itemSeniorityLevel.progressBar.visibility = View.GONE
     }
 
 //    private fun updateUi(it: List<DataCountry>?) {
