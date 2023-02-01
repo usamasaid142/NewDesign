@@ -201,8 +201,9 @@
                                     android:layout_height="55dp"
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
-                                    android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:inputType="text"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -256,8 +257,9 @@
                                     android:layout_height="55dp"
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
-                                    android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:inputType="text"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -313,8 +315,9 @@
                                     android:layout_height="55dp"
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
-                                    android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:inputType="text"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -449,8 +452,9 @@
                                     android:layout_height="55dp"
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
-                                    android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:inputType="text"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -506,8 +510,9 @@
                                     android:layout_height="55dp"
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
-                                    android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:inputType="text"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -644,7 +649,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
                                     android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -703,7 +708,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
                                     android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -839,8 +844,9 @@
                                     android:layout_height="55dp"
                                     android:layout_gravity="center_horizontal"
                                     android:fontFamily="@font/avenirltstd_roman"
-                                    android:inputType="number"
-                                    android:textColor="@color/gray"
+                                    android:inputType="text"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
 
                             </com.google.android.material.textfield.TextInputLayout>

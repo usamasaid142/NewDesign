@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
+import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +28,8 @@ class SearchFragment : Fragment() {
     private lateinit var searchServicesAdapter: SearchServicesAdapter
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
+    val sharedDataViewmodel:SharedDataViewmodel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +51,7 @@ class SearchFragment : Fragment() {
         doctorsRecylerview()
         doctorSearches()
         initButtonCollabsedFiller()
+        bindFields()
     }
 
     private fun initButton() {
@@ -58,7 +66,6 @@ class SearchFragment : Fragment() {
         }
 
         binding.layoutBottomsheetpersistant.layoutChooseSpecialization.setOnClickListener {
-
             val action =
                 SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("Specialist")
             findNavController().navigate(action)
@@ -66,9 +73,12 @@ class SearchFragment : Fragment() {
 
         binding.layoutBottomsheetpersistant.layoutChooseSubSpecialization.setOnClickListener {
 
-            val action =
-                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("SubSpecialist")
-            findNavController().navigate(action)
+            if (binding.layoutBottomsheetpersistant.etSpecialization.text?.toString()?.isEmpty()!!){
+                Toast.makeText(requireContext(),"Chose specialist first ",Toast.LENGTH_SHORT).show()
+            }else{
+                val action =
+                    SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("SubSpecialist")
+                findNavController().navigate(action)}
         }
 
         binding.layoutBottomsheetpersistant.layoutChooseSeniorityLevel.setOnClickListener {
@@ -211,6 +221,14 @@ class SearchFragment : Fragment() {
             }
         }
 
+
+    }
+
+
+    private fun bindFields(){
+        sharedDataViewmodel.specialication.observe(viewLifecycleOwner, Observer {
+            binding.layoutBottomsheetpersistant.etSpecialization.setText(it.name)
+        })
 
     }
 

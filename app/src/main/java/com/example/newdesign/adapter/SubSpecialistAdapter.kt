@@ -3,15 +3,18 @@ package com.example.newdesign.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newdesign.databinding.ItemLayoutSpecialistBinding
 import com.example.newdesign.databinding.ItemLayoutSubspecialistBinding
 import com.example.newdesign.model.SubSpecialistData
 
 
-class SubSpecialistAdapter():ListAdapter<SubSpecialistData,SubSpecialistAdapter.ViewHolder>(DiffCallback()) {
+class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):ListAdapter<SubSpecialistData,SubSpecialistAdapter.ViewHolder>(DiffCallback()) {
+
+    val subSpeciaListData= mutableListOf<SubSpecialistData>()
+    var selectedPosition=-1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -23,6 +26,19 @@ class SubSpecialistAdapter():ListAdapter<SubSpecialistData,SubSpecialistAdapter.
         val sp=getItem(position)
 
         holder.binding.radioSpecialist.text=sp.name
+
+
+        holder.binding.radioSpecialist.setChecked(position == selectedPosition);
+        holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                subSpeciaListData.add(sp)
+            }else
+            {
+                selectedPosition = holder.bindingAdapterPosition
+                subSpeciaListData.remove(sp)
+            }
+        })
+
 
     }
 
@@ -40,6 +56,11 @@ class SubSpecialistAdapter():ListAdapter<SubSpecialistData,SubSpecialistAdapter.
         override fun areContentsTheSame(oldItem: SubSpecialistData, newItem: SubSpecialistData): Boolean {
             return true
         }
+    }
+
+
+    interface SelectSubSpecialist{
+        fun onSelectSubcialist(listofsubSpecialist:MutableList<SubSpecialistData>)
     }
 
 

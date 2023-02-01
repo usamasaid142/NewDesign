@@ -3,6 +3,8 @@ package com.example.newdesign.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.CompoundButton.OnCheckedChangeListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +14,10 @@ import com.example.newdesign.model.SpecialistData
 import com.example.newdesign.model.register.DataCountry
 
 
-class SpecialistAdapter():ListAdapter<SpecialistData,SpecialistAdapter.ViewHolder>(DiffCallback()) {
+class SpecialistAdapter(private val select:SelectSpecialist):ListAdapter<SpecialistData,SpecialistAdapter.ViewHolder>(DiffCallback()) {
+
+    var selectedPosition=-1
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -24,6 +29,18 @@ class SpecialistAdapter():ListAdapter<SpecialistData,SpecialistAdapter.ViewHolde
         val sp=getItem(position)
 
         holder.binding.radioSpecialist.text=sp.name
+
+        holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                select.onItemSelected(sp)
+            }
+        })
+        holder.binding.radioSpecialist.setOnClickListener { view ->
+            selectedPosition = holder.bindingAdapterPosition
+            notifyDataSetChanged()
+        }
+
+        holder.binding.radioSpecialist.isChecked = selectedPosition == position
 
     }
 
@@ -44,6 +61,9 @@ class SpecialistAdapter():ListAdapter<SpecialistData,SpecialistAdapter.ViewHolde
     }
 
 
+    interface SelectSpecialist{
+        fun onItemSelected(specialist:SpecialistData)
+    }
 
 
 }

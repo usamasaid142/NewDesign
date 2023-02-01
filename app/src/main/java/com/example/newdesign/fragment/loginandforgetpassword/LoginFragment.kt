@@ -149,7 +149,7 @@ class LoginFragment : Fragment() {
                     loginresponse.let {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                     }
-                    findNavController().navigate(R.id.docotorProfileFragment)
+                    findNavController().navigate(R.id.homeFragment)
 
                     Toast.makeText(requireContext(), " your are login Successfully", Toast.LENGTH_SHORT).show()
                 }

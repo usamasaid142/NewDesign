@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,23 +15,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
+import com.example.newdesign.model.SpecialistData
+import com.example.newdesign.model.SubSpecialistData
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
+import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class DialogBottomSheetFragment : BottomSheetDialogFragment() {
+class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.SelectSpecialist,SubSpecialistAdapter.SelectSubSpecialist{
 
     //private lateinit var list:ArrayList<CountryList>
 
     private lateinit var binding:DialogBottomSheetfragmentBinding
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
+    val sharedDataViewmodel:SharedDataViewmodel by activityViewModels()
     private val args:DialogBottomSheetFragmentArgs by navArgs()
     private lateinit var counteriesAdapter: CounteriesAdapter
     private lateinit var specialistAdapter:SpecialistAdapter
@@ -38,6 +43,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
     private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
+    var specialistID=0
   //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
 
@@ -100,7 +106,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     fun setupresyclerviewSpecialist() {
-        specialistAdapter = SpecialistAdapter()
+        specialistAdapter = SpecialistAdapter(this)
         binding.itemSpecialist.rvSpecialist.apply {
             adapter = specialistAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -109,7 +115,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     fun setupresyclerviewSubSpecialist() {
-        subSpecialistAdapter = SubSpecialistAdapter()
+        subSpecialistAdapter = SubSpecialistAdapter(this)
         binding.itemSubSpecialist.rvSubspecialist.apply {
             adapter = subSpecialistAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -144,6 +150,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun initButton(){
         binding.btnCalling.setOnClickListener {
+            dismiss()
+        }
+        binding.btnDone.setOnClickListener {
             dismiss()
         }
     }
@@ -198,7 +207,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             }
             "Nationality"->{
                 binding.layoutNationality.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.nationality)
+                binding.tvAllSpecial.text=getString(R.string.choose_your_nationality)
                 callBack()
             }
             "Specialist"->{
@@ -314,7 +323,10 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
             }
 
         }
-        viewmodel.getSubSpecialist(2)
+        sharedDataViewmodel.specialication.observe(viewLifecycleOwner) {
+            viewmodel.getSubSpecialist(it.id)
+        }
+
     }
     private fun callBackSeniorityLevel(){
         viewmodel.seniorityLevelResponse.observe(viewLifecycleOwner) { response ->
@@ -412,6 +424,14 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment() {
         binding.itemSeniorityLevel.progressBar.visibility = View.GONE
         binding.itemAllcities.progressBar.visibility = View.GONE
         binding.itemAllArea.progressBar.visibility = View.GONE
+    }
+
+    override fun onItemSelected(specialist: SpecialistData) {
+       sharedDataViewmodel.getspecialication(specialist)
+    }
+
+    override fun onSelectSubcialist(listofsubSpecialist: MutableList<SubSpecialistData>) {
+        Toast.makeText(requireContext(),"Chose specialist first ",Toast.LENGTH_SHORT).show()
     }
 
 //    private fun updateUi(it: List<DataCountry>?) {
