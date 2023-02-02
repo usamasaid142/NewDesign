@@ -3,17 +3,19 @@ package com.example.newdesign.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newdesign.databinding.ItemLayoutSpecialistBinding
 import com.example.newdesign.databinding.ItemLayoutSubspecialistBinding
 import com.example.newdesign.model.CityData
+import com.example.newdesign.model.SpecialistData
 import com.example.newdesign.model.SubSpecialistData
 
 
-class GetAllCitiesAdapter():ListAdapter<CityData,GetAllCitiesAdapter.ViewHolder>(DiffCallback()) {
-
+class GetAllCitiesAdapter(private val selectCity: SelectCity):ListAdapter<CityData,GetAllCitiesAdapter.ViewHolder>(DiffCallback()) {
+    var selectedPosition=-1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view=ItemLayoutSubspecialistBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -24,6 +26,18 @@ class GetAllCitiesAdapter():ListAdapter<CityData,GetAllCitiesAdapter.ViewHolder>
         val sp=getItem(position)
 
         holder.binding.radioSpecialist.text=sp.name
+
+        holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                selectCity.onItemSelected(sp)
+            }
+        })
+        holder.binding.radioSpecialist.setOnClickListener { view ->
+            selectedPosition = holder.bindingAdapterPosition
+            notifyDataSetChanged()
+        }
+
+        holder.binding.radioSpecialist.isChecked = selectedPosition == position
 
     }
 
@@ -43,7 +57,9 @@ class GetAllCitiesAdapter():ListAdapter<CityData,GetAllCitiesAdapter.ViewHolder>
         }
     }
 
-
+    interface SelectCity{
+        fun onItemSelected(city: CityData)
+    }
 
 
 }

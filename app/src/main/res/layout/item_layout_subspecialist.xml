@@ -16,6 +16,7 @@
         android:fontFamily="@font/avenirltstd_black"
         android:text="Sp"
         android:padding="3dp"
+        android:buttonTint="@color/color_primary"
         android:layout_margin="5dp"
         android:textColor="@color/black"
         android:textSize="14sp"

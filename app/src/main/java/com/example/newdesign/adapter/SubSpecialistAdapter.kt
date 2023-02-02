@@ -14,7 +14,6 @@ import com.example.newdesign.model.SubSpecialistData
 class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):ListAdapter<SubSpecialistData,SubSpecialistAdapter.ViewHolder>(DiffCallback()) {
 
     val subSpeciaListData= mutableListOf<SubSpecialistData>()
-    var selectedPosition=-1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -26,18 +25,14 @@ class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):
         val sp=getItem(position)
 
         holder.binding.radioSpecialist.text=sp.name
-
-
-        holder.binding.radioSpecialist.setChecked(position == selectedPosition);
-        holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                subSpeciaListData.add(sp)
-            }else
-            {
-                selectedPosition = holder.bindingAdapterPosition
-                subSpeciaListData.remove(sp)
-            }
-        })
+          holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+              if (isChecked) {
+                  subSpeciaListData.add(sp)
+              } else {
+                  subSpeciaListData.remove(sp)
+              }
+              selectsubSpecialist.onSelectSubcialist(subSpeciaListData)
+          })
 
 
     }

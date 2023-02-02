@@ -6,7 +6,7 @@
     android:padding="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/radio_Specialist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +15,7 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/avenirltstd_black"
         android:text="Sp"
+        android:buttonTint="@color/color_primary"
         android:padding="3dp"
         android:layout_margin="5dp"
         android:textColor="@color/black"

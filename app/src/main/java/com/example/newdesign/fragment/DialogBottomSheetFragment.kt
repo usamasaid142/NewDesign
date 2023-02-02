@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
-import com.example.newdesign.model.SpecialistData
-import com.example.newdesign.model.SubSpecialistData
+import com.example.newdesign.model.*
+import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
@@ -29,7 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.SelectSpecialist,SubSpecialistAdapter.SelectSubSpecialist{
+class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.SelectSpecialist,
+    SubSpecialistAdapter.SelectSubSpecialist,SeniorityLevelAdapter.SelectSeniorityLevel,GetAllCitiesAdapter.SelectCity,GetAllAreaAdapter.SelectArea{
 
     //private lateinit var list:ArrayList<CountryList>
 
@@ -43,7 +44,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
     private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
     private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
-    var specialistID=0
+
   //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
 
@@ -90,6 +91,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         setupresyclerviewGetAllCities()
         setupresyclerviewGetAllArea()
         initButton()
+        chooseGender()
 
     }
 
@@ -123,7 +125,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
     }
     fun setupresyclerviewSeniorityLevel() {
-        seniorityLevelAdapter = SeniorityLevelAdapter()
+        seniorityLevelAdapter = SeniorityLevelAdapter(this)
         binding.itemSeniorityLevel.rvSeniorityLevel.apply {
             adapter = seniorityLevelAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -131,7 +133,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
     }
     fun setupresyclerviewGetAllCities(){
-        getAllCitiesAdapter = GetAllCitiesAdapter()
+        getAllCitiesAdapter = GetAllCitiesAdapter(this)
         binding.itemAllcities.rvAllCities.apply {
             adapter = getAllCitiesAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -139,7 +141,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
     }
     fun setupresyclerviewGetAllArea(){
-        getAllAreaAdapter = GetAllAreaAdapter()
+        getAllAreaAdapter = GetAllAreaAdapter(this)
         binding.itemAllArea.rvAllArea.apply {
             adapter = getAllAreaAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -155,6 +157,10 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         binding.btnDone.setOnClickListener {
             dismiss()
         }
+        binding.itemGender.btnDone.setOnClickListener {
+            dismiss()
+        }
+
     }
 
 //    private fun fillCountryList(){
@@ -404,7 +410,10 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
             }
 
         }
-        viewmodel.getAreasByCityId(1)
+        sharedDataViewmodel.getCity.observe(viewLifecycleOwner) {
+            viewmodel.getAreasByCityId(it.id)
+        }
+
     }
 
 
@@ -431,8 +440,21 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
     }
 
     override fun onSelectSubcialist(listofsubSpecialist: MutableList<SubSpecialistData>) {
-        Toast.makeText(requireContext(),"Chose specialist first ",Toast.LENGTH_SHORT).show()
+        sharedDataViewmodel.getSubSpecialication(listofsubSpecialist)
     }
+
+    override fun onItemSelectSeniorityLevel(SeniorityLevel: SeniorityLevelData) {
+       sharedDataViewmodel.getSeniorityLevelData(SeniorityLevel)
+    }
+
+    override fun onItemSelected(city: CityData) {
+        sharedDataViewmodel.getCity(city)
+    }
+
+    override fun onSelectArea(Area: AreaData) {
+        sharedDataViewmodel.getArea(Area)
+    }
+
 
 //    private fun updateUi(it: List<DataCountry>?) {
 //        if (it.isNullOrEmpty()) {
@@ -441,6 +463,23 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
 //            binding.itemNationality.crdView.visibility = View.GONE
 //        }
 //    }
+
+    private fun chooseGender(){
+
+        binding.itemGender.radio.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radio_male -> {
+                    val chooseGender=ChooseGender("Male",1)
+                  sharedDataViewmodel.getGender(chooseGender)
+                }
+                R.id.radio_female -> {
+                    val chooseGender=ChooseGender("Female",2)
+                    sharedDataViewmodel.getGender(chooseGender)
+                }
+            }
+        }
+
+    }
 
 
 }

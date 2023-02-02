@@ -1,6 +1,7 @@
 package com.example.newdesign.fragment.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,7 @@ class SearchFragment : Fragment() {
     private lateinit var searchServicesAdapter: SearchServicesAdapter
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
-    val sharedDataViewmodel:SharedDataViewmodel by activityViewModels()
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +43,8 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bottomsheetbeahavoir = BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
+        bottomsheetbeahavoir =
+            BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
         bottomsheetbeahavoir?.state = BottomSheetBehavior.STATE_HIDDEN
 
         initButton()
@@ -73,12 +75,16 @@ class SearchFragment : Fragment() {
 
         binding.layoutBottomsheetpersistant.layoutChooseSubSpecialization.setOnClickListener {
 
-            if (binding.layoutBottomsheetpersistant.etSpecialization.text?.toString()?.isEmpty()!!){
-                Toast.makeText(requireContext(),"Chose specialist first ",Toast.LENGTH_SHORT).show()
-            }else{
+            if (binding.layoutBottomsheetpersistant.etSpecialization.text?.toString()
+                    ?.isEmpty()!!
+            ) {
+                Toast.makeText(requireContext(), "Chose specialist first ", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
                 val action =
                     SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("SubSpecialist")
-                findNavController().navigate(action)}
+                findNavController().navigate(action)
+            }
         }
 
         binding.layoutBottomsheetpersistant.layoutChooseSeniorityLevel.setOnClickListener {
@@ -94,10 +100,13 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.layoutBottomsheetpersistant.layoutChooseArea.setOnClickListener {
-
-            val action =
-                SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("AllArea")
-            findNavController().navigate(action)
+            if (binding.layoutBottomsheetpersistant.etChooseCity.text?.toString()?.isEmpty()!!) {
+                Toast.makeText(requireContext(), "Chose City first ", Toast.LENGTH_SHORT).show()
+            } else {
+                val action =
+                    SearchFragmentDirections.actionSearchFragmentToDialogBottomSheetFragment("AllArea")
+                findNavController().navigate(action)
+            }
         }
         binding.layoutBottomsheetpersistant.layoutChooseGender.setOnClickListener {
 
@@ -225,11 +234,34 @@ class SearchFragment : Fragment() {
     }
 
 
-    private fun bindFields(){
+    private fun bindFields() {
         sharedDataViewmodel.specialication.observe(viewLifecycleOwner, Observer {
             binding.layoutBottomsheetpersistant.etSpecialization.setText(it.name)
         })
+        sharedDataViewmodel.subSpecialication.observe(viewLifecycleOwner) {
+            var name = ""
+            for (i in it.indices) {
 
+                name += "${it[i].name}-"
+            }
+            binding.layoutBottomsheetpersistant.etSubSpecialization.setText(name)
+        }
+
+        sharedDataViewmodel.seniorityLevelData.observe(viewLifecycleOwner) {
+            binding.layoutBottomsheetpersistant.etSeniority.setText(it.name)
+        }
+        sharedDataViewmodel.getCity.observe(viewLifecycleOwner, Observer {
+            binding.layoutBottomsheetpersistant.etChooseCity.setText(it.name)
+        })
+
+        sharedDataViewmodel.getArea.observe(viewLifecycleOwner) {
+            binding.layoutBottomsheetpersistant.etChooseArea.setText(it.name)
+        }
+
+        sharedDataViewmodel.chooseGender.observe(viewLifecycleOwner) {
+            binding.layoutBottomsheetpersistant.etChooseGender.setText(it.gender)
+        }
     }
+
 
 }
