@@ -145,6 +145,16 @@
             tools:listitem="@layout/item_layout_doctors"
             app:layout_constraintTop_toBottomOf="@+id/tv_countofDoctors"
             />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/rv_Doctors"
+            app:layout_constraintStart_toStartOf="@+id/rv_Doctors"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_Doctors"
+            app:layout_constraintTop_toTopOf="@+id/rv_Doctors"
+            android:visibility="gone"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

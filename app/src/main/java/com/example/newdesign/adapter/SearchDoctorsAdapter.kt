@@ -12,10 +12,11 @@ import com.example.newdesign.R
 import com.example.newdesign.databinding.ItemLayoutDoctorsBinding
 
 import com.example.newdesign.databinding.ItemLayoutSearchBinding
+import com.example.newdesign.model.docotorsearch.DoctorSearchResponseItem
 
 
 class SearchDoctorsAdapter() :
-    ListAdapter<String, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
+    ListAdapter<DoctorSearchResponseItem, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -27,7 +28,14 @@ class SearchDoctorsAdapter() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val services = getItem(position)
 
-        holder.binding.tvCountofDoctors.text = services
+        holder.binding.apply {
+            tvDoctorName.text=services.doctorName
+            tvSpecialization.text=services.specialistName
+            subSpecialization.text= services.subSpecialistName.toString()
+            location.text= services.healthEntities?.get(position)?.address ?: ""
+            waitingTime.text=" ${services.waitingTime}"
+            Feesresult.text=services.feesFrom.toString()
+        }
 
     }
 
@@ -38,12 +46,12 @@ class SearchDoctorsAdapter() :
     }
 
 
-    private class DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<DoctorSearchResponseItem>() {
+        override fun areItemsTheSame(oldItem: DoctorSearchResponseItem, newItem: DoctorSearchResponseItem): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: DoctorSearchResponseItem, newItem: DoctorSearchResponseItem): Boolean {
             return true
         }
     }

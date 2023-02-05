@@ -1,7 +1,10 @@
 package com.example.newdesign.api
 
 import com.example.newdesign.model.*
+import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
+import com.example.newdesign.model.docotorsearch.DoctorSearchResponseItem
 import com.example.newdesign.model.register.*
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -61,5 +64,11 @@ interface ApiService {
         @Path("culture") culture: String,
         @Query("cityId") cityId:Int,
     ): Response<GetAreasByCityIdResponse>
+
+    @POST("{culture}/DoctorSearch/DoctorSearch")
+    suspend fun searchDoctors(
+        @Path("culture") culture: String,
+        @Body doctorSearchRequest:DoctorSearchRequest
+    ): Response<List<DoctorSearchResponseItem>>
 
 }

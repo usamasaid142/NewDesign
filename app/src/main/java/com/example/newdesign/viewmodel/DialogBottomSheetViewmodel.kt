@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newdesign.model.*
+import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
+import com.example.newdesign.model.docotorsearch.DoctorSearchResponseItem
 import com.example.newdesign.model.register.*
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
@@ -12,7 +14,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse.from
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.Multipart
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +29,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val seniorityLevelResponse=MutableLiveData<Resource<GetSeniorityLevelResponse>>()
     val allCitiesResponse=MutableLiveData<Resource<GetAllCitiesResponse>>()
     val allAreasByCityIdResponse=MutableLiveData<Resource<GetAreasByCityIdResponse>>()
+    val docorsResponse=MutableLiveData<Resource<List<DoctorSearchResponseItem>>>()
 
 
 
@@ -117,6 +122,22 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
             }
         }
         return Resource.Error(response.message())
+    }
+
+     fun searchDoctors(doctorSearchRequest: DoctorSearchRequest)=viewModelScope.launch(Dispatchers.IO) {
+        docorsResponse.postValue(Resource.Loading())
+        val response=repositry.searchDoctors(doctorSearchRequest)
+        docorsResponse.postValue(handlingSearchDoctors(response))
+    }
+
+    private fun handlingSearchDoctors(response: Response<List<DoctorSearchResponseItem>>): Resource<List<DoctorSearchResponseItem>>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
+
     }
 
 }

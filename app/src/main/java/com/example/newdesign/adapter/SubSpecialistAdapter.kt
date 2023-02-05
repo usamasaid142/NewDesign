@@ -25,14 +25,14 @@ class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):
         val sp=getItem(position)
 
         holder.binding.radioSpecialist.text=sp.name
-          holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+          holder.binding.radioSpecialist.setOnCheckedChangeListener { buttonView, isChecked ->
               if (isChecked) {
                   subSpeciaListData.add(sp)
               } else {
                   subSpeciaListData.remove(sp)
               }
               selectsubSpecialist.onSelectSubcialist(subSpeciaListData)
-          })
+          }
 
 
     }
