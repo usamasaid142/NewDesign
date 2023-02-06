@@ -1,22 +1,20 @@
 package com.example.newdesign.adapter
 
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newdesign.R
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.bumptech.glide.Glide
 import com.example.newdesign.databinding.ItemLayoutDoctorsBinding
-
-import com.example.newdesign.databinding.ItemLayoutSearchBinding
-import com.example.newdesign.model.docotorsearch.DoctorSearchResponseItem
+import com.example.newdesign.model.docotorsearch.Item
 
 
 class SearchDoctorsAdapter() :
-    ListAdapter<DoctorSearchResponseItem, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
+    ListAdapter<Item, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -37,6 +35,17 @@ class SearchDoctorsAdapter() :
             Feesresult.text=services.feesFrom.toString()
         }
 
+//        holder.itemView.apply {
+//            Glide.with(this)
+//                .load("https://salamtechapi.azurewebsites.net/${services.image}")
+//                .into(holder.binding.ivDoctorProfile)
+//        }
+        holder.binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${services.image}") {
+            crossfade(true)
+            crossfade(1000)
+            transformations(CircleCropTransformation())
+        }
+
     }
 
 
@@ -46,12 +55,12 @@ class SearchDoctorsAdapter() :
     }
 
 
-    private class DiffCallback : DiffUtil.ItemCallback<DoctorSearchResponseItem>() {
-        override fun areItemsTheSame(oldItem: DoctorSearchResponseItem, newItem: DoctorSearchResponseItem): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<Item>() {
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: DoctorSearchResponseItem, newItem: DoctorSearchResponseItem): Boolean {
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
             return true
         }
     }

@@ -270,7 +270,6 @@ class SearchFragment : Fragment() {
             }
             binding.layoutBottomsheetpersistant.etSubSpecialization.setText(name)
             if (!binding.layoutBottomsheetpersistant.etSubSpecialization.toString().isEmpty()){
-                val listOfId= arrayOf(it.size)
                 for (i in it.indices){
                     sub_SpecialistId.add(it[i].id)
                 }
@@ -309,13 +308,6 @@ class SearchFragment : Fragment() {
 
     private fun doctorsSearch(){
 
-        partMap=partMap+ mapOf("MaxResultCount" to 10)
-        partMap=partMap+ mapOf("SkipCount" to 0)
-        partMap=partMap+ mapOf("MedicalExaminationTypeId" to 1)
-        partMap=partMap+ mapOf("DoctorName" to "mostafa")
-        partMap=partMap+ mapOf("FeesFrom" to 0)
-        partMap=partMap+ mapOf("FeesTo" to 0)
-
         viewmodel.docorsResponse.observe(viewLifecycleOwner) {
 
             when(it){
@@ -328,10 +320,8 @@ class SearchFragment : Fragment() {
                     hideprogressbar()
                     it.let {
                         bottomsheetbeahavoir.state=BottomSheetBehavior.STATE_HIDDEN
-                        searchDoctorsAdapter.submitList(it.data)
+                        searchDoctorsAdapter.submitList(it.data?.data?.items)
                         searchDoctorsAdapter.notifyDataSetChanged()
-
-
                     }
 
                 }
@@ -347,7 +337,7 @@ class SearchFragment : Fragment() {
 
         }
 
-        val doctorssearchRequset=DoctorSearchRequest(AreaId,CityId,"mostafa", feesFrom = 0
+        val doctorssearchRequset=DoctorSearchRequest(AreaId,CityId,binding.etSearch.text.toString(), feesFrom = 0
         , feesTo = 0,GenderId,10,1,SeniortyLevelId,0,SpecialistId,sub_SpecialistId)
         viewmodel.searchDoctors(doctorssearchRequset)
     }

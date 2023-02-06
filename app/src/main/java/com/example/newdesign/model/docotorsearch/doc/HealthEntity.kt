@@ -1,4 +1,4 @@
-package com.example.newdesign.model.docotorsearch
+package com.example.newdesign.model.docotorsearch.doc
 
 
 import com.google.gson.annotations.SerializedName
@@ -23,7 +23,7 @@ data class HealthEntity(
     @SerializedName("Email")
     val email: String?,
     @SerializedName("FixedFee")
-    val fixedFee: Int?,
+    val fixedFee: Double?,
     @SerializedName("FloorNo")
     val floorNo: Int?,
     @SerializedName("Logo")

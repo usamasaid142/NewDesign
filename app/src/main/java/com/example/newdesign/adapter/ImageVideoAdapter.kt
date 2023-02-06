@@ -45,7 +45,7 @@ class ImageVideoAdapter : ListAdapter<HomeAdsData, ImageVideoAdapter.ViewHolder>
             holder.binding.ivHome.apply {
                 Glide
                     .with(this.context)
-                    .load("https://salamtechapi.azurewebsites.net${model.VideoLink}")
+                    .load("https://salamtechapi.azurewebsites.net/${model.VideoLink}")
                     .into(this)
             }
 
