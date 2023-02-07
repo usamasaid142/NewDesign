@@ -166,10 +166,39 @@
         android:id="@+id/moreFragment"
         android:name="com.example.newdesign.fragment.navbottom.MoreFragment"
         android:label="morefragment"
-        tools:layout="@layout/morefragment" />
+        tools:layout="@layout/morefragment" >
+        <action
+            android:id="@+id/action_moreFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_moreFragment_to_changepasswordFragment"
+            app:destination="@id/changepasswordFragment" />
+        <action
+            android:id="@+id/action_moreFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.newdesign.fragment.home.FilterFragment"
         android:label="filterfragment"
         tools:layout="@layout/filterfragment" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.newdesign.fragment.webView.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" />
+    <fragment
+        android:id="@+id/personalInfoFragment2"
+        android:name="com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment"
+        android:label="personalinfofragment"
+        tools:layout="@layout/personalinfofragment" >
+        <action
+            android:id="@+id/action_personalInfoFragment2_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment3"
+        android:name="com.example.newdesign.fragment.editprofile.EditProfileFragment"
+        android:label="edit_profilefragment"
+        tools:layout="@layout/edit_profilefragment" />
 </navigation>

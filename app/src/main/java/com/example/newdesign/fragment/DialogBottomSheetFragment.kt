@@ -211,6 +211,16 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 binding.btnDone.visibility=View.GONE
                 binding.tvAllSpecial.visibility=View.GONE
             }
+            "lang"->{
+                binding.layoutLanguage.visibility=View.VISIBLE
+                binding.btnDone.visibility=View.GONE
+                binding.tvAllSpecial.visibility=View.GONE
+            }
+            "signout"->{
+                binding.layoutSignOut.visibility=View.VISIBLE
+                binding.btnDone.visibility=View.GONE
+                binding.tvAllSpecial.visibility=View.GONE
+            }
             "Nationality"->{
                 binding.layoutNationality.visibility=View.VISIBLE
                 binding.tvAllSpecial.text=getString(R.string.choose_your_nationality)

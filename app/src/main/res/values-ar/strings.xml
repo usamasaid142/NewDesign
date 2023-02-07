@@ -133,6 +133,20 @@
     <string name="location">Location</string>
     <string name="done">Done</string>
     <string name="occupation">Occupation</string>
+    <string name="about_app">About App</string>
+    <string name="call_us">Call Us</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="language">Language</string>
+    <string name="sign_out">Sign out</string>
+    <string name="old_password">Old Password</string>
+    <string name="change_language">Change Language</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_you_want_to_sign_out">Are you sure you want to sign out?</string>
+    <string name="save_edit">Save Edit</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_info">Profile Info.</string>
+    <string name="medical_state">Medical State</string>
 
 
 </resources>

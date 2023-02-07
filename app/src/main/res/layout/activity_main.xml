@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         app:itemTextColor="@color/bottom_nav_sellector"
         app:itemIconTint="@color/bottom_nav_sellector"
-        android:background="@color/white"
+        android:background="@drawable/bg_bottomsheet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

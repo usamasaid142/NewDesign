@@ -39,4 +39,13 @@
             app:argType="string"
             app:nullable="true" />
     </dialog>
+    <fragment
+        android:id="@+id/editProfileFragment2"
+        android:name="com.example.newdesign.fragment.editprofile.EditProfileFragment"
+        android:label="edit_profilefragment"
+        tools:layout="@layout/edit_profilefragment" >
+        <action
+            android:id="@+id/action_editProfileFragment2_to_dialogBottomSheetFragment2"
+            app:destination="@id/dialogBottomSheetFragment2" />
+    </fragment>
 </navigation>

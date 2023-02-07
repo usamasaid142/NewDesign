@@ -60,10 +60,6 @@ class ChangepasswordFragment : Fragment() {
         binding.ivArrow.setOnClickListener {
             findNavController().navigate(R.id.forgetPasswordFragment)
         }
-        binding.layoutHelp.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment)
-        }
-
         binding.btnSave.setOnClickListener {
             //   findNavController().navigate(R.id.loginFragment)
             val password = binding.textinputPassword.editText?.text.toString()

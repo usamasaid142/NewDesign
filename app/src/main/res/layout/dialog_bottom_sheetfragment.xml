@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment.DialogBottomSheetFragment">
 
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_callus"
         android:layout_width="wrap_content"
@@ -75,6 +74,36 @@
         <include
             android:id="@+id/item_gender"
             layout="@layout/item_layoutgender"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_Language"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/item_Language"
+            layout="@layout/item_layoutlanguage"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_SignOut"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/item_SignOut"
+            layout="@layout/item_layoutldialogsignout"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
