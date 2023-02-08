@@ -40,7 +40,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PersonalInfoFragment : Fragment() {
 
-    private lateinit var binding:PersonalinfofragmentBinding
+     private lateinit var binding:PersonalinfofragmentBinding
     private lateinit var imageFile: File
 
     @Inject
@@ -63,7 +63,7 @@ class PersonalInfoFragment : Fragment() {
     }
 
 
-    private fun initbutton()
+  private fun initbutton()
     {
 
 
@@ -116,15 +116,15 @@ class PersonalInfoFragment : Fragment() {
 
 
         binding.ivArrowdown.setOnClickListener {
-            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragmentToDialogBottomSheetFragment2("gender")
+            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("gender")
             findNavController().navigate(action)
         }
         binding.ivDate.setOnClickListener {
-            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragmentToDialogBottomSheetFragment2("date")
+            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("date")
             findNavController().navigate(action)
         }
         binding.ivNationality.setOnClickListener {
-            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragmentToDialogBottomSheetFragment2("Nationality")
+            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("Nationality")
             findNavController().navigate(action)
         }
 

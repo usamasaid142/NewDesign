@@ -47,7 +47,7 @@ private lateinit var binding:MorefragmentBinding
             findNavController().navigate(R.id.webViewFragment)
         }
         binding.layoutNextAvailableBooking.setOnClickListener {
-            findNavController().navigate(R.id.editProfileFragment3)
+            findNavController().navigate(R.id.editProfileFragment)
         }
 
     }

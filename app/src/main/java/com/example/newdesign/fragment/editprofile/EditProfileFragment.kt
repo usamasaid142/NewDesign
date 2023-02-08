@@ -6,18 +6,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.newdesign.R
 import com.example.newdesign.databinding.EditProfilefragmentBinding
+import com.example.newdesign.fragment.DialogBottomSheetFragment
 import com.example.newdesign.fragment.navstrepercontent.LegalDocFragment
 import com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment
 import com.example.newdesign.fragment.navstrepercontent.SpecialtyFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditProfileFragment : Fragment() {
 
     private lateinit var binding:EditProfilefragmentBinding
+    private lateinit var navController: NavController
     val profilefragment=PersonalInfoFragment()
     val legalDocFragment=LegalDocFragment()
     val specialtyFragment=SpecialtyFragment()
+    val dialog=DialogBottomSheetFragment()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,16 +32,26 @@ class EditProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding= EditProfilefragmentBinding.inflate(layoutInflater,container,false)
         return binding.root
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+        navController = navHostFragment.navController
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment,profilefragment)
-            commit()
-        }
+
+        setupNavigationBottom()
         initButton()
     }
+
+    private fun setupNavigationBottom() {
+//        val navHostFragment =
+//            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+//        navController = navHostFragment.navController
+//
+    }
+
 
     private fun initButton(){
 
@@ -48,7 +65,10 @@ class EditProfileFragment : Fragment() {
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,profilefragment)
+                replace(R.id.fragment,binding.fragment.getFragment<Fragment>().apply {
+                    this.id==R.id.personalInfoFragment2
+                })
+
                 addToBackStack(null)
                 commit()
             }
@@ -62,11 +82,16 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
+            binding.fragment.getFragment<Fragment>().apply {
+                this.id==R.id.personalInfoFragment2==null
+
+            }
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,legalDocFragment)
+                replace(R.id.fragment,specialtyFragment)
                 addToBackStack(null)
                 commit()
             }
+
         }
 
         binding.layoutMedicalState.setOnClickListener {
@@ -76,12 +101,16 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutLocation.setBackgroundResource(R.drawable.bg_help)
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
-
+            binding.fragment.getFragment<Fragment>().apply {
+                this.id==R.id.personalInfoFragment2==null
+            }
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,specialtyFragment)
+                replace(R.id.fragment,legalDocFragment)
                 addToBackStack(null)
                 commit()
             }
+
+
         }
 
     }

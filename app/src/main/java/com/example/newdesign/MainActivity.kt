@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private lateinit var binding:ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     companion object {
         var instance: MainActivity? = null
@@ -24,21 +24,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         instance = this
         setupNavigationBottom()
-        navController.addOnDestinationChangedListener{_,destination,_ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
 
-            when(destination.id){
+            when (destination.id) {
                 R.id.homeFragment,
                 R.id.moreFragment,
-                R.id.myScheduleFragment->{
-                    binding.bottomViewNav.visibility= View.VISIBLE
-                }else ->{
-                binding.bottomViewNav.visibility= View.GONE
+                R.id.myScheduleFragment -> {
+                    binding.bottomViewNav.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.bottomViewNav.visibility = View.GONE
 
-            }
+                }
             }
         }
     }

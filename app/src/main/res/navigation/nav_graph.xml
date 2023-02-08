@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/loginFragment">
 
 
 
@@ -187,17 +187,9 @@
         android:name="com.example.newdesign.fragment.webView.WebViewFragment"
         android:label="fragment_web_view"
         tools:layout="@layout/fragment_web_view" />
+
     <fragment
-        android:id="@+id/personalInfoFragment2"
-        android:name="com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment"
-        android:label="personalinfofragment"
-        tools:layout="@layout/personalinfofragment" >
-        <action
-            android:id="@+id/action_personalInfoFragment2_to_dialogBottomSheetFragment"
-            app:destination="@id/dialogBottomSheetFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/editProfileFragment3"
+        android:id="@+id/editProfileFragment"
         android:name="com.example.newdesign.fragment.editprofile.EditProfileFragment"
         android:label="edit_profilefragment"
         tools:layout="@layout/edit_profilefragment" />

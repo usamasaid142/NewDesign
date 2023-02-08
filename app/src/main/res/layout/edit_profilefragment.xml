@@ -116,7 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:background="@drawable/bg_help"
-            android:padding="8dp"
+            android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/layout_Location"
             app:layout_constraintTop_toTopOf="parent">
@@ -129,6 +129,7 @@
                 android:text="@string/medical_state"
                 android:textColor="@color/color_primary"
                 android:textSize="14sp"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,15 +141,27 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:name="com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment"
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_editprofile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_tab"/>
+        app:layout_constraintTop_toBottomOf="@+id/layout_tab" />
+
+        <!--    <FrameLayout-->
+<!--        android:name="com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment"-->
+<!--        android:id="@+id/fragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/layout_tab"/>-->
 
 
 
