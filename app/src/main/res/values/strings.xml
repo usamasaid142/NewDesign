@@ -149,6 +149,23 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="profile_info">Profile Info.</string>
     <string name="medical_state">Medical State</string>
-
+    <string name="street">Street</string>
+    <string name="building_number">Building Number</string>
+    <string name="floor_number">Floor Number</string>
+    <string name="apartment_number">Apartment Number</string>
+    <string name="hight">Hight</string>
+    <string name="weight">Weight</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="pressure_mm_gg">Pressure ( MM/GG )</string>
+    <string name="sugar_level_mg_dl">Sugar Level ( MG/DL )</string>
+    <string name="medical_allergies">Medical Allergies</string>
+    <string name="food_allergies">Food Allergies</string>
+    <string name="other_allergies">Other Allergies</string>
+    <string name="prescriptions">Prescriptions</string>
+    <string name="current_medication">Current Medication</string>
+    <string name="past_medication">Past Medication</string>
+    <string name="injuries">Injuries</string>
+    <string name="chronic_diseases">Chronic Diseases</string>
+    <string name="surgeries">Surgeries</string>
 
 </resources>

@@ -11,9 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.newdesign.R
 import com.example.newdesign.databinding.EditProfilefragmentBinding
 import com.example.newdesign.fragment.DialogBottomSheetFragment
-import com.example.newdesign.fragment.navstrepercontent.LegalDocFragment
-import com.example.newdesign.fragment.navstrepercontent.PersonalInfoFragment
-import com.example.newdesign.fragment.navstrepercontent.SpecialtyFragment
+import com.example.newdesign.fragment.navstrepercontent.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,9 +20,8 @@ class EditProfileFragment : Fragment() {
     private lateinit var binding:EditProfilefragmentBinding
     private lateinit var navController: NavController
     val profilefragment=PersonalInfoFragment()
-    val legalDocFragment=LegalDocFragment()
-    val specialtyFragment=SpecialtyFragment()
-    val dialog=DialogBottomSheetFragment()
+    val location=LocationFragment()
+    val medicalStateFragment=MedicalStateFragment()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -87,7 +84,7 @@ class EditProfileFragment : Fragment() {
 
             }
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,specialtyFragment)
+                replace(R.id.fragment,location)
                 addToBackStack(null)
                 commit()
             }
@@ -105,7 +102,7 @@ class EditProfileFragment : Fragment() {
                 this.id==R.id.personalInfoFragment2==null
             }
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,legalDocFragment)
+                replace(R.id.fragment,medicalStateFragment)
                 addToBackStack(null)
                 commit()
             }
