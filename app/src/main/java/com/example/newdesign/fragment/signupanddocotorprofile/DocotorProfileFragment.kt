@@ -24,7 +24,6 @@ private lateinit var binding:DocotorProfilefragmentBinding
         binding= DocotorProfilefragmentBinding.inflate(layoutInflater,container,false)
         return binding.root
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

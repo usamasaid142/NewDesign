@@ -1,7 +1,6 @@
 package com.example.newdesign.adapter
 
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,9 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newdesign.databinding.ItemLayoutRvservicesBinding
-import com.example.newdesign.databinding.ItemlayoutOnboardingBinding
 import com.example.newdesign.model.ImageServices
-import com.example.newdesign.model.Onboarding
 
 
 class ServicesAdapter(private val onServicesClick:Action ):ListAdapter<ImageServices,ServicesAdapter.ViewHolder>(DiffCallback()) {
@@ -31,7 +28,7 @@ class ServicesAdapter(private val onServicesClick:Action ):ListAdapter<ImageServ
         holder.binding.tvServiceName.text=services.textService
 
         holder.binding.cardview.setOnClickListener {
-            onServicesClick.onItemClick(services.textService)
+            services.Id?.let { it1 -> onServicesClick.onItemClick(it1) }
         }
 
     }
@@ -54,7 +51,7 @@ class ServicesAdapter(private val onServicesClick:Action ):ListAdapter<ImageServ
     }
 
     interface Action{
-        fun onItemClick(services: String)
+        fun onItemClick(servicesId: Int)
     }
 
 

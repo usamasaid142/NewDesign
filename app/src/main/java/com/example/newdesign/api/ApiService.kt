@@ -42,6 +42,12 @@ interface ApiService {
         @Path("culture") culture: String,
     ): Response<GetSpecialistResponse>
 
+    @GET("{culture}/LookUp/GetMedicalExaminationType")
+    suspend fun getMedicalExamination(
+        @Path("culture") culture: String,
+    ): Response<MedicalExaminationResponse>
+
+
     @GET("{culture}/Specialist/GetSubSpecialist")
     suspend fun getSubSpecialist(
         @Path("culture") culture: String,

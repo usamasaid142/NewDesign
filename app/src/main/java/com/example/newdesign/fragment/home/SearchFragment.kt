@@ -1,16 +1,15 @@
 package com.example.newdesign.fragment.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
@@ -24,10 +23,8 @@ import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -36,15 +33,15 @@ class SearchFragment : Fragment() {
     private lateinit var searchServicesAdapter: SearchServicesAdapter
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
-    var SpecialistId=0
-    var SeniortyLevelId=0
-    var CityId=0
-    var AreaId=0
-    var GenderId=0
+    var specialistId=0
+    var seniortyLevelId=0
+    var cityId=0
+    var areaId=0
+    var genderId=0
+    var formattedDate=""
     var sub_SpecialistId= mutableListOf<Int>()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     val viewmodel:DialogBottomSheetViewmodel by viewModels()
-    private var partMap: Map<String, Any> = mutableMapOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +52,15 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+
+
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
-        bottomsheetbeahavoir?.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
 
         initButton()
         servicesRecylerview()
@@ -68,6 +68,17 @@ class SearchFragment : Fragment() {
         doctorsRecylerview()
         initButtonCollabsedFiller()
         bindFields()
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
+            this.timeZone = TimeZone.getTimeZone("CST")
+        }
+
+        val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
+
+        formattedDate = formatter.format(now.time)
+        val doctorssearchRequset=DoctorSearchRequest(0,formattedDate,0,"", feesFrom = 0
+            , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
+        viewmodel.searchDoctors(doctorssearchRequset)
+        doctorsSearch()
     }
 
     private fun initButton() {
@@ -76,8 +87,8 @@ class SearchFragment : Fragment() {
         }
 
         binding.layoutFilter.setOnClickListener {
-            bottomsheetbeahavoir?.state =
-                if (bottomsheetbeahavoir?.state == BottomSheetBehavior.STATE_EXPANDED)
+            bottomsheetbeahavoir.state =
+                if (bottomsheetbeahavoir.state == BottomSheetBehavior.STATE_EXPANDED)
                     BottomSheetBehavior.STATE_HIDDEN else BottomSheetBehavior.STATE_EXPANDED
         }
 
@@ -130,7 +141,10 @@ class SearchFragment : Fragment() {
         }
 
         binding.layoutBottomsheetpersistant.btnApply.setOnClickListener {
-            doctorsSearch()
+
+            val doctorssearchRequset=DoctorSearchRequest(areaId,formattedDate,cityId,binding.etSearch.text.toString(), feesFrom = 0
+                , feesTo = 0,genderId,10,1,seniortyLevelId,0,specialistId,sub_SpecialistId)
+            viewmodel.searchDoctors(doctorssearchRequset)
         }
 
 
@@ -154,6 +168,7 @@ class SearchFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun searchByServices() {
 
         val list = mutableListOf<String>()
@@ -176,22 +191,6 @@ class SearchFragment : Fragment() {
         )
         searchServicesAdapter.submitList(list)
         searchServicesAdapter.notifyDataSetChanged()
-
-    }
-
-    private fun doctorSearches() {
-
-        val list = mutableListOf<String>()
-
-        list.add(
-            getString(R.string.osama),
-        )
-        list.add(
-            getString(R.string.said)
-        )
-
-        //searchDoctorsAdapter.submitList(list)
-
 
     }
 
@@ -255,13 +254,13 @@ class SearchFragment : Fragment() {
 
 
     private fun bindFields() {
-        sharedDataViewmodel.specialication.observe(viewLifecycleOwner, Observer {
+        sharedDataViewmodel.specialication.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etSpecialization.setText(it.name)
-            if (!binding.layoutBottomsheetpersistant.etSpecialization.toString().isEmpty()){
-               // partMap=partMap + mapOf("SpecialistId" to it.id)
-                SpecialistId=it.id
-            }else SpecialistId=0
-        })
+            if (!binding.layoutBottomsheetpersistant.etSpecialization.toString().isEmpty()) {
+                // partMap=partMap + mapOf("SpecialistId" to it.id)
+                specialistId = it.id
+            } else specialistId = 0
+        }
         sharedDataViewmodel.subSpecialication.observe(viewLifecycleOwner) {
             var name = ""
             for (i in it.indices) {
@@ -280,32 +279,33 @@ class SearchFragment : Fragment() {
         sharedDataViewmodel.seniorityLevelData.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etSeniority.setText(it.name)
             if (!binding.layoutBottomsheetpersistant.etSeniority.toString().isEmpty()){
-                SeniortyLevelId=it.id
-            }else SeniortyLevelId=0
+                seniortyLevelId=it.id
+            }else seniortyLevelId=0
         }
-        sharedDataViewmodel.getCity.observe(viewLifecycleOwner, Observer {
+        sharedDataViewmodel.getCity.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etChooseCity.setText(it.name)
-            if (!binding.layoutBottomsheetpersistant.etChooseCity.toString().isEmpty()){
-                CityId=it.id
-            }else CityId=0
-        })
+            if (!binding.layoutBottomsheetpersistant.etChooseCity.toString().isEmpty()) {
+                cityId = it.id
+            } else cityId = 0
+        }
 
         sharedDataViewmodel.getArea.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etChooseArea.setText(it.name)
             if (!binding.layoutBottomsheetpersistant.etChooseArea.toString().isEmpty()){
-                AreaId=it.id
-            }else AreaId=0
+                areaId=it.id
+            }else areaId=0
         }
 
         sharedDataViewmodel.chooseGender.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etChooseGender.setText(it.gender)
             if (!binding.layoutBottomsheetpersistant.etChooseGender.toString().isEmpty()){
-                GenderId=it.id
-            }else GenderId=0
+               genderId=it.id
+            }else genderId=0
 
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun doctorsSearch(){
 
         viewmodel.docorsResponse.observe(viewLifecycleOwner) {
@@ -337,9 +337,7 @@ class SearchFragment : Fragment() {
 
         }
 
-        val doctorssearchRequset=DoctorSearchRequest(AreaId,CityId,binding.etSearch.text.toString(), feesFrom = 0
-        , feesTo = 0,GenderId,10,1,SeniortyLevelId,0,SpecialistId,sub_SpecialistId)
-        viewmodel.searchDoctors(doctorssearchRequset)
+
     }
 
     private fun showprogtessbar() {

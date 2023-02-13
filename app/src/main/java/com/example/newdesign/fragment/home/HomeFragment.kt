@@ -14,8 +14,10 @@ import com.example.newdesign.adapter.ImageVideoAdapter
 import com.example.newdesign.adapter.MedicalServicesAdapter
 import com.example.newdesign.adapter.ServicesAdapter
 import com.example.newdesign.databinding.HomefragmentBinding
+import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.utils.Resource
+import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,9 +28,14 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     private lateinit var imageServicesAdapter:ServicesAdapter
     private lateinit var imageMedicalServicesAdapter:MedicalServicesAdapter
     private lateinit var imageVideoAdapter:ImageVideoAdapter
+    var medicalExaminatioId:Int?=null
     val viewmodel: RegisterViewmodel by viewModels()
 
 
+    companion object{
+        var instance: HomeFragment?=null
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,11 +47,12 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        instance =this
         imageVideoAdapter= ImageVideoAdapter()
         servicesRecylerview()
         medicalServicesRecylerview()
-        medicalServices()
         imageServices()
+        medicalServices()
         callBack()
         initButton()
     }
@@ -78,39 +86,41 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
         val list= mutableListOf<ImageServices>()
 
-         list.add(
+        list.add(
             ImageServices(
                 R.drawable.ic_clinic_booking,
                 getString(R.string.Clinic_Booking),
+                Id = 1
             )
         )
 
         list.add(
             ImageServices(
-            R.drawable.ic_hom_visit,
+                R.drawable.ic_hom_visit,
                 getString(R.string.Home_Visit)  ,
+                Id = 2
 
-        )
+                )
         )
         list.add(
-                ImageServices(
-                    R.drawable.ic_chat,
-                    getString(R.string.Chat),
-
-                    )
+            ImageServices(
+                R.drawable.ic_chat,
+                getString(R.string.Chat),
+                Id = 3
                 )
+        )
         list.add(
             ImageServices(
                 R.drawable.ic_call,
                 getString(R.string.Call),
-
+                Id = 4
                 )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_videocall,
                 getString(R.string.Video_Call),
-
+                Id = 5
                 )
         )
         imageServicesAdapter.submitList(list)
@@ -125,8 +135,8 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
             ImageServices(
                 R.drawable.ic_hospitals,
                 getString(R.string.hospitals),
-                R.color.color_1
-
+                R.color.color_1,
+                0
             )
         )
 
@@ -134,21 +144,21 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
             ImageServices(
                 R.drawable.ic_polyclinics,
                 getString(R.string.polyclinics)  ,
-                R.color.color_2
+                R.color.color_2,0
                 )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_pharmacies,
                 getString(R.string.pharmacies),
-                R.color.color_3
+                R.color.color_3,0
                 )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_laboratories,
                 getString(R.string.laboratories),
-                R.color.color_4
+                R.color.color_4,0
                 )
         )
         imageMedicalServicesAdapter.submitList(list)
@@ -196,8 +206,10 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         binding.progressBar.visibility = View.GONE
     }
 
-    override fun onItemClick(services: String) {
-      findNavController().navigate(R.id.searchFragment)
+    override fun onItemClick(servicesID: Int) {
+        medicalExaminatioId=servicesID
+        val action =HomeFragmentDirections.actionHomeFragmentToDialogBottomSheetFragment("services")
+      findNavController().navigate(action)
     }
 
 

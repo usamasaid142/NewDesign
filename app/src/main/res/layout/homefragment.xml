@@ -206,6 +206,7 @@
                 android:drawablePadding="5dp"
                 android:autofillHints=""
                 android:focusable="false"
+                android:visibility="gone"
                 android:hint="@string/search_by_doctor_name"
                 android:inputType="text"
                 android:background="@drawable/bg_edittext"

@@ -102,11 +102,14 @@ class LoginFragment : Fragment() {
             binding.etMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             // binding.textinputMobile.boxBackgroundMode= TextInputLayout.BOX_BACKGROUND_OUTLINE
             binding.textinputMobile.setBackgroundResource(R.drawable.bg_edittext_error)
+            binding.tvFullNameError.text = getString(R.string.required)
+            binding.tvFullNameError.visibility = View.VISIBLE
 
             isValid=false
 
         } else {
             binding.textinputMobile.error = null
+            binding.tvFullNameError.visibility = View.GONE
             binding.textinputMobile.setBackgroundResource(R.drawable.bg_edittext)
             binding.etMobile.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             isValid = true
@@ -117,14 +120,20 @@ class LoginFragment : Fragment() {
 //            binding.textinputPassword.error = "no *"
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            binding.tvPasswordError.text = getString(R.string.required)
+            binding.tvPasswordError.visibility = View.VISIBLE
+
             isValid = false
         } else if (password.length < 6) {
 //            binding.textinputPassword.error = "passwored should > 6 "
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            binding.tvPasswordError.text = getString(R.string.lesstthan6number)
+            binding.tvPasswordError.visibility = View.VISIBLE
             isValid = false
         } else {
             binding.textinputPassword.error = null
+            binding.tvPasswordError.visibility = View.GONE
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
 

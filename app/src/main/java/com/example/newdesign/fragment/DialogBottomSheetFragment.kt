@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,42 +30,44 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.SelectSpecialist,
-    SubSpecialistAdapter.SelectSubSpecialist,SeniorityLevelAdapter.SelectSeniorityLevel,GetAllCitiesAdapter.SelectCity,GetAllAreaAdapter.SelectArea{
+class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter.SelectSpecialist,
+    SubSpecialistAdapter.SelectSubSpecialist, SeniorityLevelAdapter.SelectSeniorityLevel,
+    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea {
 
     //private lateinit var list:ArrayList<CountryList>
 
-    private lateinit var binding:DialogBottomSheetfragmentBinding
+    private lateinit var binding: DialogBottomSheetfragmentBinding
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
-    val sharedDataViewmodel:SharedDataViewmodel by activityViewModels()
-    private val args:DialogBottomSheetFragmentArgs by navArgs()
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
+    private val args: DialogBottomSheetFragmentArgs by navArgs()
     private lateinit var counteriesAdapter: CounteriesAdapter
-    private lateinit var specialistAdapter:SpecialistAdapter
+    private lateinit var specialistAdapter: SpecialistAdapter
     private lateinit var subSpecialistAdapter: SubSpecialistAdapter
     private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
     private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
 
-  //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
+    //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
 
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= DialogBottomSheetfragmentBinding.inflate(layoutInflater,container,false)
+        binding = DialogBottomSheetfragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
-        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         args.changeview?.let { changeViews(it) }
-      //  fillCountryList()
+        //  fillCountryList()
         //showDatepicker()
 //        autoCompleteAdapter= AutoCompleteAdapter(requireContext(),list)
 //        binding.itemCountry.tvSelectCountry.setAdapter(autoCompleteAdapter)
@@ -101,7 +104,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
             adapter = counteriesAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
             counteriesAdapter.notifyDataSetChanged()
 
         }
@@ -112,7 +115,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         binding.itemSpecialist.rvSpecialist.apply {
             adapter = specialistAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
     }
 
@@ -121,36 +124,39 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         binding.itemSubSpecialist.rvSubspecialist.apply {
             adapter = subSpecialistAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
     }
+
     fun setupresyclerviewSeniorityLevel() {
         seniorityLevelAdapter = SeniorityLevelAdapter(this)
         binding.itemSeniorityLevel.rvSeniorityLevel.apply {
             adapter = seniorityLevelAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
     }
-    fun setupresyclerviewGetAllCities(){
+
+    fun setupresyclerviewGetAllCities() {
         getAllCitiesAdapter = GetAllCitiesAdapter(this)
         binding.itemAllcities.rvAllCities.apply {
             adapter = getAllCitiesAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
     }
-    fun setupresyclerviewGetAllArea(){
+
+    fun setupresyclerviewGetAllArea() {
         getAllAreaAdapter = GetAllAreaAdapter(this)
         binding.itemAllArea.rvAllArea.apply {
             adapter = getAllAreaAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL){})
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
     }
 
 
-    private fun initButton(){
+    private fun initButton() {
         binding.btnCalling.setOnClickListener {
             dismiss()
         }
@@ -175,88 +181,99 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
 //    }
 
 
-    private fun showDatepicker(){
-        val datePicker=MaterialDatePicker.Builder.datePicker()
+    private fun showDatepicker() {
+        val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select Date")
             .build()
 
-        datePicker.show(requireActivity().supportFragmentManager.beginTransaction(),"date range" )
+        datePicker.show(requireActivity().supportFragmentManager.beginTransaction(), "date range")
 
-        datePicker.addOnPositiveButtonClickListener { date->
-            val startDate=date
-            val second=date
-            Toast.makeText(requireContext(),"${convertLongToDate(startDate)} // ${second.toTimeDateString()}",Toast.LENGTH_LONG).show()
+        datePicker.addOnPositiveButtonClickListener { date ->
+            val startDate = date
+            val second = date
+            Toast.makeText(
+                requireContext(),
+                "${convertLongToDate(startDate)} // ${second.toTimeDateString()}",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
     }
 
 
-    private fun changeViews(selectviews:String){
+    private fun changeViews(selectviews: String) {
 
-        when(selectviews){
-            "date"->{
-                binding.layoutDateOfbirth.visibility=View.VISIBLE
-                binding.btnDone.visibility=View.GONE
-                binding.tvAllSpecial.visibility=View.GONE
+        when (selectviews) {
+            "date" -> {
+                binding.layoutDateOfbirth.visibility = View.VISIBLE
+                binding.btnDone.visibility = View.GONE
+                binding.tvAllSpecial.visibility = View.GONE
             }
-            "help"->{
-                binding.tvCallus.visibility=View.VISIBLE
-                binding.ivCall.visibility=View.VISIBLE
-                binding.btnCalling.visibility=View.VISIBLE
-                binding.btnDone.visibility=View.GONE
-                binding.tvAllSpecial.visibility=View.GONE
+            "help" -> {
+                binding.tvCallus.visibility = View.VISIBLE
+                binding.ivCall.visibility = View.VISIBLE
+                binding.btnCalling.visibility = View.VISIBLE
+                binding.btnDone.visibility = View.GONE
+                binding.tvAllSpecial.visibility = View.GONE
             }
-            "gender"->{
-                binding.layoutGender.visibility=View.VISIBLE
-                binding.btnDone.visibility=View.GONE
-                binding.tvAllSpecial.visibility=View.GONE
+            "gender" -> {
+                binding.layoutGender.visibility = View.VISIBLE
+                binding.btnDone.visibility = View.GONE
+                binding.tvAllSpecial.visibility = View.GONE
             }
-            "lang"->{
-                binding.layoutLanguage.visibility=View.VISIBLE
-                binding.btnDone.visibility=View.GONE
-                binding.tvAllSpecial.visibility=View.GONE
+            "lang" -> {
+                binding.layoutLanguage.visibility = View.VISIBLE
+                binding.btnDone.visibility = View.GONE
+                binding.tvAllSpecial.visibility = View.GONE
             }
-            "signout"->{
-                binding.layoutSignOut.visibility=View.VISIBLE
-                binding.btnDone.visibility=View.GONE
-                binding.tvAllSpecial.visibility=View.GONE
+            "signout" -> {
+                binding.layoutSignOut.visibility = View.VISIBLE
+                binding.btnDone.visibility = View.GONE
+                binding.tvAllSpecial.visibility = View.GONE
             }
-            "Nationality"->{
-                binding.layoutNationality.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.choose_your_nationality)
+            "Nationality" -> {
+                binding.layoutNationality.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_your_nationality)
                 callBack()
             }
-            "Specialist"->{
-                binding.layoutSpecialist.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.choose_specialization)
+            "Specialist" -> {
+                binding.layoutSpecialist.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_specialization)
                 callBackSpecialist()
 
             }
-            "SubSpecialist"->{
-                binding.layoutSubSpecialist.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.choose_sub_specialization)
+            "services" -> {
+                binding.layoutSpecialist.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_specialization)
+                binding.btnDone.visibility = View.GONE
+                callBackSpecialist()
+
+            }
+            "SubSpecialist" -> {
+                binding.layoutSubSpecialist.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_sub_specialization)
                 callBackSubSpecialist()
             }
-            "SeniorityLevel"->{
-                binding.layoutSeniorityLevel.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.choose_seniority_level)
+            "SeniorityLevel" -> {
+                binding.layoutSeniorityLevel.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_seniority_level)
                 callBackSeniorityLevel()
             }
-            "AllCity"->{
-                binding.layoutAllCities.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.choose_city)
+            "AllCity" -> {
+                binding.layoutAllCities.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_city)
                 callBackGetAllCities()
             }
-            "AllArea"->{
-                binding.layoutAllArea.visibility=View.VISIBLE
-                binding.tvAllSpecial.text=getString(R.string.choose_area)
+            "AllArea" -> {
+                binding.layoutAllArea.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.choose_area)
                 callBackGetAllArea()
             }
         }
 
     }
 
-    private fun callBack(){
+    private fun callBack() {
         viewmodel.nationalityResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -276,7 +293,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 is Resource.Error -> {
                     hideprogressbar()
                     response.data?.let {
-                 Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -285,7 +303,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         viewmodel.getCountries()
     }
 
-    private fun callBackSpecialist(){
+    private fun callBackSpecialist() {
         viewmodel.specialistResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -305,7 +323,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 is Resource.Error -> {
                     hideprogressbar()
                     response.data?.let {
-                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -313,7 +332,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
         viewmodel.getSpecialist()
     }
-    private fun callBackSubSpecialist(){
+
+    private fun callBackSubSpecialist() {
         viewmodel.subSpecialistResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -333,7 +353,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 is Resource.Error -> {
                     hideprogressbar()
                     response.data?.let {
-                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -344,7 +365,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
 
     }
-    private fun callBackSeniorityLevel(){
+
+    private fun callBackSeniorityLevel() {
         viewmodel.seniorityLevelResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -362,7 +384,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 is Resource.Error -> {
                     hideprogressbar()
                     response.data?.let {
-                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -370,7 +393,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
         viewmodel.getSeniorityLevel()
     }
-    private fun callBackGetAllCities(){
+
+    private fun callBackGetAllCities() {
         viewmodel.allCitiesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -388,7 +412,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 is Resource.Error -> {
                     hideprogressbar()
                     response.data?.let {
-                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -396,7 +421,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
         }
         viewmodel.getAllCities()
     }
-    private fun callBackGetAllArea(){
+
+    private fun callBackGetAllArea() {
         viewmodel.allAreasByCityIdResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
 
@@ -414,7 +440,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
                 is Resource.Error -> {
                     hideprogressbar()
                     response.data?.let {
-                        Toast.makeText(requireContext(),it.data.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -446,7 +473,13 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
     }
 
     override fun onItemSelected(specialist: SpecialistData) {
-       sharedDataViewmodel.getspecialication(specialist)
+        if (args.changeview == "services") {
+            sharedDataViewmodel.getspecialication(specialist)
+            findNavController().navigate(R.id.searchFragment)
+        } else {
+            sharedDataViewmodel.getspecialication(specialist)
+        }
+
     }
 
     override fun onSelectSubcialist(listofsubSpecialist: MutableList<SubSpecialistData>) {
@@ -454,7 +487,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
     }
 
     override fun onItemSelectSeniorityLevel(SeniorityLevel: SeniorityLevelData) {
-       sharedDataViewmodel.getSeniorityLevelData(SeniorityLevel)
+        sharedDataViewmodel.getSeniorityLevelData(SeniorityLevel)
     }
 
     override fun onItemSelected(city: CityData) {
@@ -474,16 +507,16 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(),SpecialistAdapter.
 //        }
 //    }
 
-    private fun chooseGender(){
+    private fun chooseGender() {
 
         binding.itemGender.radio.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radio_male -> {
-                    val chooseGender=ChooseGender("Male",1)
-                  sharedDataViewmodel.getGender(chooseGender)
+                    val chooseGender = ChooseGender("Male", 1)
+                    sharedDataViewmodel.getGender(chooseGender)
                 }
                 R.id.radio_female -> {
-                    val chooseGender=ChooseGender("Female",2)
+                    val chooseGender = ChooseGender("Female", 2)
                     sharedDataViewmodel.getGender(chooseGender)
                 }
             }

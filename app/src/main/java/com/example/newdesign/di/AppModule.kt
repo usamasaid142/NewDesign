@@ -44,6 +44,7 @@ object AppModule {
                 400 -> {
                     //Show Bad Request Error Message
                     Log.e("tag","bad request")
+
                 }
                 401 -> {
                     //Show UnauthorizedError Message

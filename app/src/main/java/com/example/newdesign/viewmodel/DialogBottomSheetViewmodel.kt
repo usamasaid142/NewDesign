@@ -26,6 +26,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val allCitiesResponse=MutableLiveData<Resource<GetAllCitiesResponse>>()
     val allAreasByCityIdResponse=MutableLiveData<Resource<GetAreasByCityIdResponse>>()
     val docorsResponse=MutableLiveData<Resource<DoctorsearchItemResponse>>()
+    val medicalExamination=MutableLiveData<Resource<MedicalExaminationResponse>>()
 
 
 
@@ -135,5 +136,21 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
 
     }
+
+    fun getMedicalExaminationType()=viewModelScope.launch(Dispatchers.IO) {
+        medicalExamination.postValue(Resource.Loading())
+        val response=repositry.getMedicalExamination()
+        medicalExamination.postValue(handleGetMedicalExamination(response))
+    }
+
+    private fun handleGetMedicalExamination(response: Response<MedicalExaminationResponse>): Resource<MedicalExaminationResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
 
 }

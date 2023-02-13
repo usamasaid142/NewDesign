@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class DoctorSearchRequest(
     @SerializedName("AreaId")
     val areaId: Int=0,
-//    @SerializedName("AvalibleDate")
-//    val avalibleDate: String?,
+    @SerializedName("AvalibleDate")
+    val avalibleDate: Any?=null,
     @SerializedName("CityId")
     val cityId: Int=0,
     @SerializedName("DoctorName")
@@ -29,5 +29,5 @@ data class DoctorSearchRequest(
     @SerializedName("SpecialistId")
     val specialistId: Int=0,
     @SerializedName("SubSpecialistId")
-    val subSpecialistId: List<Int?>?
+    val subSpecialistId: List<Int?>?=null
 )

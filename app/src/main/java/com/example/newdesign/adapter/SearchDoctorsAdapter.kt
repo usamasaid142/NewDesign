@@ -30,7 +30,7 @@ class SearchDoctorsAdapter() :
             tvDoctorName.text=services.doctorName
             tvSpecialization.text=services.specialistName
             subSpecialization.text= services.subSpecialistName.toString()
-            location.text= services.healthEntities?.get(position)?.address ?: ""
+            location.text= services.clinicDto?.Address
             waitingTime.text=" ${services.waitingTime}"
             Feesresult.text=services.feesFrom.toString()
         }

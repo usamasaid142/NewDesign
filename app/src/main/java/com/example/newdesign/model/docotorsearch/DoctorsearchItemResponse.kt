@@ -80,5 +80,16 @@ data class Item(
     @SerializedName("SumRate")
     val sumRate: Int?,
     @SerializedName("WaitingTime")
-    val waitingTime: Int?
+    val waitingTime: Int?,
+    @SerializedName("clinicDto")
+    val clinicDto: ClinicDto?,
+)
+
+data class ClinicDto(
+    @SerializedName("Address")
+    val Address: String?,
+    @SerializedName("ClinicLatitude")
+    val ClinicLatitude: String?,
+    @SerializedName("ClinicLongitude")
+    val ClinicLongitude: String?,
 )
