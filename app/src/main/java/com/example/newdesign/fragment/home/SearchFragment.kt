@@ -147,8 +147,6 @@ class SearchFragment : Fragment() {
             viewmodel.searchDoctors(doctorssearchRequset)
         }
 
-
-
     }
 
     private fun servicesRecylerview() {

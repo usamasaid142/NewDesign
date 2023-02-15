@@ -85,11 +85,11 @@
     <string name="complete_your_profile">Complete your profile</string>
     <string name="you_must_complete_your_profile_to_can_book_your_doctor">You must complete your profile to can book your doctor</string>
     <string name="salamtak_services">Salamtak Services</string>
-    <string name="Clinic_Booking">Clinic Booking</string>
-    <string name="Home_Visit">Home Visit</string>
-    <string name="Chat">Chat</string>
-    <string name="Call">Call</string>
-    <string name="Video_Call">Video Call</string>
+    <string name="Clinic_Booking">عيادة</string>
+    <string name="Home_Visit">كشف منزلى</string>
+    <string name="Chat">دردشه</string>
+    <string name="Call">التليفون</string>
+    <string name="Video_Call">فيديو</string>
     <string name="medical_services_directory">Medical Services Directory</string>
     <string name="see_all">See All</string>
     <string name="hospitals">Hospitals</string>

@@ -36,7 +36,6 @@ interface ApiService {
         @Query("DoctorApp") DoctorApp: Boolean
     ): Response<HomeAdsResponse>
 
-
     @GET("{culture}/Specialist/GetSpecialist")
     suspend fun getSpecialist(
         @Path("culture") culture: String,
@@ -46,7 +45,6 @@ interface ApiService {
     suspend fun getMedicalExamination(
         @Path("culture") culture: String,
     ): Response<MedicalExaminationResponse>
-
 
     @GET("{culture}/Specialist/GetSubSpecialist")
     suspend fun getSubSpecialist(
