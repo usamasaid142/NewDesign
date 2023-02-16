@@ -165,5 +165,6 @@
     <string name="injuries">Injuries</string>
     <string name="chronic_diseases">Chronic Diseases</string>
     <string name="surgeries">Surgeries</string>
+    <string name="date">Date</string>
 
 </resources>

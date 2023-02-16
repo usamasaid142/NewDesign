@@ -1,35 +1,25 @@
 package com.example.newdesign.fragment.splash
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.example.newdesign.MainActivity
 import com.example.newdesign.R
-import com.example.newdesign.SamlamtakApp
 import com.example.newdesign.databinding.ChooseLanguagefragmentBinding
-import com.example.newdesign.utils.Constans.Language_Ar
 import com.example.newdesign.utils.Constans.Language_ENG
-import com.example.newdesign.utils.SpUtil
-import com.zeugmasolutions.localehelper.LocaleAwareApplication
-import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity
-import com.zeugmasolutions.localehelper.LocaleHelper
-import com.zeugmasolutions.localehelper.Locales
+
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ChooseLanguageFragment : Fragment() {
 
     private lateinit var binding: ChooseLanguagefragmentBinding
-    val local=LocaleAwareCompatActivity()
     var lang: String?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

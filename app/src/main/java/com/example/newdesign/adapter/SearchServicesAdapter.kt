@@ -11,51 +11,59 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newdesign.R
 
 import com.example.newdesign.databinding.ItemLayoutSearchBinding
+import com.example.newdesign.databinding.ItemLayoutcalendardateBinding
+import com.example.newdesign.model.CalendarDateModel
+import okhttp3.internal.http.toHttpDateString
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SearchServicesAdapter() :
-    ListAdapter<String, SearchServicesAdapter.ViewHolder>(DiffCallback()) {
-
-    private var selectedItemPosition: Int = -1
+    ListAdapter<CalendarDateModel, SearchServicesAdapter.ViewHolder>(DiffCallback()) {
+    private val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
+    private var selectedItemPosition: Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view =
-            ItemLayoutSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemLayoutcalendardateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val services = getItem(position)
 
-        holder.binding.btnAll.text = services
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val calender = getItem(position)
+        var date = calender.data
+        holder.binding.tvCalendarDay.text = sdf.format(date).subSequence(0,3)
+        holder.binding.tvCalendarDate.text = date.date.toString()
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
             notifyDataSetChanged()
         }
         if (selectedItemPosition == position) {
-            holder.binding.btnAll.background =
-                ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_buttonsearch)
-            holder.binding.btnAll.setTextColor(Color.WHITE)
+            holder.binding.cardCalendar.background =
+                ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_completeprofile)
+          //  holder.binding.btnAll.setTextColor(Color.WHITE)
         } else {
-            holder.binding.btnAll.background = ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_completeprofile)
-            holder.binding.btnAll.setTextColor(Color.parseColor("#262D70"))
+            holder.binding.cardCalendar.background = ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_buttonsearch)
+           // holder.binding.btnAll.setTextColor(Color.parseColor("#262D70"))
         }
 
     }
 
 
-    class ViewHolder(itemBinding: ItemLayoutSearchBinding) :
+    class ViewHolder(itemBinding: ItemLayoutcalendardateBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        internal val binding: ItemLayoutSearchBinding = itemBinding
+        internal val binding: ItemLayoutcalendardateBinding = itemBinding
     }
 
 
-    private class DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<CalendarDateModel>() {
+        override fun areItemsTheSame(oldItem: CalendarDateModel, newItem: CalendarDateModel): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: CalendarDateModel, newItem: CalendarDateModel): Boolean {
             return true
         }
     }

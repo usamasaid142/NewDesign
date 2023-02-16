@@ -16,6 +16,7 @@ import com.example.newdesign.R
 import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
+import com.example.newdesign.model.CalendarDateModel
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
@@ -33,6 +34,11 @@ class SearchFragment : Fragment() {
     private lateinit var searchServicesAdapter: SearchServicesAdapter
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
+
+    private val sdf = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
+    private val cal = Calendar.getInstance(Locale.ENGLISH)
+    private val dates = ArrayList<Date>()
+    val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
     var specialistId=0
     var seniortyLevelId=0
     var cityId=0
@@ -62,26 +68,36 @@ class SearchFragment : Fragment() {
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
 
-        initButton()
+
         servicesRecylerview()
-        searchByServices()
+      //  searchByServices()
         doctorsRecylerview()
         initButtonCollabsedFiller()
         bindFields()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
-
-        val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
-
         formattedDate = formatter.format(now.time)
         val doctorssearchRequset=DoctorSearchRequest(0,formattedDate,0,"", feesFrom = 0
             , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
         viewmodel.searchDoctors(doctorssearchRequset)
         doctorsSearch()
+        setUpCalendar()
+        initButton()
     }
 
     private fun initButton() {
+
+        binding.ivNext.setOnClickListener {
+            cal.add(Calendar.MONTH, 1)
+            setUpCalendar()
+        }
+        binding.ivPrevious.setOnClickListener {
+
+            cal.add(Calendar.MONTH, -1)
+            setUpCalendar()
+        }
+
         binding.ivArrow.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
         }
@@ -166,31 +182,31 @@ class SearchFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun searchByServices() {
-
-        val list = mutableListOf<String>()
-
-        list.add(
-            getString(R.string.Clinic_Booking),
-        )
-        list.add(
-            getString(R.string.Home_Visit)
-        )
-        list.add(
-            getString(R.string.Chat),
-
-            )
-        list.add(
-            getString(R.string.Call),
-        )
-        list.add(
-            getString(R.string.Video_Call)
-        )
-        searchServicesAdapter.submitList(list)
-        searchServicesAdapter.notifyDataSetChanged()
-
-    }
+//    @SuppressLint("NotifyDataSetChanged")
+//    private fun searchByServices() {
+//
+//        val list = mutableListOf<String>()
+//
+//        list.add(
+//            getString(R.string.Clinic_Booking),
+//        )
+//        list.add(
+//            getString(R.string.Home_Visit)
+//        )
+//        list.add(
+//            getString(R.string.Chat),
+//
+//            )
+//        list.add(
+//            getString(R.string.Call),
+//        )
+//        list.add(
+//            getString(R.string.Video_Call)
+//        )
+//        searchServicesAdapter.submitList(list)
+//        searchServicesAdapter.notifyDataSetChanged()
+//
+//    }
 
     private fun initButtonCollabsedFiller() {
 
@@ -347,6 +363,26 @@ class SearchFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
         binding.layoutBottomsheetpersistant.progressBar.visibility=View.GONE
 
+    }
+
+    private fun setUpCalendar() {
+        val calendarList = ArrayList<CalendarDateModel>()
+        binding.tvDate.text = sdf.format(cal.time)
+        val monthCalendar = cal.clone() as Calendar
+        val maxDaysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+        dates.clear()
+        monthCalendar.set(Calendar.DAY_OF_MONTH, 1)
+        while (dates.size < maxDaysInMonth) {
+            if(monthCalendar.time.time>=now.time.time){
+
+                calendarList.add(CalendarDateModel(monthCalendar.time))
+            }
+            dates.add(monthCalendar.time)
+            monthCalendar.add(Calendar.DAY_OF_MONTH,  1)
+        }
+
+
+        searchServicesAdapter.submitList(calendarList)
     }
 
 
