@@ -1,12 +1,14 @@
 package com.example.newdesign.fragment.home
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,7 +20,6 @@ import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
 import com.example.newdesign.model.CalendarDateModel
-import com.example.newdesign.model.booking.BookingRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
@@ -27,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+
 import java.util.*
 
 @AndroidEntryPoint
@@ -59,7 +61,6 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
         binding = SearchfragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
-
 
 
     @SuppressLint("SimpleDateFormat")
@@ -363,18 +364,23 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
                 }
                 is Resource.sucess->{
                     hideprogressbar()
+
+
                     it.let {
-                        it?.data?.data?.forEach {
-                            val format = SimpleDateFormat(
-                                "hh : mm a",
-                                Locale.getDefault()
-                            ).format(Calendar.getInstance().time).lowercase(
-                                Locale.getDefault()
-                            )
-                            val time = format.format(it?.timeFrom)
-                            Log.e("time ", time)
+                        var timeFrom=""
+                        var timeTo=""
+                        val time=it?.data?.data
+                        if (time != null) {
+                            for (i in time.indices){
+
+                                timeFrom= time[i]?.timeFrom!!
+
+                            }
                         }
-                       findNavController().navigate(R.id.dialogBottomSheetFragment)
+
+                        Log.e("timeFrom ", timeFrom.toString())
+                        Log.e("timeto ", timeTo.toString())
+
                     }
 
                 }
@@ -432,6 +438,7 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
     override fun onItemClick(clinicId: Int) {
         viewmodel.getClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate)
     }
+
 
 
 }

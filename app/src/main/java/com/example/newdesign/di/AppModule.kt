@@ -35,6 +35,7 @@ object AppModule {
     @Singleton
     fun getInterceptor(): Interceptor {
 
+        val token= LoginFragment.instance?.sp?.getUser()?.token
         return Interceptor {
             val request = it.request().newBuilder()
             val requests: Request = it.request()
@@ -43,7 +44,6 @@ object AppModule {
                 400 -> {
                     //Show Bad Request Error Message
                     Log.e("tag","bad request")
-
                 }
                 401 -> {
                     //Show UnauthorizedError Message
@@ -60,7 +60,7 @@ object AppModule {
             }
 
 
-             request.addHeader("Authorization", "Bearer"+LoginFragment.instance?.sp?.getUser()?.token)
+            request.addHeader("Authorization", "Bearer "+token)
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }
@@ -75,19 +75,14 @@ object AppModule {
         val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
             HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         val logging = HttpLoggingInterceptor().setLevel(levelType)
-//        val httpBuilder = OkHttpClient.Builder()
-//            .addInterceptor(interceptor)
-//            .connectTimeout(30, TimeUnit.SECONDS)
-//            .readTimeout(30, TimeUnit.SECONDS)
-//            .writeTimeout(50, TimeUnit.SECONDS)
+        val httpBuilder = OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(50, TimeUnit.SECONDS)
 
-//        return httpBuilder
-//            .protocols(mutableListOf(Protocol.HTTP_1_1))
-//            .addInterceptor(logging)
-//            .build()
-
-
-        return OkHttpClient.Builder()
+        return httpBuilder
+            .protocols(mutableListOf(Protocol.HTTP_1_1))
             .addInterceptor(logging)
             .build()
     }
