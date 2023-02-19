@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newdesign.model.*
+import com.example.newdesign.model.booking.BookingRequest
+import com.example.newdesign.model.booking.BookingResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
@@ -27,6 +29,8 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val allAreasByCityIdResponse=MutableLiveData<Resource<GetAreasByCityIdResponse>>()
     val docorsResponse=MutableLiveData<Resource<DoctorsearchItemResponse>>()
     val medicalExamination=MutableLiveData<Resource<MedicalExaminationResponse>>()
+    val bookingResponse=MutableLiveData<Resource<BookingResponse>>()
+
 
 
 
@@ -144,6 +148,24 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
     private fun handleGetMedicalExamination(response: Response<MedicalExaminationResponse>): Resource<MedicalExaminationResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+
+    fun getClinicSchedualByClinicDayId(ClinicId: Int,DayId:Int,
+                                       MedicalExaminationTypeId:Int,
+                                       BookDate:String)=viewModelScope.launch(Dispatchers.IO) {
+        bookingResponse.postValue(Resource.Loading())
+        val response=repositry.getClinicSchedualByClinicDayId(ClinicId,DayId,MedicalExaminationTypeId,BookDate)
+        bookingResponse.postValue(handleGetClinicSchedualByClinicDayId(response))
+    }
+
+    private fun handleGetClinicSchedualByClinicDayId(response: Response<BookingResponse>): Resource<BookingResponse>? {
         if (response.isSuccessful){
             response.body()?.let {
                 return Resource.sucess(it)

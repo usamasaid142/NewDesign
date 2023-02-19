@@ -13,7 +13,7 @@ import com.example.newdesign.databinding.ItemLayoutDoctorsBinding
 import com.example.newdesign.model.docotorsearch.Item
 
 
-class SearchDoctorsAdapter() :
+class SearchDoctorsAdapter(private val booking:Booking) :
     ListAdapter<Item, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +33,9 @@ class SearchDoctorsAdapter() :
             location.text= services.clinicDto?.Address
             waitingTime.text=" ${services.waitingTime}"
             Feesresult.text=services.feesFrom.toString()
+        }
+        holder.binding.btnBooking.setOnClickListener {
+            services.clinicDto?.ClinicId?.let { it1 -> booking.onItemClick(it1) }
         }
 
 //        holder.itemView.apply {
@@ -63,5 +66,11 @@ class SearchDoctorsAdapter() :
         override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
             return true
         }
+    }
+
+    interface Booking{
+
+        fun onItemClick(clinicId:Int)
+
     }
 }

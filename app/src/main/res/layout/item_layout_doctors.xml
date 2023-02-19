@@ -386,7 +386,7 @@
                     app:layout_constraintWidth_percent=".95"
                     android:layout_marginTop="10dp">
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_signUp"
+                        android:id="@+id/btn_booking"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_chooselang_button"

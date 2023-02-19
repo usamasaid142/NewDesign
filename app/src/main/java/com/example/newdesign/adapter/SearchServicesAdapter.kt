@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchServicesAdapter() :
+class SearchServicesAdapter(private val selectDate:Action) :
     ListAdapter<CalendarDateModel, SearchServicesAdapter.ViewHolder>(DiffCallback()) {
     private val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
     private var selectedItemPosition: Int = 0
@@ -38,6 +38,7 @@ class SearchServicesAdapter() :
         holder.binding.tvCalendarDate.text = date.date.toString()
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
+            selectDate.onItemClick(calender.data)
             notifyDataSetChanged()
         }
         if (selectedItemPosition == position) {
@@ -48,6 +49,8 @@ class SearchServicesAdapter() :
             holder.binding.cardCalendar.background = ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_buttonsearch)
            // holder.binding.btnAll.setTextColor(Color.parseColor("#262D70"))
         }
+
+
 
     }
 
@@ -67,4 +70,10 @@ class SearchServicesAdapter() :
             return true
         }
     }
+
+
+    interface Action{
+        fun onItemClick(date: Date)
+    }
+
 }

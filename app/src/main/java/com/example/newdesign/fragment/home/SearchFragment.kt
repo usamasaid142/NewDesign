@@ -2,6 +2,7 @@ package com.example.newdesign.fragment.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
 import com.example.newdesign.model.CalendarDateModel
+import com.example.newdesign.model.booking.BookingRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
@@ -28,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAdapter.Booking{
 
     private lateinit var binding: SearchfragmentBinding
     private lateinit var searchServicesAdapter: SearchServicesAdapter
@@ -77,11 +79,12 @@ class SearchFragment : Fragment() {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
-        formattedDate = formatter.format(now.time)
-        val doctorssearchRequset=DoctorSearchRequest(0,formattedDate,0,"", feesFrom = 0
+
+        val doctorssearchRequset=DoctorSearchRequest(0,formatter.format(now.time),0,"", feesFrom = 0
             , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
         viewmodel.searchDoctors(doctorssearchRequset)
         doctorsSearch()
+        callBackGetClinicSchedualByClinicDayId()
         setUpCalendar()
         initButton()
     }
@@ -166,7 +169,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun servicesRecylerview() {
-        searchServicesAdapter = SearchServicesAdapter()
+        searchServicesAdapter = SearchServicesAdapter(this)
         binding.rvSearchServices.apply {
             adapter = searchServicesAdapter
             setHasFixedSize(true)
@@ -174,7 +177,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun doctorsRecylerview() {
-        searchDoctorsAdapter = SearchDoctorsAdapter()
+        searchDoctorsAdapter = SearchDoctorsAdapter(this)
         binding.rvDoctors.apply {
             adapter = searchDoctorsAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -271,7 +274,6 @@ class SearchFragment : Fragment() {
         sharedDataViewmodel.specialication.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etSpecialization.setText(it.name)
             if (!binding.layoutBottomsheetpersistant.etSpecialization.toString().isEmpty()) {
-                // partMap=partMap + mapOf("SpecialistId" to it.id)
                 specialistId = it.id
             } else specialistId = 0
         }
@@ -351,7 +353,41 @@ class SearchFragment : Fragment() {
 
         }
 
+    }
 
+    private fun callBackGetClinicSchedualByClinicDayId(){
+        viewmodel.bookingResponse.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when(it){
+                is Resource.Loading->{
+                    showprogtessbar()
+                }
+                is Resource.sucess->{
+                    hideprogressbar()
+                    it.let {
+                        it?.data?.data?.forEach {
+                            val format = SimpleDateFormat(
+                                "hh : mm a",
+                                Locale.getDefault()
+                            ).format(Calendar.getInstance().time).lowercase(
+                                Locale.getDefault()
+                            )
+                            val time = format.format(it?.timeFrom)
+                            Log.e("time ", time)
+                        }
+                       findNavController().navigate(R.id.dialogBottomSheetFragment)
+                    }
+
+                }
+                is Resource.Error->{
+                    hideprogressbar()
+//                   loginresponse.data?.let {
+//                       Log.e("msg : ",it.message)
+//
+//                   }
+                }
+
+            }
+        })
     }
 
     private fun showprogtessbar() {
@@ -383,6 +419,18 @@ class SearchFragment : Fragment() {
 
 
         searchServicesAdapter.submitList(calendarList)
+    }
+
+    override fun onItemClick(date: Date) {
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        formattedDate =formatter.format(date)
+        val doctorssearchRequset=DoctorSearchRequest(areaId,formattedDate,cityId, binding.etSearch.text.toString(), feesFrom = 0
+            , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
+        viewmodel.searchDoctors(doctorssearchRequset)
+    }
+
+    override fun onItemClick(clinicId: Int) {
+        viewmodel.getClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate)
     }
 
 

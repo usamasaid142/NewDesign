@@ -1,6 +1,8 @@
 package com.example.newdesign.api
 
 import com.example.newdesign.model.*
+import com.example.newdesign.model.booking.BookingRequest
+import com.example.newdesign.model.booking.BookingResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
@@ -73,5 +75,17 @@ interface ApiService {
         @Path("culture") culture: String,
         @Body doctorSearchRequest:DoctorSearchRequest
     ): Response<DoctorsearchItemResponse>
+
+    @GET("{culture}/DoctorClinic/GetClinicSchedualByClinicDayId")
+    suspend fun getClinicSchedualByClinicDayId(
+        @Path("culture") culture: String,
+        @Query("ClinicId") ClinicId :Int,
+        @Query("DayId") DayId  :Int,
+        @Query("MedicalExaminationTypeId") MedicalExaminationTypeId :Int,
+        @Query("BookDate") BookDate :String,
+    ): Response<BookingResponse>
+
+
+
 
 }
