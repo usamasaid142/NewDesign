@@ -28,7 +28,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-
+import java.time.Duration
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 @AndroidEntryPoint
@@ -63,6 +66,7 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,8 +84,8 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
-
-        val doctorssearchRequset=DoctorSearchRequest(0,formatter.format(now.time),0,"", feesFrom = 0
+        formattedDate =formatter.format(now.time)
+        val doctorssearchRequset=DoctorSearchRequest(0,formattedDate,0,"", feesFrom = 0
             , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
         viewmodel.searchDoctors(doctorssearchRequset)
         doctorsSearch()
@@ -356,6 +360,7 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun callBackGetClinicSchedualByClinicDayId(){
         viewmodel.bookingResponse.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when(it){
@@ -369,17 +374,35 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
                     it.let {
                         var timeFrom=""
                         var timeTo=""
+                        var intervaltime=1
                         val time=it?.data?.data
                         if (time != null) {
                             for (i in time.indices){
 
                                 timeFrom= time[i]?.timeFrom!!
+                                timeTo=time[i]?.timeTo!!
+                               intervaltime= time[i]?.timeInterval!!
 
                             }
                         }
+                        var timefrom = LocalTime.parse(timeFrom)
+                        val timeto = LocalTime.parse(timeTo)
+                        val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+                        val diff: Duration = Duration.between(timefrom, timeto)
+                        val hours: Long = diff.toHours()
+                        val newduration=timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                        val numbersofpatient=(hours*60)/intervaltime
 
-                        Log.e("timeFrom ", timeFrom.toString())
-                        Log.e("timeto ", timeTo.toString())
+                        val timesintervalofpatient= mutableListOf<String>()
+                        timesintervalofpatient.add(timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
+                        for (i in 1..numbersofpatient-1){
+                            timefrom = timefrom.plusMinutes(intervaltime.toLong())
+                            timesintervalofpatient.add(timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
+                        }
+
+                        Log.e("timeFrom ", timesintervalofpatient.toString())
+                        Log.e("timeFrom ", timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
+                        Log.e("timeto ", timeto.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
 
                     }
 
