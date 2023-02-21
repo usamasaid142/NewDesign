@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.newdesign.model.*
 import com.example.newdesign.model.booking.BookingRequest
 import com.example.newdesign.model.booking.BookingResponse
+import com.example.newdesign.model.booking.CreatePatientAppointmentResponse
+import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
@@ -30,6 +32,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val docorsResponse=MutableLiveData<Resource<DoctorsearchItemResponse>>()
     val medicalExamination=MutableLiveData<Resource<MedicalExaminationResponse>>()
     val bookingResponse=MutableLiveData<Resource<BookingResponse>>()
+    val patientAppointmentResponse=MutableLiveData<Resource<CreatePatientAppointmentResponse>>()
 
 
 
@@ -166,6 +169,22 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
     private fun handleGetClinicSchedualByClinicDayId(response: Response<BookingResponse>): Resource<BookingResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+
+    fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=viewModelScope.launch(Dispatchers.IO) {
+        patientAppointmentResponse.postValue(Resource.Loading())
+        val response=repositry.createPatientAppointment(appointmentRequest)
+        patientAppointmentResponse.postValue(handlecreatePatientAppointment(response))
+    }
+
+    private fun handlecreatePatientAppointment(response: Response<CreatePatientAppointmentResponse>): Resource<CreatePatientAppointmentResponse>? {
         if (response.isSuccessful){
             response.body()?.let {
                 return Resource.sucess(it)

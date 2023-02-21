@@ -35,7 +35,13 @@ class SearchDoctorsAdapter(private val booking:Booking) :
             Feesresult.text=services.feesFrom.toString()
         }
         holder.binding.btnBooking.setOnClickListener {
-            services.clinicDto?.ClinicId?.let { it1 -> booking.onItemClick(it1) }
+            services.clinicId?.let { it1 -> services.doctorId?.let { it2 ->
+                services.feesTo?.let { it3 ->
+                    booking.onItemClick(it1,
+                        it2, it3
+                    )
+                }
+            } }
         }
 
 //        holder.itemView.apply {
@@ -70,7 +76,7 @@ class SearchDoctorsAdapter(private val booking:Booking) :
 
     interface Booking{
 
-        fun onItemClick(clinicId:Int)
+        fun onItemClick(clinicId:Int,doctorId:Int,fess:Int)
 
     }
 }

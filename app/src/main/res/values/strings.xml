@@ -168,5 +168,12 @@
     <string name="chronic_diseases">Chronic Diseases</string>
     <string name="surgeries">Surgeries</string>
     <string name="date">Date</string>
+    <string name="appointments_available">Appointments available</string>
+    <string name="summary">Summary</string>
+    <string name="appointment_details">Appointment Details</string>
+    <string name="booking_date_time"><![CDATA[Booking Date & Time]]></string>
+    <string name="service">Service</string>
+    <string name="total_fees">Total Fees</string>
+    <string name="confirm">Confirm</string>
 
 </resources>

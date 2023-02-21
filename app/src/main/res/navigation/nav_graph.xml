@@ -159,6 +159,9 @@
         <action
             android:id="@+id/action_searchFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_dialogClinkBookingFragment"
+            app:destination="@id/dialogClinkBookingFragment" />
     </fragment>
     <fragment
         android:id="@+id/myScheduleFragment"
@@ -196,4 +199,25 @@
         android:name="com.example.newdesign.fragment.editprofile.EditProfileFragment"
         android:label="edit_profilefragment"
         tools:layout="@layout/edit_profilefragment" />
+    <dialog
+        android:id="@+id/dialogClinkBookingFragment"
+        android:name="com.example.newdesign.fragment.dialog.DialogClinkBookingFragment"
+        android:label="dialog_clink_bookingfragment"
+        tools:layout="@layout/dialog_clink_bookingfragment" >
+        <argument
+            android:name="appoinments"
+            app:argType="string[]"
+            app:nullable="true" />
+        <argument
+            android:name="appointmentrequest"
+            app:argType="com.example.newdesign.model.booking.PatientAppointmentRequest" />
+        <action
+            android:id="@+id/action_dialogClinkBookingFragment_to_appointmentDetailsFragment"
+            app:destination="@id/appointmentDetailsFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/appointmentDetailsFragment"
+        android:name="com.example.newdesign.fragment.home.AppointmentDetailsFragment"
+        android:label="appointment_detailsfragment"
+        tools:layout="@layout/appointment_detailsfragment" />
 </navigation>

@@ -2,6 +2,7 @@ package com.example.newdesign.repository
 
 import com.example.newdesign.api.ApiService
 import com.example.newdesign.model.booking.BookingRequest
+import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.register.CreateUser
 import com.example.newdesign.model.register.LoginUser
@@ -27,4 +28,7 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
                                                MedicalExaminationTypeId:Int,
                                                BookDate:String
                                                )=apiService.getClinicSchedualByClinicDayId("en",ClinicId,DayId,MedicalExaminationTypeId,BookDate)
+
+    suspend fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=apiService.createPatientAppointment("En",appointmentRequest)
+
 }

@@ -20,6 +20,7 @@ import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
 import com.example.newdesign.model.CalendarDateModel
+import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
@@ -35,7 +36,7 @@ import java.time.format.FormatStyle
 import java.util.*
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAdapter.Booking{
+class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAdapter.Booking {
 
     private lateinit var binding: SearchfragmentBinding
     private lateinit var searchServicesAdapter: SearchServicesAdapter
@@ -46,15 +47,17 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
     private val cal = Calendar.getInstance(Locale.ENGLISH)
     private val dates = ArrayList<Date>()
     val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
-    var specialistId=0
-    var seniortyLevelId=0
-    var cityId=0
-    var areaId=0
-    var genderId=0
-    var formattedDate=""
-    var sub_SpecialistId= mutableListOf<Int>()
+    var specialistId = 0
+    var doctorId = 0
+    var feesTo = 0
+    var seniortyLevelId = 0
+    var cityId = 0
+    var areaId = 0
+    var genderId = 0
+    var formattedDate = ""
+    var sub_SpecialistId = mutableListOf<Int>()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
-    val viewmodel:DialogBottomSheetViewmodel by viewModels()
+    val viewmodel: DialogBottomSheetViewmodel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,16 +80,28 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
 
 
         servicesRecylerview()
-      //  searchByServices()
+        //  searchByServices()
         doctorsRecylerview()
         initButtonCollabsedFiller()
         bindFields()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
-        formattedDate =formatter.format(now.time)
-        val doctorssearchRequset=DoctorSearchRequest(0,formattedDate,0,"", feesFrom = 0
-            , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
+        formattedDate = formatter.format(now.time)
+        val doctorssearchRequset = DoctorSearchRequest(
+            0,
+            formattedDate,
+            0,
+            "",
+            feesFrom = 0,
+            feesTo = 0,
+            genderId,
+            10,
+            HomeFragment.instance?.medicalExaminatioId!!,
+            0,
+            0,
+            specialistId
+        )
         viewmodel.searchDoctors(doctorssearchRequset)
         doctorsSearch()
         callBackGetClinicSchedualByClinicDayId()
@@ -166,8 +181,21 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
 
         binding.layoutBottomsheetpersistant.btnApply.setOnClickListener {
 
-            val doctorssearchRequset=DoctorSearchRequest(areaId,formattedDate,cityId,binding.etSearch.text.toString(), feesFrom = 0
-                , feesTo = 0,genderId,10,1,seniortyLevelId,0,specialistId,sub_SpecialistId)
+            val doctorssearchRequset = DoctorSearchRequest(
+                areaId,
+                formattedDate,
+                cityId,
+                binding.etSearch.text.toString(),
+                feesFrom = 0,
+                feesTo = 0,
+                genderId,
+                10,
+                1,
+                seniortyLevelId,
+                0,
+                specialistId,
+                sub_SpecialistId
+            )
             viewmodel.searchDoctors(doctorssearchRequset)
         }
 
@@ -289,8 +317,8 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
                 name += "${it[i].name}-"
             }
             binding.layoutBottomsheetpersistant.etSubSpecialization.setText(name)
-            if (!binding.layoutBottomsheetpersistant.etSubSpecialization.toString().isEmpty()){
-                for (i in it.indices){
+            if (!binding.layoutBottomsheetpersistant.etSubSpecialization.toString().isEmpty()) {
+                for (i in it.indices) {
                     sub_SpecialistId.add(it[i].id)
                 }
 
@@ -299,9 +327,9 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
 
         sharedDataViewmodel.seniorityLevelData.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etSeniority.setText(it.name)
-            if (!binding.layoutBottomsheetpersistant.etSeniority.toString().isEmpty()){
-                seniortyLevelId=it.id
-            }else seniortyLevelId=0
+            if (!binding.layoutBottomsheetpersistant.etSeniority.toString().isEmpty()) {
+                seniortyLevelId = it.id
+            } else seniortyLevelId = 0
         }
         sharedDataViewmodel.getCity.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etChooseCity.setText(it.name)
@@ -312,42 +340,42 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
 
         sharedDataViewmodel.getArea.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etChooseArea.setText(it.name)
-            if (!binding.layoutBottomsheetpersistant.etChooseArea.toString().isEmpty()){
-                areaId=it.id
-            }else areaId=0
+            if (!binding.layoutBottomsheetpersistant.etChooseArea.toString().isEmpty()) {
+                areaId = it.id
+            } else areaId = 0
         }
 
         sharedDataViewmodel.chooseGender.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etChooseGender.setText(it.gender)
-            if (!binding.layoutBottomsheetpersistant.etChooseGender.toString().isEmpty()){
-               genderId=it.id
-            }else genderId=0
+            if (!binding.layoutBottomsheetpersistant.etChooseGender.toString().isEmpty()) {
+                genderId = it.id
+            } else genderId = 0
 
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun doctorsSearch(){
+    private fun doctorsSearch() {
 
         viewmodel.docorsResponse.observe(viewLifecycleOwner) {
 
-            when(it){
+            when (it) {
 
-                is Resource.Loading->{
+                is Resource.Loading -> {
                     showprogtessbar()
                 }
 
-                is Resource.sucess->{
+                is Resource.sucess -> {
                     hideprogressbar()
                     it.let {
-                        bottomsheetbeahavoir.state=BottomSheetBehavior.STATE_HIDDEN
+                        bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
                         searchDoctorsAdapter.submitList(it.data?.data?.items)
                         searchDoctorsAdapter.notifyDataSetChanged()
                     }
 
                 }
 
-                is Resource.Error->{
+                is Resource.Error -> {
                     hideprogressbar()
 //                   loginresponse.data?.let {
 //                       Log.e("msg : ",it.message)
@@ -361,53 +389,84 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun callBackGetClinicSchedualByClinicDayId(){
+    private fun callBackGetClinicSchedualByClinicDayId() {
         viewmodel.bookingResponse.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            when(it){
-                is Resource.Loading->{
+            when (it) {
+                is Resource.Loading -> {
                     showprogtessbar()
                 }
-                is Resource.sucess->{
+                is Resource.sucess -> {
                     hideprogressbar()
 
 
                     it.let {
-                        var timeFrom=""
-                        var timeTo=""
-                        var intervaltime=1
-                        val time=it?.data?.data
+                        var timeFrom = ""
+                        var timeTo = ""
+                        var intervaltime = 1
+                        val time = it?.data?.data
                         if (time != null) {
-                            for (i in time.indices){
+                            for (i in time.indices) {
 
-                                timeFrom= time[i]?.timeFrom!!
-                                timeTo=time[i]?.timeTo!!
-                               intervaltime= time[i]?.timeInterval!!
+                                timeFrom = time[i]?.timeFrom!!
+                                timeTo = time[i]?.timeTo!!
+                                intervaltime = time[i]?.timeInterval!!
 
                             }
                         }
-                        var timefrom = LocalTime.parse(timeFrom)
-                        val timeto = LocalTime.parse(timeTo)
-                        val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
-                        val diff: Duration = Duration.between(timefrom, timeto)
-                        val hours: Long = diff.toHours()
-                        val newduration=timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                        val numbersofpatient=(hours*60)/intervaltime
+                        if (!timeFrom.isNullOrEmpty() && !timeTo.isNullOrEmpty()) {
 
-                        val timesintervalofpatient= mutableListOf<String>()
-                        timesintervalofpatient.add(timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
-                        for (i in 1..numbersofpatient-1){
-                            timefrom = timefrom.plusMinutes(intervaltime.toLong())
-                            timesintervalofpatient.add(timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
+
+                            var timefrom = LocalTime.parse(timeFrom)
+                            val timeto = LocalTime.parse(timeTo)
+                            val timeFormatter: DateTimeFormatter =
+                                DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+                            val diff: Duration = Duration.between(timefrom, timeto)
+                            val hours: Long = diff.toHours()
+                            val numbersofpatient = (hours * 60) / intervaltime
+
+                            val timesintervalofpatient = mutableListOf<String>()
+                            timesintervalofpatient.add(
+                                timefrom.format(
+                                    DateTimeFormatter.ofLocalizedTime(
+                                        FormatStyle.SHORT
+                                    )
+                                )
+                            )
+                            for (i in 1 until numbersofpatient) {
+                                timefrom = timefrom.plusMinutes(intervaltime.toLong())
+                                timesintervalofpatient.add(
+                                    timefrom.format(
+                                        DateTimeFormatter.ofLocalizedTime(
+                                            FormatStyle.SHORT
+                                        )
+                                    )
+                                )
+                            }
+                            val patientAppointmentRequest=PatientAppointmentRequest(doctorId,1,feesTo,formattedDate,"",false)
+                            val action =
+                                SearchFragmentDirections.actionSearchFragmentToDialogClinkBookingFragment(
+                                    timesintervalofpatient.toTypedArray()
+                                ,patientAppointmentRequest)
+                            findNavController().navigate(action)
+
+                            Log.e("timeFrom ", timesintervalofpatient.toString())
+                            Log.e(
+                                "timeFrom ",
+                                timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                            )
+                            Log.e(
+                                "timeto ",
+                                timeto.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                            )
+
+                        }else{
+                            Toast.makeText(requireContext(),"there is no Appointments available",Toast.LENGTH_SHORT).show()
+                            Log.e("timeFrom is empty ", timeFrom.toString())
                         }
-
-                        Log.e("timeFrom ", timesintervalofpatient.toString())
-                        Log.e("timeFrom ", timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
-                        Log.e("timeto ", timeto.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
-
                     }
 
                 }
-                is Resource.Error->{
+                is Resource.Error -> {
                     hideprogressbar()
 //                   loginresponse.data?.let {
 //                       Log.e("msg : ",it.message)
@@ -421,12 +480,12 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
 
     private fun showprogtessbar() {
         binding.progressBar.visibility = View.VISIBLE
-        binding.layoutBottomsheetpersistant.progressBar.visibility=View.VISIBLE
+        binding.layoutBottomsheetpersistant.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideprogressbar() {
         binding.progressBar.visibility = View.GONE
-        binding.layoutBottomsheetpersistant.progressBar.visibility=View.GONE
+        binding.layoutBottomsheetpersistant.progressBar.visibility = View.GONE
 
     }
 
@@ -438,29 +497,47 @@ class SearchFragment : Fragment(),SearchServicesAdapter.Action ,SearchDoctorsAda
         dates.clear()
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1)
         while (dates.size < maxDaysInMonth) {
-            if(monthCalendar.time.time>=now.time.time){
+            if (monthCalendar.time.time >= now.time.time) {
 
                 calendarList.add(CalendarDateModel(monthCalendar.time))
             }
             dates.add(monthCalendar.time)
-            monthCalendar.add(Calendar.DAY_OF_MONTH,  1)
+            monthCalendar.add(Calendar.DAY_OF_MONTH, 1)
         }
-
-
         searchServicesAdapter.submitList(calendarList)
     }
 
     override fun onItemClick(date: Date) {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        formattedDate =formatter.format(date)
-        val doctorssearchRequset=DoctorSearchRequest(areaId,formattedDate,cityId, binding.etSearch.text.toString(), feesFrom = 0
-            , feesTo = 0,genderId,10, HomeFragment.instance?.medicalExaminatioId!!,0,0,specialistId)
+        formattedDate = formatter.format(date)
+        val doctorssearchRequset = DoctorSearchRequest(
+            areaId,
+            formattedDate,
+            cityId,
+            binding.etSearch.text.toString(),
+            feesFrom = 0,
+            feesTo = 0,
+            genderId,
+            10,
+            HomeFragment.instance?.medicalExaminatioId!!,
+            0,
+            0,
+            specialistId
+        )
         viewmodel.searchDoctors(doctorssearchRequset)
     }
 
-    override fun onItemClick(clinicId: Int) {
-        viewmodel.getClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate)
+    override fun onItemClick(clinicId: Int,doctorId:Int,fessTo:Int) {
+        this.doctorId=doctorId
+        this.feesTo=feesTo
+        viewmodel.getClinicSchedualByClinicDayId(
+            clinicId,
+            1,
+            HomeFragment.instance?.medicalExaminatioId!!,
+            formattedDate
+        )
     }
+
 
 
 
