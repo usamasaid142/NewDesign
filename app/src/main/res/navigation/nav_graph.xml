@@ -205,15 +205,14 @@
         android:label="dialog_clink_bookingfragment"
         tools:layout="@layout/dialog_clink_bookingfragment" >
         <argument
-            android:name="appoinments"
-            app:argType="string[]"
-            app:nullable="true" />
-        <argument
             android:name="appointmentrequest"
             app:argType="com.example.newdesign.model.booking.PatientAppointmentRequest" />
         <action
             android:id="@+id/action_dialogClinkBookingFragment_to_appointmentDetailsFragment"
             app:destination="@id/appointmentDetailsFragment" />
+        <argument android:name="appointments"
+            app:argType="com.example.newdesign.model.booking.AppointmentBooking"
+            app:nullable="true" />
     </dialog>
     <fragment
         android:id="@+id/appointmentDetailsFragment"

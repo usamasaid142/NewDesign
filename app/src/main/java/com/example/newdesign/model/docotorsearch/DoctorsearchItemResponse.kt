@@ -94,4 +94,5 @@ data class ClinicDto(
     val ClinicLongitude: String?,
     @SerializedName("ClinicId")
     val ClinicId: Int?,
+    val DoctorWorkingDayTimeId: Int?,
 )

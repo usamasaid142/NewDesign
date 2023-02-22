@@ -258,7 +258,6 @@
         <include
             android:id="@+id/layoutBottomsheetpersistant"
             layout="@layout/layout_bottomsheet_filter"
-android:visibility="gone"
             />
 
 

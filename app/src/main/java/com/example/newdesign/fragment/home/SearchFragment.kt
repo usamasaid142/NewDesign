@@ -20,6 +20,7 @@ import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
 import com.example.newdesign.model.CalendarDateModel
+import com.example.newdesign.model.booking.AppointmentBooking
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.utils.Resource
@@ -218,32 +219,6 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
         }
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    private fun searchByServices() {
-//
-//        val list = mutableListOf<String>()
-//
-//        list.add(
-//            getString(R.string.Clinic_Booking),
-//        )
-//        list.add(
-//            getString(R.string.Home_Visit)
-//        )
-//        list.add(
-//            getString(R.string.Chat),
-//
-//            )
-//        list.add(
-//            getString(R.string.Call),
-//        )
-//        list.add(
-//            getString(R.string.Video_Call)
-//        )
-//        searchServicesAdapter.submitList(list)
-//        searchServicesAdapter.notifyDataSetChanged()
-//
-//    }
-
     private fun initButtonCollabsedFiller() {
 
         collabsedFiller(
@@ -397,11 +372,14 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
                 }
                 is Resource.sucess -> {
                     hideprogressbar()
-
+                 val timeformList= mutableListOf<String>()
+                 val timeInterval= mutableListOf<Int>()
+                 val doctorWorkingDayTimeIdlist= mutableListOf<Int>()
 
                     it.let {
                         var timeFrom = ""
                         var timeTo = ""
+                        var doctorWorkingDayTimeId=0
                         var intervaltime = 1
                         val time = it?.data?.data
                         if (time != null) {
@@ -410,59 +388,54 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
                                 timeFrom = time[i]?.timeFrom!!
                                 timeTo = time[i]?.timeTo!!
                                 intervaltime = time[i]?.timeInterval!!
+                                doctorWorkingDayTimeId= time[i]?.schedualId!!
+
+                                if (!timeFrom.isNullOrEmpty() && !timeTo.isNullOrEmpty()) {
+
+
+                                    var timefrom = LocalTime.parse(timeFrom)
+                                    val timeto = LocalTime.parse(timeTo)
+                                    val diff: Duration = Duration.between(timefrom, timeto)
+                                    val hours: Long = diff.toHours()
+                                    val numbersofpatient = (hours * 60) / intervaltime
+
+                                     timeformList.add(timefrom.toString())
+                                    timeInterval.add(intervaltime)
+                                    doctorWorkingDayTimeIdlist.add(doctorWorkingDayTimeId)
+
+                                    for (i in 1 until numbersofpatient) {
+                                        timefrom = timefrom.plusMinutes(intervaltime.toLong())
+                                        timeformList.add(timefrom.toString())
+
+                                    }
+//
+//
+//                                    Log.e("timeFrom ", timesintervalofpatient.toString())
+                                    Log.e(
+                                        "timeFrom ",
+                                        timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                                    )
+                                    Log.e(
+                                        "timeto ",
+                                        timeto.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                                    )
+
+                                }else{
+                                    Toast.makeText(requireContext(),"there is no Appointments available",Toast.LENGTH_SHORT).show()
+                                    Log.e("timeFrom is empty ", timeFrom.toString())
+                                }
+
 
                             }
-                        }
-                        if (!timeFrom.isNullOrEmpty() && !timeTo.isNullOrEmpty()) {
-
-
-                            var timefrom = LocalTime.parse(timeFrom)
-                            val timeto = LocalTime.parse(timeTo)
-                            val timeFormatter: DateTimeFormatter =
-                                DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
-                            val diff: Duration = Duration.between(timefrom, timeto)
-                            val hours: Long = diff.toHours()
-                            val numbersofpatient = (hours * 60) / intervaltime
-
-                            val timesintervalofpatient = mutableListOf<String>()
-                            timesintervalofpatient.add(
-                                timefrom.format(
-                                    DateTimeFormatter.ofLocalizedTime(
-                                        FormatStyle.SHORT
-                                    )
-                                )
-                            )
-                            for (i in 1 until numbersofpatient) {
-                                timefrom = timefrom.plusMinutes(intervaltime.toLong())
-                                timesintervalofpatient.add(
-                                    timefrom.format(
-                                        DateTimeFormatter.ofLocalizedTime(
-                                            FormatStyle.SHORT
-                                        )
-                                    )
-                                )
-                            }
-                            val patientAppointmentRequest=PatientAppointmentRequest(doctorId,1,feesTo,formattedDate,"",false)
+                            val appointmentBooking=AppointmentBooking(timeformList,timeInterval,doctorWorkingDayTimeIdlist)
+                            val patientAppointmentRequest=PatientAppointmentRequest(doctorId,doctorWorkingDayTimeId,formattedDate,false)
                             val action =
                                 SearchFragmentDirections.actionSearchFragmentToDialogClinkBookingFragment(
-                                    timesintervalofpatient.toTypedArray()
-                                ,patientAppointmentRequest)
+                                    patientAppointmentRequest,appointmentBooking)
                             findNavController().navigate(action)
 
-                            Log.e("timeFrom ", timesintervalofpatient.toString())
-                            Log.e(
-                                "timeFrom ",
-                                timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                            )
-                            Log.e(
-                                "timeto ",
-                                timeto.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                            )
-
-                        }else{
-                            Toast.makeText(requireContext(),"there is no Appointments available",Toast.LENGTH_SHORT).show()
-                            Log.e("timeFrom is empty ", timeFrom.toString())
                         }
+
                     }
 
                 }
@@ -537,8 +510,5 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
             formattedDate
         )
     }
-
-
-
 
 }

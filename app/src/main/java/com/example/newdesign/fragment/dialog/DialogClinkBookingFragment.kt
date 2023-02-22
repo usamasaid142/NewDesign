@@ -2,6 +2,7 @@ package com.example.newdesign.fragment.dialog
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.AppointmentsAvailableAdapter
 import com.example.newdesign.databinding.DialogClinkBookingfragmentBinding
+import com.example.newdesign.model.booking.AppointmentBooking
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
@@ -23,7 +25,10 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
+import kotlin.time.Duration.Companion.hours
 
 @AndroidEntryPoint
 class DialogClinkBookingFragment : BottomSheetDialogFragment(),
@@ -63,16 +68,14 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
         binding.btnConfirm.setOnClickListener {
 
             val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(args.appointmentrequest.AppointmentDate)
-            val startHour: Date = SimpleDateFormat("hh:mm a").parse(time)
+            val startHour: Date = time?.let { it1 -> SimpleDateFormat("hh:mm").parse(it1) }!!
             val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-           val total = date.time + startHour.time
+            val total = date.time + startHour.time
             val formattedDate = formatter.format(total)
             val patientAppointmentRequest = PatientAppointmentRequest(
-                6129,
-                45353,
-                args.appointmentrequest.Fees,
-                "2023-02-21T23:10:00Z",
-                args.appointmentrequest.Comment,
+                args.appointmentrequest.DoctorId,
+                args.appointmentrequest.DoctorWorkingDayTimeId,
+                formattedDate,
                 args.appointmentrequest.IsBook
             )
             viewmodel.createPatientAppointment(patientAppointmentRequest)
@@ -87,8 +90,10 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
             layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = appointmentsAvailableAdapter
             setHasFixedSize(true)
-            args.appoinments?.let {
-                appointmentsAvailableAdapter.submitList(it.toList())
+            args.appointments?.let {
+                val list= mutableListOf<AppointmentBooking>()
+                list.add(args.appointments!!)
+                appointmentsAvailableAdapter.submitList(list)
             }
 
         }
