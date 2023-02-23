@@ -37,9 +37,7 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val appoinments = getItem(position)
 
-        for (i in appoinments.time!!.indices) {
-
-                 var timefrom = LocalTime.parse(appoinments.time?.get(i))
+                 var timefrom = LocalTime.parse(appoinments.time)
                  val time = timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                  holder.binding.tvTime.text = time
                  timefrom = timefrom.plusHours(2)
@@ -47,10 +45,19 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
 
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
-            selecttime.onItemClick(timefrom.toString())
+            appoinments.timeInterval?.let { it1 ->
+                appoinments.fees?.let { it2 ->
+                    appoinments.DoctorWorkingDayTimeId?.let { it3 ->
+                        appoinments.MedicalExaminationTypeName?.let { it4 ->
+                            selecttime.onItemClick(timefrom.toString(),
+                                it1, it2, it3, it4
+                            )
+                        }
+                    }
+                }
+            }
             notifyDataSetChanged()
 
-             }
         }
         if (selectedItemPosition == position) {
             holder.binding.layoutTime.background =
@@ -89,7 +96,7 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
     }
 
     interface Action {
-        fun onItemClick(time: String)
+        fun onItemClick(time: String,intervalTime:Int,Fess:Int,doctorWorkingDayTimeId:Int,medicalExaminationTypeName:String)
     }
 
 

@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_arrow"
-        app:layout_constraintBottom_toTopOf="@+id/btn_next"
+        app:layout_constraintBottom_toTopOf="@+id/layout_btn_confirm"
         >
 
 
@@ -70,10 +70,9 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_doctorName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
                     android:padding="3dp"
@@ -219,7 +218,7 @@
                     app:layout_constraintTop_toTopOf="@+id/layout_BookingDateTime" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/sub_specialization"
+                    android:id="@+id/tv_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -470,24 +469,42 @@
     </androidx.core.widget.NestedScrollView>
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_next"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_btn_confirm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_chooselang_button"
-        android:fontFamily="@font/avenirltstd_black"
-        android:padding="5dp"
-        android:text="@string/confirm"
-        android:enabled="false"
-        android:textColor="@color/white"
-        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/layout"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".9" />
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_chooselang_button"
+            android:fontFamily="@font/avenirltstd_black"
+            android:padding="5dp"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent=".9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/layout_btn_confirm"
+        app:layout_constraintStart_toStartOf="@+id/layout_btn_confirm"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_btn_confirm"
+        app:layout_constraintTop_toTopOf="@+id/layout_btn_confirm"
+        />
 
     <ImageView
         android:id="@+id/imageView"

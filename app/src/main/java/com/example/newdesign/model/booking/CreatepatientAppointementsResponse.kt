@@ -1,31 +1,34 @@
 package com.example.newdesign.model.booking
 
-
 import com.google.gson.annotations.SerializedName
 
-data class CreatePatientAppointmentResponse(
+data class CreatepatientAppointementsResponse(
+    @SerializedName("Data")
+    val data: Data?
+)
+data class Data(
     @SerializedName("AppointmentDate")
     val appointmentDate: String?,
     @SerializedName("doctorDto")
-    val doctorDto: DoctorDto?,
+    val doctorDto: AppointementDoctorDto?,
     @SerializedName("DoctorName")
     val doctorName: String?,
     @SerializedName("DoctorWorkingDayTimeId")
     val doctorWorkingDayTimeId: Int?,
     @SerializedName("DurationMedicalExaminationId")
-    val durationMedicalExaminationId: Int?,
+    val durationMedicalExaminationId: Any?,
     @SerializedName("Fees")
     val fees: Int?,
     @SerializedName("HealthEntityPhoneDtos")
-    val healthEntityPhoneDtos: List<String?>?,
+    val healthEntityPhoneDtos: Any?,
     @SerializedName("HealthentityAddress")
-    val healthentityAddress: String?,
+    val healthentityAddress: Any?,
     @SerializedName("HealthentityName")
-    val healthentityName: String?,
+    val healthentityName: Any?,
     @SerializedName("IsBook")
     val isBook: Boolean?,
     @SerializedName("MaxNoOfPatients")
-    val maxNoOfPatients: Int?,
+    val maxNoOfPatients: Any?,
     @SerializedName("MedicalExaminationTypeName")
     val medicalExaminationTypeName: String?,
     @SerializedName("PatientName")
@@ -33,14 +36,13 @@ data class CreatePatientAppointmentResponse(
     @SerializedName("PatientNumber")
     val patientNumber: String?,
     @SerializedName("TimeInterval")
-    val timeInterval: Int?
+    val timeInterval: Any?
 )
-
-data class DoctorDto(
+data class AppointementDoctorDto(
     @SerializedName("Birthday")
     val birthday: String?,
     @SerializedName("CreatedByName")
-    val createdByName: String?,
+    val createdByName: Any?,
     @SerializedName("Email")
     val email: String?,
     @SerializedName("FullName")

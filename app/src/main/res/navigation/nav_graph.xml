@@ -211,12 +211,17 @@
             android:id="@+id/action_dialogClinkBookingFragment_to_appointmentDetailsFragment"
             app:destination="@id/appointmentDetailsFragment" />
         <argument android:name="appointments"
-            app:argType="com.example.newdesign.model.booking.AppointmentBooking"
+            app:argType="com.example.newdesign.model.booking.BookingResponse"
             app:nullable="true" />
     </dialog>
     <fragment
         android:id="@+id/appointmentDetailsFragment"
         android:name="com.example.newdesign.fragment.home.AppointmentDetailsFragment"
         android:label="appointment_detailsfragment"
-        tools:layout="@layout/appointment_detailsfragment" />
+        tools:layout="@layout/appointment_detailsfragment" >
+        <argument
+            android:name="confirmappointments"
+            app:argType="com.example.newdesign.model.booking.AppointmentDetailBooking"
+            app:nullable="true" />
+    </fragment>
 </navigation>

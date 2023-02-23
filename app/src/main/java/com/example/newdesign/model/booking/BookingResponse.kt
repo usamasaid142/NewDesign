@@ -2,11 +2,12 @@ package com.example.newdesign.model.booking
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class BookingResponse(
     @SerializedName("Data")
     val data: List<BookingData?>?
-)
+): Serializable
 
 data class BookingData(
     @SerializedName("BookedAppointments")
@@ -41,4 +42,4 @@ data class BookingData(
     val timeInterval: Int?,
     @SerializedName("TimeTo")
     val timeTo: String?
-)
+):Serializable

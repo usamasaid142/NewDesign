@@ -1,10 +1,7 @@
 package com.example.newdesign.api
 
 import com.example.newdesign.model.*
-import com.example.newdesign.model.booking.BookingRequest
-import com.example.newdesign.model.booking.BookingResponse
-import com.example.newdesign.model.booking.CreatePatientAppointmentResponse
-import com.example.newdesign.model.booking.PatientAppointmentRequest
+import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
@@ -91,7 +88,7 @@ interface ApiService {
     suspend fun createPatientAppointment(
         @Path("culture") culture: String,
         @Body appointmentRequest: PatientAppointmentRequest
-    ): Response<CreatePatientAppointmentResponse>
+    ): Response<CreatepatientAppointementsResponse>
 
 
 }

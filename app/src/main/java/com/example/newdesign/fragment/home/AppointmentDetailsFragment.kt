@@ -5,14 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.newdesign.R
 import com.example.newdesign.databinding.AppointmentDetailsfragmentBinding
+import com.example.newdesign.fragment.dialog.DialogClinkBookingFragment
+import com.example.newdesign.fragment.dialog.DialogClinkBookingFragmentArgs
+import com.example.newdesign.fragment.dialog.DialogClinkBookingFragmentDirections
+import com.example.newdesign.model.booking.AppointmentDetailBooking
+import com.example.newdesign.model.booking.PatientAppointmentRequest
+import com.example.newdesign.utils.Resource
+import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AppointmentDetailsFragment : Fragment() {
 
     private lateinit var binding:AppointmentDetailsfragmentBinding
-
+    private val args: AppointmentDetailsFragmentArgs by navArgs()
+    private val viewmodel: DialogBottomSheetViewmodel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,7 +38,71 @@ class AppointmentDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindDataToViews()
+        initButton()
+        callBack()
+    }
+
+    private fun initButton(){
+        binding.ivArrow.setOnClickListener {
+            findNavController().navigate(R.id.searchFragment)
+        }
+
+        binding.btnConfirm.setOnClickListener {
+            viewmodel.createPatientAppointment(
+                PatientAppointmentRequest(args.confirmappointments?.doctorId,
+                    args.confirmappointments?.DoctorWorkingDayTimeId,args.confirmappointments?.formattedDate
+                    ,true)
+            )
+        }
 
     }
+
+    private fun bindDataToViews(){
+        binding.tvDoctorName.text=args.confirmappointments?.doctorName
+        binding.tvSpecialization.text=args.confirmappointments?.SpecialistName
+        binding.tvDate.text=args.confirmappointments?.formattedDate
+        binding.Service.text=args.confirmappointments?.MedicalExaminationTypeName
+        binding.WaitingTime.text=args.confirmappointments?.timeInterval.toString()
+        binding.TotalFees.text=args.confirmappointments?.fees.toString()
+
+    }
+
+    private fun callBack(){
+
+      viewmodel?.patientAppointmentResponse?.observe(viewLifecycleOwner,
+            Observer {
+                when (it) {
+
+                    is Resource.Loading -> {
+                        showprogtessbar()
+                    }
+
+                    is Resource.sucess -> {
+                        hideprogressbar()
+                        Toast.makeText(requireContext()," booking Successfully",Toast.LENGTH_SHORT).show()
+                    }
+
+                    is Resource.Error -> {
+                        hideprogressbar()
+//                   loginresponse.data?.let {
+//                       Log.e("msg : ",it.message)
+//
+//                   }
+                    }
+                }
+
+            })
+
+    }
+    private fun showprogtessbar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideprogressbar() {
+        binding.progressBar.visibility = View.GONE
+
+    }
+
 
 }

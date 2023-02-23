@@ -4,10 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newdesign.model.*
-import com.example.newdesign.model.booking.BookingRequest
-import com.example.newdesign.model.booking.BookingResponse
-import com.example.newdesign.model.booking.CreatePatientAppointmentResponse
-import com.example.newdesign.model.booking.PatientAppointmentRequest
+import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
@@ -32,7 +29,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val docorsResponse=MutableLiveData<Resource<DoctorsearchItemResponse>>()
     val medicalExamination=MutableLiveData<Resource<MedicalExaminationResponse>>()
     val bookingResponse=MutableLiveData<Resource<BookingResponse>>()
-    val patientAppointmentResponse=MutableLiveData<Resource<CreatePatientAppointmentResponse>>()
+    val patientAppointmentResponse=MutableLiveData<Resource<CreatepatientAppointementsResponse>>()
 
 
 
@@ -184,7 +181,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         patientAppointmentResponse.postValue(handlecreatePatientAppointment(response))
     }
 
-    private fun handlecreatePatientAppointment(response: Response<CreatePatientAppointmentResponse>): Resource<CreatePatientAppointmentResponse>? {
+    private fun handlecreatePatientAppointment(response: Response<CreatepatientAppointementsResponse>): Resource<CreatepatientAppointementsResponse>? {
         if (response.isSuccessful){
             response.body()?.let {
                 return Resource.sucess(it)
