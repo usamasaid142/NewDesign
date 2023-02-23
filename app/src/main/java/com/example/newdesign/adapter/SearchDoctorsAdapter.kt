@@ -3,12 +3,13 @@ package com.example.newdesign.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.bumptech.glide.Glide
+import com.example.newdesign.R
 import com.example.newdesign.databinding.ItemLayoutDoctorsBinding
 import com.example.newdesign.model.docotorsearch.Item
 
@@ -43,12 +44,11 @@ class SearchDoctorsAdapter(private val booking:Booking) :
                 }
             } }
         }
+        holder.itemView.setOnClickListener {
+            it.findNavController().navigate(R.id.bookingAppointmentFragment)
+        }
 
-//        holder.itemView.apply {
-//            Glide.with(this)
-//                .load("https://salamtechapi.azurewebsites.net/${services.image}")
-//                .into(holder.binding.ivDoctorProfile)
-//        }
+
         holder.binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${services.image}") {
             crossfade(true)
             crossfade(1000)

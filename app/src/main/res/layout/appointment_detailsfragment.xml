@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color_gray"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.home.AppointmentDetailsFragment">
+    tools:context=".fragment.booking.AppointmentDetailsFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_arrow"

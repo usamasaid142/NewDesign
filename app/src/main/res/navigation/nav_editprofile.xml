@@ -7,7 +7,7 @@
 
     <dialog
         android:id="@+id/dialogBottomSheetFragment"
-        android:name="com.example.newdesign.fragment.DialogBottomSheetFragment"
+        android:name="com.example.newdesign.fragment.dialog.DialogBottomSheetFragment"
         android:label="dialog_bottom_sheetfragment"
         tools:layout="@layout/dialog_bottom_sheetfragment" >
         <argument

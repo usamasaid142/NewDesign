@@ -193,9 +193,12 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                     var timefrom = LocalTime.parse(timeFrom)
                     val timeto = LocalTime.parse(timeTo)
                     val diff: Duration = Duration.between(timefrom, timeto)
-                    val hours: Long = diff.toHours()
-                    val numbersofpatient = (hours * 60) / intervaltime
-
+                    var hours: Long = diff.toHours()
+                   val numbersofpatient = if (hours.toInt()==0){
+                        60 / intervaltime
+                    }else {
+                        ((hours * 60) / intervaltime).toInt()
+                    }
                     appointmentBookingList.add(
                         AppointmentBooking(
                             timefrom.toString(),

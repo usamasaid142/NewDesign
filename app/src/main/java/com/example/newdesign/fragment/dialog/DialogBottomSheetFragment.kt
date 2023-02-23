@@ -1,6 +1,5 @@
-package com.example.newdesign.fragment
+package com.example.newdesign.fragment.dialog
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,6 @@ import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.model.*
 import com.example.newdesign.model.register.ChooseGender
-import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
@@ -34,7 +32,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     SubSpecialistAdapter.SelectSubSpecialist, SeniorityLevelAdapter.SelectSeniorityLevel,
     GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea {
 
-    //private lateinit var list:ArrayList<CountryList>
 
     private lateinit var binding: DialogBottomSheetfragmentBinding
     val viewmodel: DialogBottomSheetViewmodel by viewModels()

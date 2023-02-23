@@ -173,5 +173,7 @@
     <string name="service">Service</string>
     <string name="total_fees">Total Fees</string>
     <string name="confirm">Confirm</string>
+    <string name="sharelink">Sharelink</string>
+    <string name="add_to_favorite">Add to favorite</string>
 
 </resources>

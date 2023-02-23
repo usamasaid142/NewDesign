@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.newdesign.R
 import com.example.newdesign.databinding.EditProfilefragmentBinding
-import com.example.newdesign.fragment.DialogBottomSheetFragment
 import com.example.newdesign.fragment.navstrepercontent.*
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -60,7 +60,7 @@
     </fragment>
     <dialog
         android:id="@+id/dialogBottomSheetFragment"
-        android:name="com.example.newdesign.fragment.DialogBottomSheetFragment"
+        android:name="com.example.newdesign.fragment.dialog.DialogBottomSheetFragment"
         android:label="dialog_bottom_sheetfragment"
         tools:layout="@layout/dialog_bottom_sheetfragment" >
         <argument
@@ -162,6 +162,9 @@
         <action
             android:id="@+id/action_searchFragment_to_dialogClinkBookingFragment"
             app:destination="@id/dialogClinkBookingFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_bookingAppointmentFragment"
+            app:destination="@id/bookingAppointmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/myScheduleFragment"
@@ -216,7 +219,7 @@
     </dialog>
     <fragment
         android:id="@+id/appointmentDetailsFragment"
-        android:name="com.example.newdesign.fragment.home.AppointmentDetailsFragment"
+        android:name="com.example.newdesign.fragment.booking.AppointmentDetailsFragment"
         android:label="appointment_detailsfragment"
         tools:layout="@layout/appointment_detailsfragment" >
         <argument
@@ -224,4 +227,8 @@
             app:argType="com.example.newdesign.model.booking.AppointmentDetailBooking"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/bookingAppointmentFragment"
+        android:name="com.example.newdesign.fragment.booking.BookingAppointmentFragment"
+        android:label="BookingAppointmentFragment" />
 </navigation>
