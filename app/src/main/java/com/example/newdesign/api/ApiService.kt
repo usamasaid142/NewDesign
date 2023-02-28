@@ -2,6 +2,7 @@ package com.example.newdesign.api
 
 import com.example.newdesign.model.*
 import com.example.newdesign.model.booking.*
+import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
@@ -89,6 +90,13 @@ interface ApiService {
         @Path("culture") culture: String,
         @Body appointmentRequest: PatientAppointmentRequest
     ): Response<CreatepatientAppointementsResponse>
+
+    @GET("{culture}/Doctor/GetDoctorProfileByDoctorId")
+    suspend fun getDoctorProfileByDoctorId(
+        @Path("culture") culture: String,
+        @Query("DoctorId") DoctorId :Int,
+    ): Response<GetDoctorClinksResponse>
+
 
 
 }

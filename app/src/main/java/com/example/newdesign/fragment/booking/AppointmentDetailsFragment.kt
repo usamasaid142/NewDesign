@@ -43,7 +43,7 @@ class AppointmentDetailsFragment : Fragment() {
     }
 
     private fun initButton(){
-        binding.ivArrow.setOnClickListener {
+        binding.ivArrow.setOnClickListener{
             findNavController().navigate(R.id.searchFragment)
         }
 

@@ -131,15 +131,11 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                     }
                    val action=DialogClinkBookingFragmentDirections.actionDialogClinkBookingFragmentToAppointmentDetailsFragment(appointmentDetailBooking)
                     findNavController().navigate(action)
-
                 }
 
                 is Resource.Error -> {
                     hideprogressbar()
-//                   loginresponse.data?.let {
-//                       Log.e("msg : ",it.message)
-//
-//                   }
+                    Toast.makeText(requireContext(),"${it.message}",Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -177,7 +173,7 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
         var fees = 0
         var medicalExaminationTypeName = ""
         val appointmentTime = args.appointments?.data
-        if (appointmentTime != null) {
+        if (!appointmentTime.isNullOrEmpty()) {
             for (i in appointmentTime!!.indices) {
 
                 timeFrom = appointmentTime[i]?.timeFrom!!
@@ -244,7 +240,12 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
 
             }
 
-        }
-    }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "there is no Appointments available",
+                Toast.LENGTH_SHORT
+            ).show()
+    }}
 
 }

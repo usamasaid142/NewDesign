@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newdesign.model.*
 import com.example.newdesign.model.booking.*
+import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +32,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val medicalExamination=MutableLiveData<Resource<MedicalExaminationResponse>>()
     val bookingResponse=MutableLiveData<Resource<BookingResponse>>()
     val patientAppointmentResponse=MutableLiveData<Resource<CreatepatientAppointementsResponse>>()
+    val doctorClinkResponse=MutableLiveData<Resource<GetDoctorClinksResponse>>()
 
 
 
@@ -187,7 +190,24 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
                 return Resource.sucess(it)
             }
         }
-        return Resource.Error(response.message())
+        val error = Gson().fromJson<CreatepatientAppointementsResponse>(response.errorBody()!!.string(), CreatepatientAppointementsResponse::class.java)
+        return Resource.Error(error.message)
+    }
+
+    fun getDoctorProfileByDoctorId(DoctorId :Int)=viewModelScope.launch(Dispatchers.IO) {
+        doctorClinkResponse.postValue(Resource.Loading())
+        val response=repositry.getDoctorProfileByDoctorId(DoctorId)
+        doctorClinkResponse.postValue(handleGetDoctorProfileByDoctorId(response))
+    }
+
+    private fun handleGetDoctorProfileByDoctorId(response: Response<GetDoctorClinksResponse>): Resource<GetDoctorClinksResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<GetDoctorClinksResponse>(response.errorBody()!!.string(), GetDoctorClinksResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
     }
 
 

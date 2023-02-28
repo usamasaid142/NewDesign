@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class CreatepatientAppointementsResponse(
     @SerializedName("Data")
-    val data: Data?
+    val data: Data?,
+    @SerializedName("Message")
+    val message: String,
 )
 data class Data(
     @SerializedName("AppointmentDate")

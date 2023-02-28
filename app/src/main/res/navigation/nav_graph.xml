@@ -230,5 +230,19 @@
     <fragment
         android:id="@+id/bookingAppointmentFragment"
         android:name="com.example.newdesign.fragment.booking.BookingAppointmentFragment"
-        android:label="BookingAppointmentFragment" />
+        android:label="BookingAppointmentFragment"
+        tools:layout="@layout/booking_appointmentfragment"
+        >
+        <argument
+            android:name="doctorId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_bookingAppointmentFragment_to_bookAppointmentFragment"
+            app:destination="@id/bookAppointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookAppointmentFragment"
+        android:name="com.example.newdesign.fragment.booking.BookAppointmentFragment"
+        android:label="book_appointmentfragment"
+        tools:layout="@layout/book_appointmentfragment" />
 </navigation>

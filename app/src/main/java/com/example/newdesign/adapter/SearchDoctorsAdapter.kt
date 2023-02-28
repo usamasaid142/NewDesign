@@ -11,10 +11,11 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ItemLayoutDoctorsBinding
+import com.example.newdesign.fragment.home.SearchFragmentDirections
 import com.example.newdesign.model.docotorsearch.Item
 
 
-class SearchDoctorsAdapter(private val booking:Booking) :
+class SearchDoctorsAdapter(private val booking: Booking) :
     ListAdapter<Item, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,24 +29,34 @@ class SearchDoctorsAdapter(private val booking:Booking) :
         val services = getItem(position)
 
         holder.binding.apply {
-            tvDoctorName.text=services.doctorName
-            tvSpecialization.text=services.specialistName
-            subSpecialization.text= services.subSpecialistName.toString()
-            location.text= services.clinicDto?.Address
-            waitingTime.text=" ${services.waitingTime}"
-            Feesresult.text=services.feesFrom.toString()
+            tvDoctorName.text = services.doctorName
+            tvSpecialization.text = services.specialistName
+            subSpecialization.text = services.subSpecialistName.toString()
+            location.text = services.clinicDto?.Address
+            waitingTime.text = " ${services.waitingTime}"
+            Feesresult.text = services.feesFrom.toString()
         }
         holder.binding.btnBooking.setOnClickListener {
-            services.clinicId?.let { it1 -> services.doctorId?.let { it2 ->
-                services.feesTo?.let { it3 ->
-                    booking.onItemClick(it1,
-                        it2, it3
-                    )
+            services.clinicId?.let { it1 ->
+                services.doctorId?.let { it2 ->
+                    services.feesTo?.let { it3 ->
+                        booking.onItemClick(
+                            it1,
+                            it2, it3
+                        )
+                    }
                 }
-            } }
+            }
         }
         holder.itemView.setOnClickListener {
-            it.findNavController().navigate(R.id.bookingAppointmentFragment)
+            val action= services.doctorId?.let { it1 ->
+                SearchFragmentDirections.actionSearchFragmentToBookingAppointmentFragment(
+                    it1
+                )
+            }
+            if (action != null) {
+                it.findNavController().navigate(action)
+            }
         }
 
 
@@ -74,9 +85,8 @@ class SearchDoctorsAdapter(private val booking:Booking) :
         }
     }
 
-    interface Booking{
+    interface Booking {
 
-        fun onItemClick(clinicId:Int,doctorId:Int,fess:Int)
-
+        fun onItemClick(clinicId: Int, doctorId: Int, fess: Int)
     }
 }

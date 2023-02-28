@@ -177,5 +177,10 @@
     <string name="confirm">Confirm</string>
     <string name="sharelink">Sharelink</string>
     <string name="add_to_favorite">Add to favorite</string>
+    <string name="about_doctor">About Doctor</string>
+    <string name="doctor_s_clinics">Doctor’s Clinics</string>
+    <string name="book_appointment">Book Appointment</string>
+    <string name="choose_clinic">Choose Clinic</string>
+    <string name="choose_service">Choose Service</string>
 
 </resources>

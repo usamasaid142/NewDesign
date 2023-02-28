@@ -7,6 +7,7 @@ import com.example.newdesign.model.HomeAdsResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,7 +44,8 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
                return Resource.sucess(it)
             }
         }
-        return Resource.Error(response.message())
+        val error = Gson().fromJson<LoginResponse>(response.errorBody()!!.string(), LoginResponse::class.java)
+        return Resource.Error(error.message)
     }
 
     fun Sentotp(culture:String,registerUser: CreateUser)=viewModelScope.launch(Dispatchers.IO) {
