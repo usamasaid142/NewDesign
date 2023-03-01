@@ -49,14 +49,20 @@ class SearchDoctorsAdapter(private val booking: Booking) :
             }
         }
         holder.itemView.setOnClickListener {
-            val action= services.doctorId?.let { it1 ->
-                SearchFragmentDirections.actionSearchFragmentToBookingAppointmentFragment(
-                    it1
+//            val action= services.doctorId?.let { it1 ->
+//                SearchFragmentDirections.actionSearchFragmentToBookingAppointmentFragment(
+//                    it1
+//                )
+//            }
+//            if (action != null) {
+//                it.findNavController().navigate(action)
+//            }
+            services.clinicId?.let { it1 -> services.doctorId?.let { it2 ->
+                booking.onItemClick(it1,
+                    it2
                 )
-            }
-            if (action != null) {
-                it.findNavController().navigate(action)
-            }
+            } }
+
         }
 
 
@@ -88,5 +94,6 @@ class SearchDoctorsAdapter(private val booking: Booking) :
     interface Booking {
 
         fun onItemClick(clinicId: Int, doctorId: Int, fess: Int)
+        fun onItemClick(clinicId: Int, doctorId: Int)
     }
 }

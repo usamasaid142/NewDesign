@@ -233,9 +233,6 @@
         android:label="BookingAppointmentFragment"
         tools:layout="@layout/booking_appointmentfragment"
         >
-        <argument
-            android:name="doctorId"
-            app:argType="integer" />
         <action
             android:id="@+id/action_bookingAppointmentFragment_to_bookAppointmentFragment"
             app:destination="@id/bookAppointmentFragment" />

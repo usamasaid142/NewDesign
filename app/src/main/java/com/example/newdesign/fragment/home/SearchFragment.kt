@@ -21,6 +21,7 @@ import com.example.newdesign.adapter.SearchServicesAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
 import com.example.newdesign.model.CalendarDateModel
 import com.example.newdesign.model.booking.AppointmentBooking
+import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.utils.Resource
@@ -456,6 +457,13 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
             HomeFragment.instance?.medicalExaminatioId!!,
             formattedDate
         )
+    }
+
+    override fun onItemClick( clinicId:Int,doctorId:Int) {
+        val clinicSchedualByClinicDayId=ClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate)
+        sharedDataViewmodel.getClinicSchedualByClinicDayId(clinicSchedualByClinicDayId)
+        sharedDataViewmodel.getDocotorId(doctorId)
+        findNavController().navigate(R.id.bookingAppointmentFragment)
     }
 
 }
