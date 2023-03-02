@@ -18,6 +18,7 @@ import com.example.newdesign.databinding.BookingAppointmentfragmentBinding
 import com.example.newdesign.fragment.dialog.DialogBottomSheetFragmentArgs
 import com.example.newdesign.fragment.home.SearchFragmentDirections
 import com.example.newdesign.model.booking.PatientAppointmentRequest
+import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
@@ -30,6 +31,7 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
     private  val viewmodel: DialogBottomSheetViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     private lateinit var clinksDoctorsAdapter: ClinksDoctorsAdapter
+    private lateinit var getDoctorClinksResponse: GetDoctorClinksResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +75,7 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
                 }
                 is Resource.sucess -> {
                     hideprogressbar()
+                    getDoctorClinksResponse= GetDoctorClinksResponse(it.data?.data,it.message)
                     binding.AboutDoctor.text=it.data?.data?.doctorInfo
                     val name="${it.data?.data?.firstName}${it.data?.data?.middelName}${it.data?.data?.lastName}"
                     binding.tvDoctorName.text=name
@@ -108,7 +111,8 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
           }
 
     override fun onItemClick() {
-        findNavController().navigate(R.id.bookAppointmentFragment)
+        val action=BookingAppointmentFragmentDirections.actionBookingAppointmentFragmentToBookAppointmentFragment(getDoctorClinksResponse)
+        findNavController().navigate(action)
     }
 
 }

@@ -2,13 +2,14 @@ package com.example.newdesign.model.booking.clink
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class GetDoctorClinksResponse(
     @SerializedName("Data")
     val data: Data?,
     @SerializedName("Message")
     val message: String?
-)
+): Serializable
 data class Data(
     @SerializedName("Birthday")
     val birthday: String?,
@@ -80,7 +81,7 @@ data class Data(
     val userId: Int?,
     @SerializedName("Website")
     val website: Any?
-)
+): Serializable
 data class ClinicDto(
     @SerializedName("Address")
     val address: String?,
@@ -110,4 +111,4 @@ data class ClinicDto(
     val name: String?,
     @SerializedName("Phone")
     val phone: String?
-)
+): Serializable

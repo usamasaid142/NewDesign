@@ -7,5 +7,6 @@ data class ClinicSchedualByClinicDayId(
     val clinicId:Int,
     val dayId:Int,
     val medicalExaminationId:Int,
-    val formattedDate:String
+    val formattedDate:String,
+    val clinicName:String
 ): Serializable

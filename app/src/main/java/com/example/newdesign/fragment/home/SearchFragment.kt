@@ -3,7 +3,6 @@ package com.example.newdesign.fragment.home
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +16,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.SearchDoctorsAdapter
-import com.example.newdesign.adapter.SearchServicesAdapter
+import com.example.newdesign.adapter.CalenderAdapter
 import com.example.newdesign.databinding.SearchfragmentBinding
 import com.example.newdesign.model.CalendarDateModel
-import com.example.newdesign.model.booking.AppointmentBooking
 import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
@@ -31,17 +29,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAdapter.Booking {
+class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.Booking {
 
     private lateinit var binding: SearchfragmentBinding
-    private lateinit var searchServicesAdapter: SearchServicesAdapter
+    private lateinit var searchServicesAdapter: CalenderAdapter
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
 
@@ -203,7 +197,7 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
     }
 
     private fun servicesRecylerview() {
-        searchServicesAdapter = SearchServicesAdapter(this)
+        searchServicesAdapter = CalenderAdapter(this)
         binding.rvSearchServices.apply {
             adapter = searchServicesAdapter
             setHasFixedSize(true)
@@ -459,8 +453,8 @@ class SearchFragment : Fragment(), SearchServicesAdapter.Action, SearchDoctorsAd
         )
     }
 
-    override fun onItemClick( clinicId:Int,doctorId:Int) {
-        val clinicSchedualByClinicDayId=ClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate)
+    override fun onItemClick( clinicId:Int,doctorId:Int,clinkname:String) {
+        val clinicSchedualByClinicDayId=ClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate,clinkname)
         sharedDataViewmodel.getClinicSchedualByClinicDayId(clinicSchedualByClinicDayId)
         sharedDataViewmodel.getDocotorId(doctorId)
         findNavController().navigate(R.id.bookingAppointmentFragment)

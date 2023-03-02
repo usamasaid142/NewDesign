@@ -241,5 +241,12 @@
         android:id="@+id/bookAppointmentFragment"
         android:name="com.example.newdesign.fragment.booking.BookAppointmentFragment"
         android:label="book_appointmentfragment"
-        tools:layout="@layout/book_appointmentfragment" />
+        tools:layout="@layout/book_appointmentfragment" >
+        <argument
+            android:name="doctorclinks"
+            app:argType="com.example.newdesign.model.booking.clink.GetDoctorClinksResponse" />
+        <action
+            android:id="@+id/action_bookAppointmentFragment_to_appointmentDetailsFragment"
+            app:destination="@id/appointmentDetailsFragment" />
+    </fragment>
 </navigation>

@@ -1,7 +1,6 @@
 package com.example.newdesign.adapter
 
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,16 +9,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newdesign.R
 
-import com.example.newdesign.databinding.ItemLayoutSearchBinding
 import com.example.newdesign.databinding.ItemLayoutcalendardateBinding
 import com.example.newdesign.model.CalendarDateModel
-import okhttp3.internal.http.toHttpDateString
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchServicesAdapter(private val selectDate:Action) :
-    ListAdapter<CalendarDateModel, SearchServicesAdapter.ViewHolder>(DiffCallback()) {
+class CalenderAdapter(private val selectDate:Action) :
+    ListAdapter<CalendarDateModel, CalenderAdapter.ViewHolder>(DiffCallback()) {
     private val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
     private var selectedItemPosition: Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

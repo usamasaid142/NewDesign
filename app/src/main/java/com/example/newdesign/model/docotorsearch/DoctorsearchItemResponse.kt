@@ -52,7 +52,7 @@ data class Item(
     @SerializedName("ClinicId")
     val clinicId: Int?,
     @SerializedName("ClinicName")
-    val clinicName: Any?,
+    val clinicName: String?,
     @SerializedName("DoctorId")
     val doctorId: Int?,
     @SerializedName("DoctorName")
@@ -95,4 +95,6 @@ data class ClinicDto(
     @SerializedName("ClinicId")
     val ClinicId: Int?,
     val DoctorWorkingDayTimeId: Int?,
+    @SerializedName("Name")
+    val Name: String?,
 )
