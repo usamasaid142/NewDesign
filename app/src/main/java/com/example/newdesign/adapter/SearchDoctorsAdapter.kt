@@ -17,7 +17,7 @@ import com.example.newdesign.model.docotorsearch.Item
 
 class SearchDoctorsAdapter(private val booking: Booking) :
     ListAdapter<Item, SearchDoctorsAdapter.ViewHolder>(DiffCallback()) {
-
+    var subspecialist:String?=""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view =
@@ -31,7 +31,12 @@ class SearchDoctorsAdapter(private val booking: Booking) :
         holder.binding.apply {
             tvDoctorName.text = services.doctorName
             tvSpecialization.text = services.specialistName
-            subSpecialization.text = services.subSpecialistName.toString()
+
+            services.subSpecialistName?.forEach {
+                subspecialist= "$subspecialist $it,"
+            }
+            subSpecialization.text = subspecialist
+            subspecialist=""
             location.text = services.clinicDto?.Address
             waitingTime.text = " ${services.waitingTime}"
             Feesresult.text = services.feesFrom.toString()

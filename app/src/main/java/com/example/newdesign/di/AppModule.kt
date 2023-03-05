@@ -4,7 +4,6 @@ import com.example.newdesign.BuildConfig
 import com.example.newdesign.api.ApiService
 import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.utils.Constans.BASE_URL
-import com.example.newdesign.utils.SpUtil
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

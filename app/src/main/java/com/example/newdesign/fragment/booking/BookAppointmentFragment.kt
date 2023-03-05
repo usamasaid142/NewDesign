@@ -59,6 +59,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     private var formattedDate = ""
     private var clinkname = ""
     private var clinicId = 0
+    var dayId = 0
     private var medicalExaminationId = 0
     var time: String? = null
     private var doctorWorkingDayTimeId: Int? = null
@@ -81,7 +82,13 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.clinksBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
-
+        val name="${args.doctorclinks.data?.firstName}${args.doctorclinks.data?.middelName}${args.doctorclinks.data?.lastName}"
+        binding.tvDoctorName.text=name
+        var subspecialist:String?=""
+        args.doctorclinks.data?.subSpecialistName?.forEach {
+            subspecialist= "$subspecialist $it,"
+        }
+        binding.tvSpecialization.text=subspecialist
         initButton()
         CalenderRecylerview()
         clinksRecylerview()
@@ -207,8 +214,12 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                         if (!time.isNullOrEmpty()) {
                             getAppointments(time as List<BookingData>)
                             binding.etChooseService.setText(time[0]?.medicalExaminationTypeName)
+                            binding.ivCalenderviw.visibility = View.GONE
+                            binding.rvAppointmentsAvailable.visibility=View.VISIBLE
                         } else {
                             binding.ivCalenderviw.visibility = View.VISIBLE
+                           binding.rvAppointmentsAvailable.visibility=View.GONE
+
                         }
 
                     }
@@ -289,6 +300,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getAppointments(appointmentTime: List<BookingData>) {
         val appointmentBookingList = mutableListOf<AppointmentBooking>()
+        appointmentBookingList.clear()
         var timeFrom = ""
         var timeTo = ""
         var doctorWorkingDayTimeId = 0
@@ -372,6 +384,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         }
         if (appointmentBookingList.isNullOrEmpty()) {
             binding.ivCalenderviw.visibility = View.VISIBLE
+            binding.rvAppointmentsAvailable.visibility = View.GONE
         } else {
             binding.ivCalenderviw.visibility = View.GONE
             binding.rvAppointmentsAvailable.visibility = View.VISIBLE
@@ -414,11 +427,44 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
         formattedDate = formatter.format(date)
         this.formattedDate=formattedDate
+        getDayId()
         viewmodel.getClinicSchedualByClinicDayId(
             clinicId,
-            1,
+            dayId,
             1,
             formattedDate
         )
+    }
+
+    private fun getDayId() {
+        val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
+        val date = format.parse(formattedDate)
+        val day = sdf.format(date).subSequence(0, 3)
+
+        when (day) {
+            "Sun" -> {
+                dayId = 1
+            }
+            "Mon" -> {
+                dayId = 2
+            }
+            "Tue" -> {
+                dayId = 3
+            }
+            "Wed" -> {
+                dayId = 4
+            }
+            "Thu" -> {
+                dayId = 5
+            }
+            "Fri"->{
+                dayId=6
+            }
+            "Sat"->{
+                dayId=6
+            }
+        }
+
     }
 }

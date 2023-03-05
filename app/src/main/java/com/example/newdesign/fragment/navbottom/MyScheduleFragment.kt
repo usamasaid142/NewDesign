@@ -33,7 +33,7 @@ class MyScheduleFragment : Fragment() {
     private fun initButton(){
 
         binding.layoutUpcoming.setOnClickListener {
-            binding.layoutUpcoming.setBackgroundResource(R.drawable.bg_buttonsearch)
+            binding.layoutUpcoming.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvUpcoming.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.layoutFinished.setBackgroundResource( R.drawable.bg_help)
             binding.tvFinished.setTextColor(Color.parseColor("#262D70"))
@@ -42,7 +42,7 @@ class MyScheduleFragment : Fragment() {
         }
 
         binding.layoutFinished.setOnClickListener {
-           binding.layoutFinished.setBackgroundResource(R.drawable.bg_buttonsearch)
+           binding.layoutFinished.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvFinished.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.layoutUpcoming.setBackgroundResource(R.drawable.bg_help)
             binding.tvUpcoming.setTextColor(Color.parseColor("#262D70"))
@@ -51,7 +51,7 @@ class MyScheduleFragment : Fragment() {
         }
 
         binding.layoutCanceled.setOnClickListener {
-            binding.layoutCanceled.setBackgroundResource(R.drawable.bg_buttonsearch)
+            binding.layoutCanceled.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvCanceled.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.layoutUpcoming.setBackgroundResource(R.drawable.bg_help)
             binding.tvUpcoming.setTextColor(Color.parseColor("#262D70"))

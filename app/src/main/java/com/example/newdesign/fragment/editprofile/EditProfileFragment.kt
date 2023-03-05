@@ -53,7 +53,7 @@ class EditProfileFragment : Fragment() {
 
 
         binding.layoutProfileInfo.setOnClickListener {
-            binding.layoutProfileInfo.setBackgroundResource(R.drawable.bg_buttonsearch)
+            binding.layoutProfileInfo.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvProfileInfo.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.layoutLocation.setBackgroundResource( R.drawable.bg_help)
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
@@ -72,7 +72,7 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.layoutLocation.setOnClickListener {
-            binding.layoutLocation.setBackgroundResource(R.drawable.bg_buttonsearch)
+            binding.layoutLocation.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvLocation.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.layoutProfileInfo.setBackgroundResource(R.drawable.bg_help)
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
@@ -91,7 +91,7 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.layoutMedicalState.setOnClickListener {
-            binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_buttonsearch)
+            binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvMedicalState.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.layoutProfileInfo.setBackgroundResource(R.drawable.bg_help)
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))

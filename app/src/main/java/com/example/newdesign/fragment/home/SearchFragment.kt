@@ -3,6 +3,7 @@ package com.example.newdesign.fragment.home
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,10 @@ import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.gson.internal.bind.util.ISO8601Utils.format
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.String.format
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,6 +49,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
     var specialistId = 0
     var doctorId = 0
+    var dayId = 0
     var feesTo = 0
     var seniortyLevelId = 0
     var cityId = 0
@@ -100,8 +105,10 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         viewmodel.searchDoctors(doctorssearchRequset)
         doctorsSearch()
         callBackGetClinicSchedualByClinicDayId()
+        getDayId()
         setUpCalendar()
         initButton()
+
     }
 
     private fun initButton() {
@@ -181,8 +188,8 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                 formattedDate,
                 cityId,
                 binding.etSearch.text.toString(),
-                feesFrom = 0,
-                feesTo = 0,
+                binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().toInt(),
+                binding.layoutBottomsheetpersistant.etFeesTo.text.toString().toInt(),
                 genderId,
                 10,
                 1,
@@ -370,10 +377,12 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                         val time = it?.data?.data
                         if (time != null) {
 
-                            val patientAppointmentRequest=PatientAppointmentRequest(doctorId,0,formattedDate,false)
+                            val patientAppointmentRequest =
+                                PatientAppointmentRequest(doctorId, 0, formattedDate, false)
                             val action =
                                 SearchFragmentDirections.actionSearchFragmentToDialogClinkBookingFragment(
-                                    patientAppointmentRequest,it.data)
+                                    patientAppointmentRequest, it.data
+                                )
                             findNavController().navigate(action)
 
                         }
@@ -413,7 +422,6 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1)
         while (dates.size < maxDaysInMonth) {
             if (monthCalendar.time.time >= now.time.time) {
-
                 calendarList.add(CalendarDateModel(monthCalendar.time))
             }
             dates.add(monthCalendar.time)
@@ -442,22 +450,61 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         viewmodel.searchDoctors(doctorssearchRequset)
     }
 
-    override fun onItemClick(clinicId: Int,doctorId:Int,fessTo:Int) {
-        this.doctorId=doctorId
-        this.feesTo=feesTo
+    override fun onItemClick(clinicId: Int, doctorId: Int, fessTo: Int) {
+        this.doctorId = doctorId
+        this.feesTo = feesTo
+        getDayId()
         viewmodel.getClinicSchedualByClinicDayId(
             clinicId,
-            1,
+            dayId,
             HomeFragment.instance?.medicalExaminatioId!!,
             formattedDate
         )
     }
 
-    override fun onItemClick( clinicId:Int,doctorId:Int,clinkname:String) {
-        val clinicSchedualByClinicDayId=ClinicSchedualByClinicDayId(clinicId,1,HomeFragment.instance?.medicalExaminatioId!!,formattedDate,clinkname)
+    override fun onItemClick(clinicId: Int, doctorId: Int, clinkname: String) {
+        val clinicSchedualByClinicDayId = ClinicSchedualByClinicDayId(
+            clinicId,
+            dayId,
+            HomeFragment.instance?.medicalExaminatioId!!,
+            formattedDate,
+            clinkname
+        )
         sharedDataViewmodel.getClinicSchedualByClinicDayId(clinicSchedualByClinicDayId)
         sharedDataViewmodel.getDocotorId(doctorId)
         findNavController().navigate(R.id.bookingAppointmentFragment)
+    }
+
+    private fun getDayId() {
+        val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
+        val date = format.parse(formattedDate)
+        val day = sdf.format(date).subSequence(0, 3)
+
+        when (day) {
+            "Sun" -> {
+                dayId = 1
+            }
+            "Mon" -> {
+                dayId = 2
+            }
+            "Tue" -> {
+                dayId = 3
+            }
+            "Wed" -> {
+                dayId = 4
+            }
+            "Thu" -> {
+                dayId = 5
+            }
+            "Fri" -> {
+                dayId = 6
+            }
+            "Sat" -> {
+                dayId = 6
+            }
+        }
+
     }
 
 }
