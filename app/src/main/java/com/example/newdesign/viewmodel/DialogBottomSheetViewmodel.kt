@@ -9,6 +9,7 @@ import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
+import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
 import com.google.gson.Gson
@@ -33,6 +34,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val bookingResponse=MutableLiveData<Resource<BookingResponse>>()
     val patientAppointmentResponse=MutableLiveData<Resource<CreatepatientAppointementsResponse>>()
     val doctorClinkResponse=MutableLiveData<Resource<GetDoctorClinksResponse>>()
+    val patientsAppointmentesResponse=MutableLiveData<Resource<GetPatientAppointmentesResponse>>()
 
 
 
@@ -210,5 +212,19 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
     }
 
+    fun getPatientAppointmentes(medicalExaminationTypeId :Int?)=viewModelScope.launch(Dispatchers.IO) {
+        patientsAppointmentesResponse.postValue(Resource.Loading())
+        val response=repositry.getPatientAppointmentes(medicalExaminationTypeId)
+        patientsAppointmentesResponse.postValue(handleGetPatientAppointmentes(response))
+    }
 
+    private fun handleGetPatientAppointmentes(response: Response<GetPatientAppointmentesResponse>): Resource<GetPatientAppointmentesResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<GetPatientAppointmentesResponse>(response.errorBody()!!.string(), GetPatientAppointmentesResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
 }

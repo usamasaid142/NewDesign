@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -221,7 +222,12 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     }
 
     private fun initButtonCollabsedFiller() {
-
+        collabsedFiller(
+            binding.layoutBottomsheetpersistant.layoutExaminationtypeId,
+            binding.layoutBottomsheetpersistant.layoutExaminationtypedetails,
+            binding.layoutBottomsheetpersistant.layoutIvCollabsarrowdownExaminationtype,
+            binding.layoutBottomsheetpersistant.ivExaminationtypearrowRight
+        )
         collabsedFiller(
             binding.layoutBottomsheetpersistant.layoutSpecializationHeader,
             binding.layoutBottomsheetpersistant.layoutSpecializationDetails,
@@ -504,6 +510,10 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                 dayId = 6
             }
         }
+
+    }
+    fun setupSpinner() {
+
 
     }
 
