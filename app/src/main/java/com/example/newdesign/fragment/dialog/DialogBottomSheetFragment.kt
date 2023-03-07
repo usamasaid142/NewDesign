@@ -166,16 +166,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     }
 
-//    private fun fillCountryList(){
-//
-//        list=ArrayList()
-//        list.add(CountryList(R.drawable.ic_eyeshow,"text1"))
-//        list.add(CountryList(R.drawable.ic_eyehide,"text2"))
-//        list.add(CountryList(R.drawable.ic_doctors,"text3"))
-//        list.add(CountryList(R.drawable.ic_eyehide,"text4"))
-//        list.add(CountryList(R.drawable.ic_eyehide,"text5"))
-//
-//    }
 
 
     private fun showDatepicker() {

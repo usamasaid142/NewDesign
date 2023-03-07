@@ -12,7 +12,7 @@ import com.example.newdesign.databinding.ItemLayoutScheduleBinding
 import com.example.newdesign.model.scheduling.DataAppointment
 
 
-class MyScheduleAdapter(private val booking: ActionSchedule) :
+class MyScheduleAdapter(private val schedule: ActionSchedule) :
     ListAdapter<DataAppointment, MyScheduleAdapter.ViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -32,14 +32,23 @@ class MyScheduleAdapter(private val booking: ActionSchedule) :
             waitingTime.text = " ${services.appointmentDate}"
             Feesresult.text = services.fees.toString()
         }
-        holder.binding.btnBooking.setOnClickListener {
+        holder.binding.btnMoreAction.setOnClickListener {
 
+            services.appointmentDate?.let { it1 ->
+                services.doctorId?.let { it2 ->
+                    services.clinicId?.let { it3 ->
+                        services.clinicName?.let { it4 ->
+                            services.medicalExaminationTypeId?.let { it5 ->
+                                schedule.onItemClick(
+                                    it3, it2, it4,
+                                    it1, it5
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
-        holder.itemView.setOnClickListener {
-
-
-        }
-
 
         holder.binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${services.doctorImage}") {
             crossfade(true)
@@ -67,8 +76,6 @@ class MyScheduleAdapter(private val booking: ActionSchedule) :
     }
 
     interface ActionSchedule {
-
-        fun onItemClick(clinicId: Int, doctorId: Int, fess: Int)
-        fun onItemClick(clinicId: Int, doctorId: Int,clinkname:String)
+        fun onItemClick(clinicId: Int, doctorId: Int,clinkname:String,formaterDate:String,medicalExaminationTypeId:Int)
     }
 }
