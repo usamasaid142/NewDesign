@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.newdesign.R
 import com.example.newdesign.databinding.DialogSchdulefragmentBinding
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
@@ -23,6 +24,7 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
     private lateinit var binding: DialogSchdulefragmentBinding
     private  val viewmodel: DialogBottomSheetViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
+    private val args:DialogSchduleFragmentArgs by navArgs()
     private lateinit var getDoctorClinksResponse: GetDoctorClinksResponse
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
@@ -40,8 +42,9 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initButton()
+        showView()
         callBack()
+        initButton()
     }
 
     private fun initButton(){
@@ -55,9 +58,27 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
 
         binding.tvEdit.setOnClickListener {
 
-       val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToBookAppointmentFragment(getDoctorClinksResponse)
-       findNavController().navigate(action)
+            val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToBookAppointmentFragment(getDoctorClinksResponse,"Edit Appointment")
+            findNavController().navigate(action)
+
         }
+
+        binding.btnReschedule.setOnClickListener {
+
+            val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToBookAppointmentFragment(getDoctorClinksResponse,"Reschedule")
+            findNavController().navigate(action)
+        }
+        binding.tvReBookingAppointment.setOnClickListener {
+
+            val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToBookAppointmentFragment(getDoctorClinksResponse,"Re-Booking Appointment")
+            findNavController().navigate(action)
+        }
+
+        binding.btnConfirm.setOnClickListener {
+            dismiss()
+        }
+
+
 
     }
 
@@ -85,6 +106,20 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
             viewmodel.getDoctorProfileByDoctorId(it)
         })
 
+    }
+
+    private fun showView(){
+        when(args.schedule){
+            "Upcoming"->{
+             binding.layoutCanceled.visibility=View.VISIBLE
+            }
+            "Finished"->{
+                binding.layoutReBookingAppointment.visibility=View.VISIBLE
+            }
+            else->{
+             binding.layoutCanceled.visibility=View.VISIBLE
+            }
+        }
     }
 
 }

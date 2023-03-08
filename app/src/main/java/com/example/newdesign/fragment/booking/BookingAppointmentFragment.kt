@@ -111,7 +111,7 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
           }
 
     override fun onItemClick() {
-        val action=BookingAppointmentFragmentDirections.actionBookingAppointmentFragmentToBookAppointmentFragment(getDoctorClinksResponse)
+        val action=BookingAppointmentFragmentDirections.actionBookingAppointmentFragmentToBookAppointmentFragment(getDoctorClinksResponse,"Book Appointment")
         findNavController().navigate(action)
     }
 

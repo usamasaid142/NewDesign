@@ -78,7 +78,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.tvName.text=args.status
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.clinksBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
@@ -101,7 +101,21 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
     private fun initButton() {
         binding.ivArrow.setOnClickListener {
-            findNavController().navigate(R.id.bookingAppointmentFragment)
+            when(args.status){
+                "Edit Appointment"->{
+                    findNavController().navigate(R.id.myScheduleFragment)
+                }
+                "Reschedule"->{
+                    findNavController().navigate(R.id.myScheduleFragment)
+                }
+                "Re-Booking Appointment"->{
+                    findNavController().navigate(R.id.myScheduleFragment)
+                }
+                else->{
+                findNavController().navigate(R.id.bookingAppointmentFragment)
+                }
+            }
+
         }
 
         binding.ivNext.setOnClickListener {

@@ -189,5 +189,8 @@
     <string name="cancelappointment">CancelAppointment</string>
     <string name="are_you_sure_you_want_to_cancel_this_appointment">Are you sure you want to cancel this appointment</string>
     <string name="reschedule">Reschedule</string>
+    <string name="re_booking_appointment">Re-Booking Appointment</string>
+    <string name="medical_history">Medical History</string>
+    <string name="rate">Rate</string>
 
 </resources>

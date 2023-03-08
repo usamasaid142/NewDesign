@@ -235,7 +235,8 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
         )
         sharedDataViewmodel.getClinicSchedualByClinicDayId(clinicSchedualByClinicDayId)
         sharedDataViewmodel.getDocotorId(doctorId)
-        findNavController().navigate(R.id.dialogSchduleFragment)
+        val action=MyScheduleFragmentDirections.actionMyScheduleFragmentToDialogSchduleFragment(sechdule)
+        findNavController().navigate(action)
     }
 
     override fun onItemClick(examinationTypeId: Int) {
