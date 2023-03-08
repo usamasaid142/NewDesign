@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -75,7 +76,7 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            dismiss()
+            callBackCancelAppointment()
         }
 
 
@@ -106,6 +107,27 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
             viewmodel.getDoctorProfileByDoctorId(it)
         })
 
+    }
+
+    private fun callBackCancelAppointment(){
+        viewmodel.cancelPatientResponse.observe(viewLifecycleOwner, Observer {
+            when(it){
+
+                is Resource.Loading -> {
+                    binding.progressBar.visibility=View.VISIBLE
+                }
+                is Resource.sucess -> {
+                    binding.progressBar.visibility=View.GONE
+                    Toast.makeText(requireContext(),"Appointment Canceled Successfully",Toast.LENGTH_SHORT).show()
+                    dismiss()
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility=View.GONE
+                }
+
+            }
+        })
+        viewmodel.cancelPatientAppointment(args.appointmentId)
     }
 
     private fun showView(){

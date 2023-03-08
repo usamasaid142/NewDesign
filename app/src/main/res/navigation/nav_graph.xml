@@ -269,5 +269,8 @@
             android:name="schedule"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="AppointmentId"
+            app:argType="integer" />
     </dialog>
 </navigation>

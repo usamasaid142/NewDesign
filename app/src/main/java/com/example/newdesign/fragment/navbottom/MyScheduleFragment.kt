@@ -224,7 +224,8 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
         doctorId: Int,
         clinkname: String,
         formaterdate: String,
-        medicalExaminationTypeId:Int
+        medicalExaminationTypeId:Int,
+        AppointmentId:Int
     ) {
         val clinicSchedualByClinicDayId = ClinicSchedualByClinicDayId(
             clinicId,
@@ -235,7 +236,7 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
         )
         sharedDataViewmodel.getClinicSchedualByClinicDayId(clinicSchedualByClinicDayId)
         sharedDataViewmodel.getDocotorId(doctorId)
-        val action=MyScheduleFragmentDirections.actionMyScheduleFragmentToDialogSchduleFragment(sechdule)
+        val action=MyScheduleFragmentDirections.actionMyScheduleFragmentToDialogSchduleFragment(sechdule,AppointmentId)
         findNavController().navigate(action)
     }
 

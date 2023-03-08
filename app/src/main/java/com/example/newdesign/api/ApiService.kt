@@ -6,6 +6,7 @@ import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
+import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -103,6 +104,12 @@ interface ApiService {
         @Path("culture") culture: String,
       @Query("medicalExaminationTypeId") medicalExaminationTypeId :Int?=null,
     ): Response<GetPatientAppointmentesResponse>
+
+    @GET("{culture}/PatientAppointment/CancelPatientAppointment")
+    suspend fun cancelPatientAppointment(
+        @Path("culture") culture: String,
+        @Query("AppointmentId") AppointmentId :Int,
+    ): Response<CancelPatientAppointmentResponse>
 
 
 

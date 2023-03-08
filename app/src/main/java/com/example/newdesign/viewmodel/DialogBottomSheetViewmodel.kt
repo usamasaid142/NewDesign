@@ -9,6 +9,7 @@ import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.register.*
+import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
@@ -35,6 +36,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val patientAppointmentResponse=MutableLiveData<Resource<CreatepatientAppointementsResponse>>()
     val doctorClinkResponse=MutableLiveData<Resource<GetDoctorClinksResponse>>()
     val patientsAppointmentesResponse=MutableLiveData<Resource<GetPatientAppointmentesResponse>>()
+    val cancelPatientResponse=MutableLiveData<Resource<CancelPatientAppointmentResponse>>()
 
 
 
@@ -227,4 +229,23 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         val error = Gson().fromJson<GetPatientAppointmentesResponse>(response.errorBody()!!.string(), GetPatientAppointmentesResponse::class.java)
         return error.message?.let { Resource.Error(it) }
     }
+
+    fun cancelPatientAppointment(AppointmentId :Int)=viewModelScope.launch(Dispatchers.IO) {
+        cancelPatientResponse.postValue(Resource.Loading())
+        val response=repositry.cancelPatientAppointment(AppointmentId)
+        cancelPatientResponse.postValue(handleCancelPatientAppointment(response))
+    }
+
+    private fun handleCancelPatientAppointment(response: Response<CancelPatientAppointmentResponse>): Resource<CancelPatientAppointmentResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<CancelPatientAppointmentResponse>(response.errorBody()!!.string(), CancelPatientAppointmentResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+
+    }
+
+
 }

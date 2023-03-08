@@ -39,10 +39,12 @@ class MyScheduleAdapter(private val schedule: ActionSchedule) :
                     services.clinicId?.let { it3 ->
                         services.clinicName?.let { it4 ->
                             services.medicalExaminationTypeId?.let { it5 ->
-                                schedule.onItemClick(
-                                    it3, it2, it4,
-                                    it1, it5
-                                )
+                                services.appointmentId?.let { it6 ->
+                                    schedule.onItemClick(
+                                        it3, it2, it4,
+                                        it1, it5, it6
+                                    )
+                                }
                             }
                         }
                     }
@@ -76,6 +78,6 @@ class MyScheduleAdapter(private val schedule: ActionSchedule) :
     }
 
     interface ActionSchedule {
-        fun onItemClick(clinicId: Int, doctorId: Int,clinkname:String,formaterDate:String,medicalExaminationTypeId:Int)
+        fun onItemClick(clinicId: Int, doctorId: Int,clinkname:String,formaterDate:String,medicalExaminationTypeId:Int,AppointmentId:Int)
     }
 }
