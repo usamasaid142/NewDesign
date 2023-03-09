@@ -44,7 +44,11 @@ class AppointmentDetailsFragment : Fragment() {
 
     private fun initButton(){
         binding.ivArrow.setOnClickListener{
-            findNavController().navigate(R.id.searchFragment)
+            if (args.status==true) {
+                findNavController().navigate(R.id.searchFragment)
+            }else{
+                findNavController().navigate(R.id.myScheduleFragment)
+            }
         }
 
         binding.btnConfirm.setOnClickListener {
@@ -81,6 +85,7 @@ class AppointmentDetailsFragment : Fragment() {
                     is Resource.sucess -> {
                         hideprogressbar()
                         Toast.makeText(requireContext()," booking Successfully",Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.myScheduleFragment)
                     }
 
                     is Resource.Error -> {

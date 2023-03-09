@@ -65,7 +65,7 @@
             android:fontFamily="@font/avenirltstd_black"
             android:gravity="start"
             android:text="Osama"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@+id/iv_PatientProfile"
             app:layout_constraintTop_toTopOf="@+id/iv_PatientProfile" />
@@ -79,7 +79,7 @@
             android:fontFamily="@font/avenirltstd_roman"
             android:gravity="start"
             android:text="@string/click_here_to_edit_your_profile"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintStart_toEndOf="@+id/iv_PatientProfile"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />

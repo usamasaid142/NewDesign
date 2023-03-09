@@ -204,7 +204,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_calenderbook"
+            android:src="@drawable/ic_calenderblack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

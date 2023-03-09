@@ -21,7 +21,6 @@ import com.example.newdesign.adapter.AppointmentsAvailableAdapter
 import com.example.newdesign.adapter.ChooseClinksDoctorsAdapter
 import com.example.newdesign.adapter.CalenderAdapter
 import com.example.newdesign.databinding.BookAppointmentfragmentBinding
-import com.example.newdesign.fragment.dialog.DialogClinkBookingFragmentDirections
 import com.example.newdesign.model.CalendarDateModel
 import com.example.newdesign.model.booking.AppointmentBooking
 import com.example.newdesign.model.booking.AppointmentDetailBooking
@@ -278,11 +277,21 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                             )
                         }
                     }
-                    val action =
-                        BookAppointmentFragmentDirections.actionBookAppointmentFragmentToAppointmentDetailsFragment(
-                            appointmentDetailBooking
-                        )
-                    findNavController().navigate(action)
+
+                    if (args.status=="Book Appointment"){
+                        val action =
+                            BookAppointmentFragmentDirections.actionBookAppointmentFragmentToAppointmentDetailsFragment(
+                                appointmentDetailBooking,true
+                            )
+                        findNavController().navigate(action)
+                    }else{
+                        val action =
+                            BookAppointmentFragmentDirections.actionBookAppointmentFragmentToAppointmentDetailsFragment(
+                                appointmentDetailBooking,false
+                            )
+                        findNavController().navigate(action)
+                    }
+
                 }
 
                 is Resource.Error -> {

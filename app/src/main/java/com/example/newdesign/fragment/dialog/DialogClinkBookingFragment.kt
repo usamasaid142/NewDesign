@@ -129,7 +129,8 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                         AppointmentDetailBooking(it.data?.data?.doctorName,
                             it1,formattedDate,intervalTime,doctorWorkingDayTimeId,fees,medicalExaminationTypeName,it.data?.data?.doctorDto?.specialistName )
                     }
-                   val action=DialogClinkBookingFragmentDirections.actionDialogClinkBookingFragmentToAppointmentDetailsFragment(appointmentDetailBooking)
+                   val action=DialogClinkBookingFragmentDirections.actionDialogClinkBookingFragmentToAppointmentDetailsFragment(appointmentDetailBooking
+                  ,true )
                     findNavController().navigate(action)
                 }
 
