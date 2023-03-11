@@ -470,6 +470,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             specialistId
         )
         viewmodel.searchDoctors(doctorssearchRequset)
+
     }
 
     override fun onItemClick(clinicId: Int, doctorId: Int, fessTo: Int) {
