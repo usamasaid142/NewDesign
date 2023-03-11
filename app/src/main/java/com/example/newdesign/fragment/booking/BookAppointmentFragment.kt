@@ -59,6 +59,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     private var clinkname = ""
     private var clinicId = 0
     var dayId = 0
+    var step=1
     private var medicalExaminationId = 0
     var time: String? = null
     private var doctorWorkingDayTimeId: Int? = null
@@ -77,6 +78,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.ivPrevious.isEnabled = step != 1
         binding.tvName.text=args.status
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.clinksBottomsheet)
@@ -117,12 +119,17 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
         }
 
+
+
         binding.ivNext.setOnClickListener {
+            step++
+            binding.ivPrevious.isEnabled = step != 1
             cal.add(Calendar.MONTH, 1)
             setUpCalendar()
         }
         binding.ivPrevious.setOnClickListener {
-
+            step--
+            binding.ivPrevious.isEnabled = step != 1
             cal.add(Calendar.MONTH, -1)
             setUpCalendar()
         }

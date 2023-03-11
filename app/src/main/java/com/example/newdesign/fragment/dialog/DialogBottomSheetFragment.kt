@@ -1,5 +1,7 @@
 package com.example.newdesign.fragment.dialog
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.model.*
 import com.example.newdesign.model.register.ChooseGender
+import com.example.newdesign.utils.DataBinding.displayToastText
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
@@ -155,6 +158,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     private fun initButton() {
         binding.btnCalling.setOnClickListener {
+            call()
             dismiss()
         }
         binding.btnDone.setOnClickListener {
@@ -511,5 +515,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     }
 
+    fun call() {
 
+                val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "17143", null))
+                this.startActivity(intent)
+    }
 }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -53,10 +54,12 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     var dayId = 0
     var feesTo = 0
     var seniortyLevelId = 0
+    var examinationtypeid=0
     var cityId = 0
     var areaId = 0
     var genderId = 0
     var formattedDate = ""
+    var step=1
     var sub_SpecialistId = mutableListOf<Int>()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
@@ -75,7 +78,8 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.ivPrevious.isEnabled = step != 1
+        examinationtypeid= HomeFragment.instance?.medicalExaminatioId!!
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
@@ -98,7 +102,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             feesTo = 0,
             genderId,
             10,
-            HomeFragment.instance?.medicalExaminatioId!!,
+            examinationtypeid,
             0,
             0,
             specialistId
@@ -109,17 +113,20 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         getDayId()
         setUpCalendar()
         initButton()
-
+        setupSpinner()
     }
 
     private fun initButton() {
 
         binding.ivNext.setOnClickListener {
+            step++
+            binding.ivPrevious.isEnabled = step != 1
             cal.add(Calendar.MONTH, 1)
             setUpCalendar()
         }
         binding.ivPrevious.setOnClickListener {
-
+            step--
+            binding.ivPrevious.isEnabled = step != 1
             cal.add(Calendar.MONTH, -1)
             setUpCalendar()
         }
@@ -183,17 +190,26 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         }
 
         binding.layoutBottomsheetpersistant.btnApply.setOnClickListener {
-
+            var feesFrom=0
+            var feesTo=0
+           if( binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().isNullOrEmpty() &&
+               binding.layoutBottomsheetpersistant.etFeesTo.text.toString().isNullOrEmpty()){
+               feesFrom=0
+               feesTo=0
+           }else{
+               feesFrom= binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().toInt()
+               feesTo=binding.layoutBottomsheetpersistant.etFeesTo.text.toString().toInt()
+           }
             val doctorssearchRequset = DoctorSearchRequest(
                 areaId,
                 formattedDate,
                 cityId,
                 binding.etSearch.text.toString(),
-                binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().toInt(),
-                binding.layoutBottomsheetpersistant.etFeesTo.text.toString().toInt(),
+                feesFrom,
+                feesTo,
                 genderId,
                 10,
-                1,
+                examinationtypeid,
                 seniortyLevelId,
                 0,
                 specialistId,
@@ -448,7 +464,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             feesTo = 0,
             genderId,
             10,
-            HomeFragment.instance?.medicalExaminatioId!!,
+           examinationtypeid,
             0,
             0,
             specialistId
@@ -463,7 +479,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         viewmodel.getClinicSchedualByClinicDayId(
             clinicId,
             dayId,
-            HomeFragment.instance?.medicalExaminatioId!!,
+            examinationtypeid,
             formattedDate
         )
     }
@@ -472,7 +488,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         val clinicSchedualByClinicDayId = ClinicSchedualByClinicDayId(
             clinicId,
             dayId,
-            HomeFragment.instance?.medicalExaminatioId!!,
+            examinationtypeid,
             formattedDate,
             clinkname
         )
@@ -513,8 +529,27 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
 
     }
     fun setupSpinner() {
+        val typelist= arrayOf( getString(R.string.Clinic_Booking), getString(R.string.Home_Visit), getString(R.string.Chat)
+        ,  getString(R.string.Call), getString(R.string.Video_Call))
+        val typeadapter = ArrayAdapter(
+            requireActivity(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , typelist
+        )
+        binding.layoutBottomsheetpersistant.spStatus.adapter = typeadapter
+        binding.layoutBottomsheetpersistant.spStatus.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                examinationtypeid=position+1
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
 
+            }
+        }
     }
 
 }
