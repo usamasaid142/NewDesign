@@ -6,7 +6,7 @@ import java.io.Serializable
 
 data class GetSeniorityLevelResponse(
     @SerializedName("Data")
-    val `data`: List<SeniorityLevelData>
+    val data: List<SeniorityLevelData>
 ): Serializable
 
 data class SeniorityLevelData(

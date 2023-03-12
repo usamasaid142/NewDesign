@@ -31,6 +31,6 @@
         <item name="android:yearListSelectorColor">@color/purple_500</item>
         <item name="android:backgroundTintMode">@color/purple_500</item>
         <item name="android:datePickerMode">calendar</item>
-        <item name="android:minDate">01/01/2000</item>
+
     </style>
 </resources>

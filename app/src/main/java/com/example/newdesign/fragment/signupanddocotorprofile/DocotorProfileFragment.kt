@@ -6,16 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.DocotorProfilefragmentBinding
+import com.example.newdesign.utils.Constans
+import com.example.newdesign.utils.Constans.PROFILE_STATUS
+import com.example.newdesign.utils.SpUtil
+import com.example.newdesign.viewmodel.SharedDataViewmodel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class DocotorProfileFragment : Fragment() {
 
 private lateinit var binding:DocotorProfilefragmentBinding
     private lateinit var navController: NavController
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
+    @Inject
+    lateinit var sp: SpUtil
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +42,7 @@ private lateinit var binding:DocotorProfilefragmentBinding
 
 //        setupNavigationBottom()
           initButton()
-
+          getProfileStatus()
 
     }
 
@@ -61,6 +72,52 @@ private fun getVisibleFragment(): Fragment? {
     }
     return null
 }
+
+    private fun getProfileStatus(){
+
+        sharedDataViewmodel.profileStatus.observe(viewLifecycleOwner, Observer {
+            when(it){
+
+                1->{
+                    binding.ivPlus.visibility=View.VISIBLE
+                    binding.blueimageViewstep1.visibility=View.VISIBLE
+                    binding.ivGraystep2.visibility=View.GONE
+                    binding.layoutStep2.visibility=View.VISIBLE
+                    binding.imageViewstep3.visibility=View.VISIBLE
+                    binding.imageViewstep2.visibility=View.GONE
+                }
+                2->{
+                    binding.imageViewstep3.visibility=View.GONE
+                    binding.blueimageViewstep3.visibility=View.VISIBLE
+                    binding.ivGraystep3.visibility=View.GONE
+                    binding.layoutStep3.visibility=View.VISIBLE
+
+                }
+
+            }
+        })
+            when(sp.getProfileStatus(PROFILE_STATUS)){
+
+                1->{
+                    binding.ivPlus.visibility=View.VISIBLE
+                    binding.blueimageViewstep1.visibility=View.VISIBLE
+                    binding.ivGraystep2.visibility=View.GONE
+                    binding.layoutStep2.visibility=View.VISIBLE
+                    binding.imageViewstep3.visibility=View.VISIBLE
+                    binding.imageViewstep2.visibility=View.GONE
+                }
+                2->{
+                    binding.imageViewstep3.visibility=View.GONE
+                    binding.blueimageViewstep3.visibility=View.VISIBLE
+                    binding.ivGraystep3.visibility=View.GONE
+                    binding.layoutStep3.visibility=View.VISIBLE
+
+                }
+
+            }
+
+
+    }
 
 
 }

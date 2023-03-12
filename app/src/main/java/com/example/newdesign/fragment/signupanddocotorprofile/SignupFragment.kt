@@ -80,7 +80,8 @@ class SignupFragment : Fragment() {
         }
 
         binding.layoutHelp.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment)
+            val action=SignupFragmentDirections.actionSignupFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
         }
 
 

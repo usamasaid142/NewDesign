@@ -5,9 +5,11 @@ import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
+import com.example.newdesign.model.profile.PatientProfileResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -110,6 +112,12 @@ interface ApiService {
         @Path("culture") culture: String,
         @Query("AppointmentId") AppointmentId :Int,
     ): Response<CancelPatientAppointmentResponse>
+
+    @POST("{culture}/Patient/CreatePatientProfileFirstStep")
+    suspend fun createPatientProfile(
+        @Path("culture") culture: String,
+        @Body part: RequestBody
+    ): Response<PatientProfileResponse>
 
 
 

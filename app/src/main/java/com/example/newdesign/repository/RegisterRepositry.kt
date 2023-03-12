@@ -33,5 +33,6 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun getDoctorProfileByDoctorId( DoctorId :Int)=apiService.getDoctorProfileByDoctorId("En",DoctorId)
     suspend fun getPatientAppointmentes(medicalExaminationTypeId:Int?)=apiService.getPatientAppointmentes("En",medicalExaminationTypeId)
     suspend fun cancelPatientAppointment(AppointmentId :Int)=apiService.cancelPatientAppointment("En",AppointmentId)
+    suspend fun createPatientProfile(partmap:MultipartBody)=apiService.createPatientProfile("En",partmap)
 
 }

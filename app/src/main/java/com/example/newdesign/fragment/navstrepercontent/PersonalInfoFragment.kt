@@ -17,6 +17,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -25,6 +28,9 @@ import com.example.newdesign.databinding.PersonalinfofragmentBinding
 import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.utils.*
 import com.example.newdesign.utils.Constans.NameAR
+import com.example.newdesign.utils.Constans.PROFILE_STATUS
+import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
+import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -34,6 +40,9 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -41,10 +50,14 @@ import javax.inject.Inject
 class PersonalInfoFragment : Fragment() {
 
      private lateinit var binding:PersonalinfofragmentBinding
-    private lateinit var imageFile: File
-
+      private  var imageFile: File?=null
+      private val viewmodel:DialogBottomSheetViewmodel by viewModels()
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
+       private var partMap: Map<String, Any> = mutableMapOf()
     @Inject
     lateinit var sp: SpUtil
+    var genderID=0
+    var nationalityId=0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +72,7 @@ class PersonalInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initbutton()
-
+        getdata()
     }
 
 
@@ -67,8 +80,7 @@ class PersonalInfoFragment : Fragment() {
     {
 
 
-
-        binding.etFullNameEn.setText(sp.getUser()?.name.toString())
+        binding.etFullNameEn.setText(sp.getUserfromSignup()?.name.toString())
         binding.etFullNameAR.setText(sp.getUserNameInArabic(NameAR))
 
         val fullNameEn = binding.etFullNameEn.text.toString()
@@ -96,13 +108,16 @@ class PersonalInfoFragment : Fragment() {
                     fullNameAr,
                     mobileNumber,
                     email,
-                    gender,
-                    birthDate,
-                    nationality
+                    binding.etGender.text.toString(),
+                    binding.etDateOfbirth.text.toString(),
+                    binding.etNationality.text.toString()
                 )
             ) {
               //  user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
               //  viewmodel.registerUser("En", user!!)
+
+                sendData(fullNameEn,fullNameAr,binding.etDateOfbirth.text.toString())
+
             }else{
 
             }
@@ -115,15 +130,15 @@ class PersonalInfoFragment : Fragment() {
         }
 
 
-        binding.ivArrowdown.setOnClickListener {
+        binding.layoutGender.setOnClickListener {
             val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("gender")
             findNavController().navigate(action)
         }
-        binding.ivDate.setOnClickListener {
+        binding.layoutDateOfbirth.setOnClickListener {
             val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("date")
             findNavController().navigate(action)
         }
-        binding.ivNationality.setOnClickListener {
+        binding.layoutNationality.setOnClickListener {
             val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("Nationality")
             findNavController().navigate(action)
         }
@@ -209,7 +224,7 @@ class PersonalInfoFragment : Fragment() {
 
         if (mobileNumber.trim().isEmpty()) {
             binding.tvPohneError.text = getString(R.string.required)
-            binding.tvPohneError.visibility = View.VISIBLE
+            binding.tvPohneError.visibility = View.GONE
             binding.textinputPhoneNumber.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(
                 0,
@@ -230,13 +245,13 @@ class PersonalInfoFragment : Fragment() {
 
         if (email.trim().isEmpty()) {
             binding.tvEmailError.text = getString(R.string.required)
-            binding.tvEmailError.visibility = View.VISIBLE
+            binding.tvEmailError.visibility = View.GONE
             binding.textinputEmail.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             isValid = false
         } else if (!email.isValidEmail()) {
             binding.tvEmailError.text = getString(R.string.match_email)
-            binding.tvEmailError.visibility = View.VISIBLE
+            binding.tvEmailError.visibility = View.GONE
             binding.textinputEmail.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             isValid = false
@@ -438,5 +453,91 @@ class PersonalInfoFragment : Fragment() {
 
             }).onSameThread().check()
     }
+
+
+    private fun sendData(FullName:String,FullNameAr:String,Birthdate:String){
+        imageFile?.let { it ->
+
+            partMap = partMap + mapOf("profileImage" to it)
+
+        }
+        partMap = partMap + mapOf("FullName" to FullName )
+        partMap = partMap + mapOf("FullNameAr" to FullNameAr)
+        partMap = partMap + mapOf("NationalityId" to nationalityId)
+        partMap = partMap + mapOf("Birthdate" to Birthdate)
+        partMap = partMap + mapOf("GenderId" to genderID)
+        partMap = partMap + mapOf("OccupationId" to 1)
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        for (item in partMap) {
+            val key = item.key
+            if (key.contains("profileImage")) {
+                val file = item.value as File
+                builder.addFormDataPart(
+                    key,
+                    "${file.name}.jpeg",
+                    file.asRequestBody("image/*".toMediaTypeOrNull())
+                )
+            }
+            builder.addFormDataPart(key, item.value.toString())
+        }
+
+        viewmodel.createPatientProfile(builder.build())
+
+        viewmodel.patientProfileResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.sucess -> {
+                 binding.progressBar.visibility=View.GONE
+                    response.data?.let {
+                        it.data?.profileStatus?.let { it1 -> sharedDataViewmodel.getProfileStatus(it1) }
+                        it.data?.profileStatus?.let { it1 ->
+                            sp.saveProfileStatus(PROFILE_STATUS,
+                                it1
+                            )
+                        }
+                        findNavController().navigate(R.id.locationFragment)
+                    }
+
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility=View.GONE
+
+                    response.message?.let {
+                        Toast.makeText(requireContext(),"${response.message}",Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+                is Resource.Loading -> {
+                    binding.progressBar.visibility=View.VISIBLE
+                }
+            }
+
+
+        }
+    }
+
+    private fun getdata(){
+        sharedDataViewmodel.chooseGender.observe(viewLifecycleOwner, Observer {
+            genderID=it.id
+            binding.etGender.setText(it.gender)
+        })
+
+        sharedDataViewmodel.birthDate.observe(viewLifecycleOwner, Observer {
+            binding.etDateOfbirth.setText(it)
+        })
+
+        sharedDataViewmodel.country.observe(viewLifecycleOwner, Observer {
+            binding.etNationality.setText(it.name)
+            nationalityId=it.id
+
+        })
+
+
+
+    }
+
+
+
+
 
 }

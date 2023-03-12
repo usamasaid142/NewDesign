@@ -19,6 +19,7 @@ import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.model.*
 import com.example.newdesign.model.register.ChooseGender
+import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.DataBinding.displayToastText
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
@@ -33,14 +34,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter.SelectSpecialist,
     SubSpecialistAdapter.SelectSubSpecialist, SeniorityLevelAdapter.SelectSeniorityLevel,
-    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea {
+    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea,NationalityAdapter.SelectCountry {
 
 
     private lateinit var binding: DialogBottomSheetfragmentBinding
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     private val args: DialogBottomSheetFragmentArgs by navArgs()
-    private lateinit var counteriesAdapter: CounteriesAdapter
+    private lateinit var counteriesAdapter: NationalityAdapter
     private lateinit var specialistAdapter: SpecialistAdapter
     private lateinit var subSpecialistAdapter: SubSpecialistAdapter
     private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
@@ -67,26 +68,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         args.changeview?.let { changeViews(it) }
-        //  fillCountryList()
         //showDatepicker()
-//        autoCompleteAdapter= AutoCompleteAdapter(requireContext(),list)
-//        binding.itemCountry.tvSelectCountry.setAdapter(autoCompleteAdapter)
-//        binding.itemCountry.tvSelectCountry.onItemSelectedListener=object :OnItemSelectedListener{
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                val pos=position+1
-//
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//
-//        }
         setupresyclerview()
         setupresyclerviewSpecialist()
         setupresyclerviewSubSpecialist()
@@ -99,14 +81,12 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     }
 
     fun setupresyclerview() {
-        counteriesAdapter = CounteriesAdapter()
+        counteriesAdapter = NationalityAdapter(this)
         binding.itemNationality.rvNationality.apply {
             adapter = counteriesAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
-            counteriesAdapter.notifyDataSetChanged()
-
         }
     }
 
@@ -165,11 +145,16 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             dismiss()
         }
         binding.itemGender.btnDone.setOnClickListener {
+
+            dismiss()
+        }
+
+        binding.itemDatespiner.btnGetDate.setOnClickListener {
+            getDate()
             dismiss()
         }
 
     }
-
 
 
     private fun showDatepicker() {
@@ -488,6 +473,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     override fun onSelectArea(Area: AreaData) {
         sharedDataViewmodel.getArea(Area)
     }
+    override fun onItemSelectSeniorityLevel(selectCountry: DataCountry) {
+        sharedDataViewmodel.getCountry(selectCountry)
+    }
 
 
 //    private fun updateUi(it: List<DataCountry>?) {
@@ -515,9 +503,18 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     }
 
-    fun call() {
+   private fun call() {
 
-                val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "17143", null))
-                this.startActivity(intent)
+        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "17143", null))
+        this.startActivity(intent)
     }
+
+    private fun getDate(){
+        val birthdate= (""+binding.itemDatespiner.datePicker1.getDayOfMonth())+"-"+(binding.itemDatespiner.datePicker1.getMonth() + 1)+"-"+binding.itemDatespiner.datePicker1.getYear()
+        sharedDataViewmodel.getBirthDate(birthdate)
+    }
+
+
+
+
 }

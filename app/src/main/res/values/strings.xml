@@ -37,7 +37,7 @@
     <string name="e_mail">E-mail</string>
     <string name="have_an_account">Have an account?</string>
     <string name="the_terms_and_conditions">the terms and conditions</string>
-    <string name="doctor_profile">Doctor profile</string>
+    <string name="doctor_profile">Patient profile</string>
     <string name="gender">Gender</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="national_id">National ID</string>
@@ -192,5 +192,6 @@
     <string name="re_booking_appointment">Re-Booking Appointment</string>
     <string name="medical_history">Medical History</string>
     <string name="rate">Rate</string>
+    <string name="personal_info">Personal Info.</string>
 
 </resources>

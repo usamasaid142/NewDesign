@@ -8,6 +8,7 @@ import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
+import com.example.newdesign.model.profile.PatientProfileResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
@@ -17,6 +18,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -37,6 +39,8 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val doctorClinkResponse=MutableLiveData<Resource<GetDoctorClinksResponse>>()
     val patientsAppointmentesResponse=MutableLiveData<Resource<GetPatientAppointmentesResponse>>()
     val cancelPatientResponse=MutableLiveData<Resource<CancelPatientAppointmentResponse>>()
+    val patientProfileResponse=MutableLiveData<Resource<PatientProfileResponse>>()
+
 
 
 
@@ -246,6 +250,21 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
 
     }
+    fun createPatientProfile(partmap: MultipartBody)= viewModelScope.launch(Dispatchers.IO) {
+        patientProfileResponse.postValue(Resource.Loading())
+        val response = repositry.createPatientProfile(partmap)
 
+        patientProfileResponse.postValue(handlePatientProfile(response))
+    }
+
+    private fun handlePatientProfile(response: Response<PatientProfileResponse>): Resource<PatientProfileResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<PatientProfileResponse>(response.errorBody()!!.string(), PatientProfileResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
 
 }

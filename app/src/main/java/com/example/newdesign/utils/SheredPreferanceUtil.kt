@@ -55,7 +55,7 @@ class SpUtil @Inject constructor(private val sharedpref:SharedPreferences){
 
 
     //to store int
-    fun save(Key_Name:String,value:Int){
+    fun saveProfileStatus(Key_Name:String,value:Int){
         val editor:SharedPreferences.Editor=sharedpref.edit()
         editor.putInt(Key_Name,value)
         editor.apply()
@@ -70,7 +70,7 @@ class SpUtil @Inject constructor(private val sharedpref:SharedPreferences){
 
 
     // to retrieve Int
-    fun getvalueInt(Key_Name: String):Int{
+    fun getProfileStatus(Key_Name: String):Int{
         return sharedpref.getInt(Key_Name,0)
     }
 

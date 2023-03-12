@@ -6,6 +6,7 @@ import com.example.newdesign.adapter.GetAllAreaAdapter
 import com.example.newdesign.model.*
 import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
 import com.example.newdesign.model.register.ChooseGender
+import com.example.newdesign.model.register.DataCountry
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 class SharedDataViewmodel:ViewModel() {
@@ -16,7 +17,10 @@ class SharedDataViewmodel:ViewModel() {
     val getCity=MutableLiveData<CityData>()
     val getArea=MutableLiveData<AreaData>()
     val doctorId=MutableLiveData<Int>()
+    val profileStatus=MutableLiveData<Int>()
+    val birthDate=MutableLiveData<String>()
     val chooseGender=MutableLiveData<ChooseGender>()
+    val country=MutableLiveData<DataCountry>()
     val ClinicSchedualByClinicDayId=MutableLiveData<ClinicSchedualByClinicDayId>()
 
     fun getspecialication(specialist:SpecialistData){
@@ -48,5 +52,16 @@ class SharedDataViewmodel:ViewModel() {
 
     fun getDocotorId(doctorid: Int){
         doctorId.postValue(doctorid)
+    }
+
+    fun getProfileStatus(profilestatus: Int){
+        profileStatus.postValue(profilestatus)
+    }
+    fun getBirthDate(birthdate: String){
+        this.birthDate.postValue(birthdate)
+    }
+
+    fun getCountry(selectCountry: DataCountry){
+        country.postValue(selectCountry)
     }
 }
