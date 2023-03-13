@@ -8,6 +8,8 @@ import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
+import com.example.newdesign.model.profile.LocationRequest
+import com.example.newdesign.model.profile.PatientLocationResponse
 import com.example.newdesign.model.profile.PatientProfileResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
@@ -40,6 +42,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val patientsAppointmentesResponse=MutableLiveData<Resource<GetPatientAppointmentesResponse>>()
     val cancelPatientResponse=MutableLiveData<Resource<CancelPatientAppointmentResponse>>()
     val patientProfileResponse=MutableLiveData<Resource<PatientProfileResponse>>()
+    val patientLocationResponse=MutableLiveData<Resource<PatientLocationResponse>>()
 
 
 
@@ -264,6 +267,24 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
             }
         }
         val error = Gson().fromJson<PatientProfileResponse>(response.errorBody()!!.string(), PatientProfileResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+
+    fun sendPatientLocation(locationRequest: LocationRequest)= viewModelScope.launch(Dispatchers.IO) {
+        patientLocationResponse.postValue(Resource.Loading())
+        val response = repositry.sendPatientLocation(locationRequest)
+
+        patientLocationResponse.postValue(handlePatientLocation(response))
+    }
+
+    private fun handlePatientLocation(response: Response<PatientLocationResponse>): Resource<PatientLocationResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<PatientLocationResponse>(response.errorBody()!!.string(), PatientLocationResponse::class.java)
         return error.message?.let { Resource.Error(it) }
     }
 

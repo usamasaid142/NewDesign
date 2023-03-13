@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.DocotorProfilefragmentBinding
@@ -25,8 +27,10 @@ class DocotorProfileFragment : Fragment() {
 private lateinit var binding:DocotorProfilefragmentBinding
     private lateinit var navController: NavController
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
+    var profileStatus=0
     @Inject
     lateinit var sp: SpUtil
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +44,7 @@ private lateinit var binding:DocotorProfilefragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        setupNavigationBottom()
+     //   setupNavigationBottom()
           initButton()
           getProfileStatus()
 
@@ -49,9 +53,9 @@ private lateinit var binding:DocotorProfilefragmentBinding
     private fun initButton()
     {
 
-//        binding.btnNext.setOnClickListener {
-//            findNavController().navigate(R.id.personalInfoFragment)
-//        }
+        binding.tvSkip.setOnClickListener {
+            findNavController().navigate(R.id.homeFragment)
+        }
 
         binding.layoutHelp.setOnClickListener {
             val action=DocotorProfileFragmentDirections.actionDocotorProfileFragmentToDialogBottomSheetFragment("help")
@@ -60,10 +64,22 @@ private lateinit var binding:DocotorProfilefragmentBinding
 
     }
 
-//    private fun setupNavigationBottom(){
-//
-//
-//    }
+    private fun setupNavigationBottom(){
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentnav_Streper) as NavHostFragment
+        navController = navHostFragment.navController
+
+        var navGraph = navController.navInflater.inflate(R.navigation.nav_streper)
+        navGraph.id =
+            if (profileStatus==1) {
+                R.id.locationFragment
+            } else {
+                R.id.medicalStateFragment
+            }
+
+        navController.graph = navGraph
+
+    }
 private fun getVisibleFragment(): Fragment? {
     val fragmentManager: FragmentManager = requireActivity().getSupportFragmentManager()
     val fragments: List<Fragment> = fragmentManager.getFragments()
@@ -77,44 +93,48 @@ private fun getVisibleFragment(): Fragment? {
 
         sharedDataViewmodel.profileStatus.observe(viewLifecycleOwner, Observer {
             when(it){
-
                 1->{
+                    profileStatus=it
                     binding.ivPlus.visibility=View.VISIBLE
                     binding.blueimageViewstep1.visibility=View.VISIBLE
                     binding.ivGraystep2.visibility=View.GONE
                     binding.layoutStep2.visibility=View.VISIBLE
                     binding.imageViewstep3.visibility=View.VISIBLE
                     binding.imageViewstep2.visibility=View.GONE
+
                 }
                 2->{
-                    binding.imageViewstep3.visibility=View.GONE
+                    profileStatus=it
+                    binding.ivPlus.visibility=View.VISIBLE
+                    binding.blueimageViewstep1.visibility=View.VISIBLE
+                    binding.ivPlusstep2.visibility=View.VISIBLE
+                    binding.imageViewstep2.visibility=View.GONE
+                    binding.ivGraystep2.visibility=View.GONE
+                    binding.imageViewstep3.visibility=View.VISIBLE
                     binding.blueimageViewstep3.visibility=View.VISIBLE
                     binding.ivGraystep3.visibility=View.GONE
+                    binding.layoutStep2.visibility=View.VISIBLE
+                    binding.layoutStep3.visibility=View.VISIBLE
+                    binding.tvSkip.visibility=View.VISIBLE
+                }
+                3->{
+                    binding.ivPlus.visibility=View.VISIBLE
+                    binding.blueimageViewstep1.visibility=View.VISIBLE
+                    binding.ivPlusstep2.visibility=View.VISIBLE
+                    binding.ivPlusstep3.visibility=View.VISIBLE
+                    binding.imageViewstep2.visibility=View.GONE
+                    binding.ivGraystep2.visibility=View.GONE
+                    binding.imageViewstep3.visibility=View.VISIBLE
+                    binding.blueimageViewstep3.visibility=View.VISIBLE
+                    binding.ivGraystep3.visibility=View.GONE
+                    binding.layoutStep2.visibility=View.VISIBLE
                     binding.layoutStep3.visibility=View.VISIBLE
 
                 }
 
             }
         })
-            when(sp.getProfileStatus(PROFILE_STATUS)){
 
-                1->{
-                    binding.ivPlus.visibility=View.VISIBLE
-                    binding.blueimageViewstep1.visibility=View.VISIBLE
-                    binding.ivGraystep2.visibility=View.GONE
-                    binding.layoutStep2.visibility=View.VISIBLE
-                    binding.imageViewstep3.visibility=View.VISIBLE
-                    binding.imageViewstep2.visibility=View.GONE
-                }
-                2->{
-                    binding.imageViewstep3.visibility=View.GONE
-                    binding.blueimageViewstep3.visibility=View.VISIBLE
-                    binding.ivGraystep3.visibility=View.GONE
-                    binding.layoutStep3.visibility=View.VISIBLE
-
-                }
-
-            }
 
 
     }

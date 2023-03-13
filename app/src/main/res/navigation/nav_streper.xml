@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_streper"
-    app:startDestination="@id/personalInfoFragment2">
+    app:startDestination="@id/locationFragment">
 
     <fragment
         android:id="@+id/specialtyFragment"
@@ -46,5 +46,14 @@
         android:id="@+id/locationFragment"
         android:name="com.example.newdesign.fragment.navstrepercontent.LocationFragment"
         android:label="locationfragment"
-        tools:layout="@layout/locationfragment" />
+        tools:layout="@layout/locationfragment" >
+        <action
+            android:id="@+id/action_locationFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/medicalStateFragment"
+        android:name="com.example.newdesign.fragment.navstrepercontent.MedicalStateFragment"
+        android:label="medical_statefragment"
+        tools:layout="@layout/medical_statefragment" />
 </navigation>

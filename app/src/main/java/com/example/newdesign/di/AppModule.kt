@@ -17,6 +17,7 @@ import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 @Module
@@ -61,7 +62,7 @@ object AppModule {
 
             request.addHeader("Authorization", "Bearer "+token)
             val actualRequest = request.build()
-            it.proceed(actualRequest)
+            it.proceed(it.request())
         }
     }
 
@@ -71,9 +72,13 @@ object AppModule {
         interceptor: Interceptor
     ): OkHttpClient {
 
-        val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
-            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        val logging = HttpLoggingInterceptor().setLevel(levelType)
+
+        val logging=HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+//        val levelType: HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG)
+//            HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+//        val logging = HttpLoggingInterceptor().setLevel(levelType)
         val httpBuilder = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -81,9 +86,10 @@ object AppModule {
             .writeTimeout(50, TimeUnit.SECONDS)
 
         return httpBuilder
-            .protocols(mutableListOf(Protocol.HTTP_1_1))
             .addInterceptor(logging)
             .build()
+
+
     }
 
 
@@ -102,6 +108,43 @@ object AppModule {
     }
 
 
+
+    private val logging: HttpLoggingInterceptor =
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+
+    private fun getOkHttpClient(): OkHttpClient {
+        val token= LoginFragment.instance?.sp?.getUser()?.token
+        val okHttpClientBuilder = OkHttpClient.Builder()
+
+        if (BuildConfig.DEBUG) {
+
+            okHttpClientBuilder
+                .addInterceptor(logging)
+
+        }
+
+        okHttpClientBuilder.addInterceptor { chain ->
+
+            try {
+                val originalRequest = chain.request()
+                val requestBuilder =
+                    originalRequest.newBuilder()
+
+                            requestBuilder.addHeader("Authorization", "Bearer $token")
+
+                chain.proceed(requestBuilder.build())
+            } catch (exception: SocketTimeoutException) {
+                exception.printStackTrace()
+                chain.proceed(chain.request())
+            }
+
+        }
+
+        return okHttpClientBuilder.build()
+    }
+
+
     @Provides
     @Singleton
     fun provideRetrofitInstance(
@@ -110,7 +153,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(getOkHttpClient(getInterceptor()))
+            .client(getOkHttpClient())
             .build()
             .create(ApiService::class.java)
     }

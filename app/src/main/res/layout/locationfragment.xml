@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btn_next"
+        app:layout_constraintBottom_toTopOf="@+id/layout_btn"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,6 +76,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_cityError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/avenirltstd_roman"
+                android:gravity="center"
+                android:padding="3dp"
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Choose_City"
+                app:layout_constraintBottom_toTopOf="@+id/layout_Choose_Area"
+                />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_Choose_Area"
         android:layout_width="match_parent"
@@ -132,6 +149,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_areaError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/avenirltstd_roman"
+                android:gravity="center"
+                android:padding="3dp"
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Choose_Area"
+                app:layout_constraintBottom_toTopOf="@+id/textinput_Street"
+                />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textinput_Street"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -208,7 +242,7 @@
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/avenirltstd_roman"
             android:gravity="start"
-            android:inputType="textEmailAddress"
+            android:inputType="number"
             android:textColor="@color/gray"
             android:textSize="12sp" />
 
@@ -246,25 +280,44 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_next"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_chooselang_button"
-        android:fontFamily="@font/avenirltstd_black"
-        android:padding="5dp"
-        android:text="@string/next"
-        android:enabled="false"
-        android:textColor="@color/white"
-        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/layout"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".9" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_chooselang_button"
+            android:fontFamily="@font/avenirltstd_black"
+            android:padding="5dp"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent=".9" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/layout_btn"
+        app:layout_constraintStart_toStartOf="@+id/layout_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_btn"
+        app:layout_constraintTop_toTopOf="@+id/layout_btn"
+        android:visibility="gone"
+        />
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -274,9 +327,9 @@
         android:layout_marginBottom="5dp"
         android:adjustViewBounds="true"
         android:background="@color/black"
-        android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

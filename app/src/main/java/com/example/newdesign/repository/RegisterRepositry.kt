@@ -4,6 +4,7 @@ import com.example.newdesign.api.ApiService
 import com.example.newdesign.model.booking.BookingRequest
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
+import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.register.CreateUser
 import com.example.newdesign.model.register.LoginUser
 import okhttp3.MultipartBody
@@ -34,5 +35,6 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun getPatientAppointmentes(medicalExaminationTypeId:Int?)=apiService.getPatientAppointmentes("En",medicalExaminationTypeId)
     suspend fun cancelPatientAppointment(AppointmentId :Int)=apiService.cancelPatientAppointment("En",AppointmentId)
     suspend fun createPatientProfile(partmap:MultipartBody)=apiService.createPatientProfile("En",partmap)
+    suspend fun sendPatientLocation(locationRequest: LocationRequest)=apiService.sendPatientLocation("En",locationRequest)
 
 }

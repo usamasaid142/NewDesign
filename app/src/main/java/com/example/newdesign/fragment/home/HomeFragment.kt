@@ -9,6 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.bumptech.glide.Glide
 import com.example.newdesign.R
 import com.example.newdesign.adapter.ImageVideoAdapter
 import com.example.newdesign.adapter.MedicalServicesAdapter
@@ -17,9 +20,11 @@ import com.example.newdesign.databinding.HomefragmentBinding
 import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.utils.Resource
+import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(),ServicesAdapter.Action {
@@ -28,6 +33,8 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     private lateinit var imageServicesAdapter:ServicesAdapter
     private lateinit var imageMedicalServicesAdapter:MedicalServicesAdapter
     private lateinit var imageVideoAdapter:ImageVideoAdapter
+    @Inject
+    lateinit var sp: SpUtil
     var medicalExaminatioId:Int?=null
     val viewmodel: RegisterViewmodel by viewModels()
 
@@ -47,6 +54,14 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvPatientname.text=sp.getUser()?.name
+        binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {
+            crossfade(true)
+            crossfade(1000)
+            placeholder(R.drawable.ic_profile)
+            transformations(CircleCropTransformation())
+        }
         instance =this
         imageVideoAdapter= ImageVideoAdapter()
         servicesRecylerview()

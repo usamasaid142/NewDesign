@@ -3,14 +3,14 @@ package com.example.newdesign.model.profile
 
 import com.google.gson.annotations.SerializedName
 
-data class PatientProfileResponse(
+data class PatientLocationResponse(
     @SerializedName("Data")
-    val data: Data?,
+    val data: DataLocation?,
     @SerializedName("Message")
     val message: String?
 )
 
-data class Data(
+data class DataLocation(
     @SerializedName("Id")
     val id: Int?,
     @SerializedName("ProfileStatus")

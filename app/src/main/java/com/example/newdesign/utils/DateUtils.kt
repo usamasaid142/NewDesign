@@ -17,7 +17,7 @@ object DateUtils {
         return format.format(dateTime)
     }
     fun convertDateToLong(date: String): Long {
-        val df = SimpleDateFormat("yyyy.MM.dd HH:mm")
+        val df = SimpleDateFormat("yyyy.MM.dd")
         return df.parse(date).time
     }
 }

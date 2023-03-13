@@ -9,14 +9,13 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.getDrawable
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,9 +24,9 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.PersonalinfofragmentBinding
-import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.utils.*
 import com.example.newdesign.utils.Constans.NameAR
+import com.example.newdesign.utils.Constans.NameEN
 import com.example.newdesign.utils.Constans.PROFILE_STATUS
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
@@ -44,6 +43,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -80,16 +81,14 @@ class PersonalInfoFragment : Fragment() {
     {
 
 
-        binding.etFullNameEn.setText(sp.getUserfromSignup()?.name.toString())
+        binding.etFullNameEn.setText(sp.getUserNameInEnglish(NameEN))
         binding.etFullNameAR.setText(sp.getUserNameInArabic(NameAR))
 
-        val fullNameEn = binding.etFullNameEn.text.toString()
-        val fullNameAr = binding.etFullNameAR.text.toString()
         val mobileNumber = binding.etPhoneNumber.text.toString()
         val email = binding.etEmail.text.toString()
-        val gender = binding.etGender.text.toString()
-        val birthDate = binding.etDateOfbirth.text.toString()
-        val nationality = binding.etNationality.text.toString()
+//        val gender = binding.etGender.text.toString()
+//        val birthDate = binding.etDateOfbirth.text.toString()
+//        val nationality = binding.etNationality.text.toString()
 
 //        if(fullNameEn.trim().isEmpty() || fullNameAr.trim().isEmpty()|| mobileNumber.trim().isEmpty()
 //            ||  email.trim().isEmpty()|| gender.trim().isEmpty() ||birthDate.trim().isEmpty() ||nationality.trim().isEmpty()){
@@ -104,8 +103,8 @@ class PersonalInfoFragment : Fragment() {
 
 
             if (isvalidateFeilds(
-                    fullNameEn,
-                    fullNameAr,
+                    binding.etFullNameEn.text.toString(),
+                    binding.etFullNameAR.text.toString(),
                     mobileNumber,
                     email,
                     binding.etGender.text.toString(),
@@ -116,7 +115,7 @@ class PersonalInfoFragment : Fragment() {
               //  user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
               //  viewmodel.registerUser("En", user!!)
 
-                sendData(fullNameEn,fullNameAr,binding.etDateOfbirth.text.toString())
+                sendData( binding.etFullNameEn.text.toString(),binding.etFullNameAR.text.toString(),binding.etDateOfbirth.text.toString())
 
             }else{
 
@@ -532,12 +531,7 @@ class PersonalInfoFragment : Fragment() {
 
         })
 
-
-
     }
-
-
-
 
 
 }

@@ -21,6 +21,7 @@ import com.example.newdesign.model.*
 import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.DataBinding.displayToastText
+import com.example.newdesign.utils.DateUtils.convertDateToLong
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
@@ -510,7 +511,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     }
 
     private fun getDate(){
-        val birthdate= (""+binding.itemDatespiner.datePicker1.getDayOfMonth())+"-"+(binding.itemDatespiner.datePicker1.getMonth() + 1)+"-"+binding.itemDatespiner.datePicker1.getYear()
+        val birthdate= ""+binding.itemDatespiner.datePicker1.getDayOfMonth()+"-"+(binding.itemDatespiner.datePicker1.getMonth() + 1)+"-"+binding.itemDatespiner.datePicker1.getYear()
         sharedDataViewmodel.getBirthDate(birthdate)
     }
 

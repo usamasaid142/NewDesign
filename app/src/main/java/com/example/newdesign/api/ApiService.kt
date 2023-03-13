@@ -5,6 +5,8 @@ import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
+import com.example.newdesign.model.profile.LocationRequest
+import com.example.newdesign.model.profile.PatientLocationResponse
 import com.example.newdesign.model.profile.PatientProfileResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
@@ -119,6 +121,11 @@ interface ApiService {
         @Body part: RequestBody
     ): Response<PatientProfileResponse>
 
+    @POST("{culture}/Patient/CreateAndUpdatePatientProfileSecondStep")
+    suspend fun sendPatientLocation(
+        @Path("culture") culture: String,
+        @Body locationRequest: LocationRequest
+    ): Response<PatientLocationResponse>
 
 
 }

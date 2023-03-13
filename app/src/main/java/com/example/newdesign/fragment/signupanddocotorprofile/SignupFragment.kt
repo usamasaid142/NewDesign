@@ -16,7 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.SignupfragmentBinding
 import com.example.newdesign.model.register.CreateUser
+import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.Constans.NameAR
+import com.example.newdesign.utils.Constans.NameEN
 import com.example.newdesign.utils.Constans.UserSIGNUP
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
@@ -104,6 +106,7 @@ class SignupFragment : Fragment() {
                 ) {
                     user = CreateUser(email, fullNameEn, password, mobileNumber, 3)
                     sp.saveUserNameInArabic(NameAR, fullNameAr)
+                    sp.saveUserNameInEnglish(NameEN, fullNameEn)
                     sp.saveUserfromSignup(UserSIGNUP, user!!)
                     viewmodel.registerUser("En", user!!)
                 }

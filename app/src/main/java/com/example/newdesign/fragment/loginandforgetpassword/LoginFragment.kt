@@ -59,7 +59,6 @@ class LoginFragment : Fragment() {
 
     private fun initButton() {
 
-
         binding.ivShowpassword.setOnClickListener {
 
             if (binding.etPassword.transformationMethod is PasswordTransformationMethod) {
@@ -163,7 +162,7 @@ class LoginFragment : Fragment() {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                     }
                     sharedDataViewmodel.getProfileStatus(loginresponse.data?.data?.profileStatus!!)
-                    if (loginresponse.data?.data?.profileStatus!!<2) {
+                   if (loginresponse.data?.data?.profileStatus!!<2) {
                         findNavController().navigate(R.id.docotorProfileFragment)
                     }else{
                         findNavController().navigate(R.id.homeFragment)

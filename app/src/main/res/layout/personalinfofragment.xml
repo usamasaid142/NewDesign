@@ -90,7 +90,7 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
-                    android:enabled="false"
+
                     android:hint="@string/full_name_in_english_first_middle_last"
                     android:inputType="text"
                     android:textColor="@color/black"
@@ -139,7 +139,7 @@
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
                     android:inputType="text"
-                    android:enabled="false"
+
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
