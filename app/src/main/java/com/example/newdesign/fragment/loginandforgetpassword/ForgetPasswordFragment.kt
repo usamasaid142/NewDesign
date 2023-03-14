@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ForgetPasswordfragmentBinding
+import com.example.newdesign.model.register.ResetRequest
 import com.example.newdesign.model.register.UserForgetInfo
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.RegisterViewmodel
@@ -44,7 +46,8 @@ class ForgetPasswordFragment : Fragment() {
             findNavController().navigate(R.id.loginFragment)
         }
         binding.layoutHelp.setOnClickListener {
-            findNavController().navigate(R.id.dialogBottomSheetFragment)
+            val action=ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
         }
 
         binding.etMobile.doOnTextChanged { text, start, before, count ->
@@ -54,15 +57,24 @@ class ForgetPasswordFragment : Fragment() {
 
         binding.btnSend.setOnClickListener {
             if (binding.etMobile.text.toString().isNullOrEmpty()){
-                return@setOnClickListener
+               Toast.makeText(requireContext(),"Enter mobile or email",Toast.LENGTH_SHORT).show()
+            }else{
+                if (binding.etMobile.text.toString().contains(".com")){
+                    val resetRequest=ResetRequest(binding.etMobile.text.toString(),binding.etMobile.text.toString(),1,3)
+                    viewmodel.resetPassword(resetRequest)
+                }else{
+                    val resetRequest=ResetRequest(binding.etMobile.text.toString(),binding.etMobile.text.toString(),2,3)
+                    viewmodel.resetPassword(resetRequest)
+                }
+
             }
-         //   viewmodel.Sentotp("en", binding.etMobile.text.toString())
+
         }
 
     }
 
     private fun otpCallBack(){
-        viewmodel.otpResponse.observe(viewLifecycleOwner, Observer {
+        viewmodel.resetPasswordesponse.observe(viewLifecycleOwner, Observer {
 
             when (it) {
                 is Resource.Loading -> {
@@ -72,16 +84,19 @@ class ForgetPasswordFragment : Fragment() {
                 is Resource.sucess -> {
                        hideprogressbar()
                     it?.data?.let { response ->
-                        val userForgetInfo=UserForgetInfo(response.messageCode,binding.etMobile.text.toString())
+                        val userForgetInfo=
+                            response.data?.code?.let { it1 -> it.data.data?.userId?.let { it2 ->
+                                UserForgetInfo(it1,binding.etMobile.text.toString(),
+                                    it2
+                                )
+                            } }
                       val action=ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToOtpFragment(null,null,userForgetInfo)
                         findNavController().navigate(action)
                     }
                 }
                 is Resource.Error -> {
                   hideprogressbar()
-                    it.message?.let { error ->
-                        Log.e("error", error)
-                    }
+                    Toast.makeText(requireContext(),"${it.message}",Toast.LENGTH_SHORT).show()
                 }
 
             }

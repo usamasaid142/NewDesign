@@ -4,6 +4,7 @@ import com.example.newdesign.BuildConfig
 import com.example.newdesign.api.ApiService
 import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.utils.Constans.BASE_URL
+import com.example.newdesign.utils.Constans.TOKEN
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -35,7 +36,6 @@ object AppModule {
     @Singleton
     fun getInterceptor(): Interceptor {
 
-        val token= LoginFragment.instance?.sp?.getUser()?.token
         return Interceptor {
             val request = it.request().newBuilder()
             val requests: Request = it.request()
@@ -60,7 +60,7 @@ object AppModule {
             }
 
 
-            request.addHeader("Authorization", "Bearer "+token)
+            request.addHeader("Authorization", "Bearer ")
             val actualRequest = request.build()
             it.proceed(it.request())
         }
@@ -114,7 +114,7 @@ object AppModule {
 
 
     private fun getOkHttpClient(): OkHttpClient {
-        val token= LoginFragment.instance?.sp?.getUser()?.token
+        val token= LoginFragment.instance?.sp?.getUserToken(TOKEN)
         val okHttpClientBuilder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
@@ -131,7 +131,7 @@ object AppModule {
                 val requestBuilder =
                     originalRequest.newBuilder()
 
-                            requestBuilder.addHeader("Authorization", "Bearer $token")
+                requestBuilder.addHeader("Authorization", "Bearer $token")
 
                 chain.proceed(requestBuilder.build())
             } catch (exception: SocketTimeoutException) {

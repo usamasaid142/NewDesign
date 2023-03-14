@@ -140,8 +140,14 @@ class LocationFragment : Fragment() {
 
     private fun sendData(){
 
-        val locationRequest=LocationRequest(binding.etApartmentNumber.text.toString(),areaId,binding.etBuildingNumber.text.toString(),
-        cityId,1,"",binding.etFloorNumber.text.toString().toInt(),binding.etStreet.text.toString())
+        var etFloorNumber=0
+        if (!binding.etFloorNumber.text.toString().isNullOrEmpty()){
+            etFloorNumber=binding.etFloorNumber.text.toString().toInt()
+
+        }
+
+        val locationRequest=LocationRequest("${binding.etApartmentNumber.text}"+"",areaId,"${binding.etBuildingNumber.text}"+"",
+        cityId,1,"",etFloorNumber,"${binding.etStreet.text}"+"")
         viewmodel.sendPatientLocation(locationRequest)
 
         viewmodel.patientLocationResponse.observe(viewLifecycleOwner) { response ->

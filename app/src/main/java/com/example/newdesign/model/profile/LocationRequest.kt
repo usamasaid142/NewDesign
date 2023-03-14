@@ -17,7 +17,7 @@ data class LocationRequest(
     @SerializedName("EmergencyContact")
     val emergencyContact: String?,
     @SerializedName("FloorNo")
-    val floorNo: Int?,
+    val floorNo: Int?=0,
     @SerializedName("Address")
     val Address: String?,
 )

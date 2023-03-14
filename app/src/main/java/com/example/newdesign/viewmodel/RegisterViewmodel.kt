@@ -23,6 +23,9 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     val createResponse=MutableLiveData<Resource<CreateUserResponse>>()
     val loginResponse=MutableLiveData<Resource<LoginResponse>>()
     val imagevedioresponse=MutableLiveData<Resource<HomeAdsResponse>>()
+    val resetPasswordesponse=MutableLiveData<Resource<ResetResponse>>()
+    val updatePasswordesponse=MutableLiveData<Resource<UpdatePasswordResponse>>()
+    val changePasswordesponse=MutableLiveData<Resource<ChangePasswordResponse>>()
 
     fun registerUser(culture:String,createUser: CreateUser)=viewModelScope.launch(Dispatchers.IO)  {
 
@@ -114,5 +117,56 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
         }
         return Resource.Error(imageVedioResponse.message())
     }
+
+
+    fun resetPassword(resetRequest: ResetRequest)=viewModelScope.launch(Dispatchers.IO) {
+        resetPasswordesponse.postValue(Resource.Loading())
+        val response=repositry.resetPassword(resetRequest)
+        resetPasswordesponse.postValue(handleResetPassword(response))
+    }
+
+    private fun handleResetPassword(response: Response<ResetResponse>): Resource<ResetResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<ResetResponse>(response.errorBody()!!.string(), ResetResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+
+    fun updatePassword(resetChangePassword: ResetChangePassword)=viewModelScope.launch(Dispatchers.IO) {
+        updatePasswordesponse.postValue(Resource.Loading())
+        val response=repositry.updatePassword(resetChangePassword)
+        updatePasswordesponse.postValue(handleUpdatePassword(response))
+    }
+
+    private fun handleUpdatePassword(response: Response<UpdatePasswordResponse>): Resource<UpdatePasswordResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<UpdatePasswordResponse>(response.errorBody()!!.string(), UpdatePasswordResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+    fun changePassword(changePasswordRequest: ChangePasswordRequest)=viewModelScope.launch(Dispatchers.IO) {
+        changePasswordesponse.postValue(Resource.Loading())
+        val response=repositry.changePassword(changePasswordRequest)
+        changePasswordesponse.postValue(handleChangePassword(response))
+    }
+
+    private fun handleChangePassword(response: Response<ChangePasswordResponse>): Resource<ChangePasswordResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<ChangePasswordResponse>(response.errorBody()!!.string(), ChangePasswordResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
 
 }

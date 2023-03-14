@@ -5,8 +5,7 @@ import com.example.newdesign.model.booking.BookingRequest
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.profile.LocationRequest
-import com.example.newdesign.model.register.CreateUser
-import com.example.newdesign.model.register.LoginUser
+import com.example.newdesign.model.register.*
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -16,6 +15,9 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun registerUser(culture:String,registerUser: CreateUser)=apiService.registerUser(culture,registerUser)
     suspend fun SendOTP(culture:String,registerUser: CreateUser)=apiService.SendOTP(culture,registerUser)
     suspend fun createUser(culture:String,createUser: CreateUser)=apiService.createUser(culture,createUser)
+    suspend fun resetPassword(resetRequest: ResetRequest)=apiService.resetPassword("En",resetRequest)
+    suspend fun updatePassword(resetChangePassword: ResetChangePassword)=apiService.updatePassword("En",resetChangePassword)
+    suspend fun changePassword(changePasswordRequest: ChangePasswordRequest)=apiService.changePassword("En",changePasswordRequest)
     suspend fun getHomeAds()=apiService.getHomeAds("En",1,true)
     suspend fun getCountries()=apiService.getCountries("En")
     suspend fun getSpecialist()=apiService.getSpecialist("En")

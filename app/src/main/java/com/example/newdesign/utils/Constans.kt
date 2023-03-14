@@ -15,6 +15,7 @@ object Constans {
     const val Language_ENG = "EN"
     const val Language_Ar = "AR"
     const val PROFILE_STATUS = "ProfileStatus"
+    const val TOKEN = "TOKEN"
 
 
 }

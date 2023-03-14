@@ -114,7 +114,11 @@
         android:id="@+id/changepasswordFragment"
         android:name="com.example.newdesign.fragment.loginandforgetpassword.ChangepasswordFragment"
         android:label="changepasswordfragment"
-        tools:layout="@layout/changepasswordfragment" />
+        tools:layout="@layout/changepasswordfragment" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.SignupFragment"

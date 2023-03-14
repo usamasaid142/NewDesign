@@ -127,5 +127,24 @@ interface ApiService {
         @Body locationRequest: LocationRequest
     ): Response<PatientLocationResponse>
 
+    @POST("{culture}/User/ResetPassword")
+    suspend fun resetPassword(
+        @Path("culture") culture: String,
+        @Body request: ResetRequest
+    ): Response<ResetResponse>
+
+    @POST("{culture}/User/UpdatePassword")
+    suspend fun updatePassword(
+        @Path("culture") culture: String,
+        @Body resetChangePassword: ResetChangePassword
+    ): Response<UpdatePasswordResponse>
+
+
+    @POST("{culture}/User/ChangePassword")
+    suspend fun changePassword(
+        @Path("culture") culture: String,
+        @Body changePasswordRequest: ChangePasswordRequest
+    ): Response<ChangePasswordResponse>
+
 
 }

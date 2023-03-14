@@ -17,6 +17,7 @@ import com.example.newdesign.databinding.LoginfragmentBinding
 import com.example.newdesign.model.register.LoginUser
 import com.example.newdesign.utils.Constans.NameAR
 import com.example.newdesign.utils.Constans.PROFILE_STATUS
+import com.example.newdesign.utils.Constans.TOKEN
 import com.example.newdesign.utils.Constans.UserLOGIN
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
@@ -160,9 +161,10 @@ class LoginFragment : Fragment() {
                     hideprogressbar()
                     loginresponse.let {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
+                        loginresponse.data?.data?.let { it1 -> sp.saveUserToken(TOKEN, it1.token) }
                     }
                     sharedDataViewmodel.getProfileStatus(loginresponse.data?.data?.profileStatus!!)
-                   if (loginresponse.data?.data?.profileStatus!!<2) {
+                 if (loginresponse.data?.data?.profileStatus!!<2) {
                         findNavController().navigate(R.id.docotorProfileFragment)
                     }else{
                         findNavController().navigate(R.id.homeFragment)

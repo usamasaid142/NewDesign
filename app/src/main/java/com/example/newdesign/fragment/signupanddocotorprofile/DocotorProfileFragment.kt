@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class DocotorProfileFragment : Fragment() {
 
 private lateinit var binding:DocotorProfilefragmentBinding
-    private lateinit var navController: NavController
+  //  private lateinit var navController: NavController
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     var profileStatus=0
     @Inject
@@ -44,7 +45,7 @@ private lateinit var binding:DocotorProfilefragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-     //   setupNavigationBottom()
+         //setupNavigationBottom()
           initButton()
           getProfileStatus()
 
@@ -65,19 +66,31 @@ private lateinit var binding:DocotorProfilefragmentBinding
     }
 
     private fun setupNavigationBottom(){
-        val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentnav_Streper) as NavHostFragment
-        navController = navHostFragment.navController
+//        val navHostFragment =
+//            requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentnav_Streper) as NavHostFragment
+//        navController = navHostFragment.navController
+//
+//        var navGraph = navController.navInflater.inflate(R.navigation.nav_streper)
+//        navGraph.id =
+//            if (profileStatus==1) {
+//                R.id.locationFragment
+//            } else {
+//                R.id.medicalStateFragment
+//            }
+//
+//        navController.graph = navGraph
 
-        var navGraph = navController.navInflater.inflate(R.navigation.nav_streper)
-        navGraph.id =
-            if (profileStatus==1) {
-                R.id.locationFragment
-            } else {
-                R.id.medicalStateFragment
-            }
+        val nextDestination = if (profileStatus==1) {
+            R.id.locationFragment
+        } else {
+            R.id.medicalStateFragment
+        }
 
-        navController.graph = navGraph
+        val options = NavOptions.Builder()
+            .setPopUpTo(R.id.fragmentnav_Streper, true)
+            .build()
+
+       findNavController().navigate(nextDestination, null, options)
 
     }
 private fun getVisibleFragment(): Fragment? {

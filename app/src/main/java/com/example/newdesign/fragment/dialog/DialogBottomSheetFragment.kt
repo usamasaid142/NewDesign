@@ -20,16 +20,19 @@ import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.model.*
 import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
+import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.DataBinding.displayToastText
 import com.example.newdesign.utils.DateUtils.convertDateToLong
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
+import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -50,7 +53,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
 
     //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
-
+    @Inject
+    lateinit var sp: SpUtil
 
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
@@ -153,6 +157,15 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         binding.itemDatespiner.btnGetDate.setOnClickListener {
             getDate()
             dismiss()
+        }
+
+        binding.itemSignOut.btnNo.setOnClickListener {
+            dismiss()
+        }
+
+        binding.itemSignOut.btnYes.setOnClickListener {
+            sp.saveUserToken(Constans.TOKEN,"")
+            findNavController().navigate(R.id.loginFragment)
         }
 
     }

@@ -49,7 +49,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_profile"
             app:layout_constraintBottom_toBottomOf="@+id/iv_PatientProfile"
             app:layout_constraintEnd_toEndOf="@+id/iv_PatientProfile"
             app:layout_constraintStart_toStartOf="@+id/iv_PatientProfile"

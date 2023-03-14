@@ -79,8 +79,13 @@ class OtpFragment : Fragment() {
                 findNavController().navigate(R.id.docotorProfileFragment)
                 Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
             } else if (args.userforgetpassword?.code.toString() == getCodeFromEdittext()) {
-                args.user?.let { it1 -> viewmodel.createuser("en", it1) }
-                findNavController().navigate(R.id.changepasswordFragment)
+                val action= args.userforgetpassword?.let { it1 ->
+                    OtpFragmentDirections.actionOtpFragmentToChangepasswordFragment(
+                        it1.userId)
+                }
+                if (action != null) {
+                    findNavController().navigate(action)
+                }
                 Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "invalid code", Toast.LENGTH_SHORT).show()
@@ -239,7 +244,7 @@ class OtpFragment : Fragment() {
     }
 
     fun timer() {
-        object : CountDownTimer(120000, 1000) {
+      object : CountDownTimer(120000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvCounter.setText("(${millisUntilFinished / 1000})")
