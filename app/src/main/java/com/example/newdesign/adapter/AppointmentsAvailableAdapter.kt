@@ -1,9 +1,9 @@
 package com.example.newdesign.adapter
 
 
+
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -43,6 +43,7 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
                  timefrom = timefrom.plusHours(2)
 
 
+
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
             appoinments.timeInterval?.let { it1 ->
@@ -59,16 +60,44 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
             notifyDataSetChanged()
 
         }
-        if (selectedItemPosition == position) {
-            holder.binding.layoutTime.background =
-                ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_chooselang_button)
-            holder.binding.tvTime.setTextColor(Color.WHITE)
-        } else {
-            holder.binding.layoutTime.background =
-                ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_completeprofile)
-            holder.binding.tvTime.setTextColor(Color.parseColor("#262D70"))
 
+        appoinments.bookingAppointments?.forEach {
+            if (it?.contains("${appoinments.time}")!!){
+                holder.binding.layoutTime.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_chooselang_button)
+                holder.binding.tvTime.text="booked"
+                holder.binding.tvTime.setTextColor(Color.WHITE)
+                holder.binding.layoutTime.isEnabled=false
+
+            }else {
+                holder.binding.layoutTime.background =
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.bg_chooselang_button
+                    )
+                holder.binding.tvTime.setTextColor(Color.WHITE)
+            }
         }
+
+
+            if (selectedItemPosition == position) {
+
+                    holder.binding.layoutTime.background =
+                        ContextCompat.getDrawable(
+                            holder.itemView.context,
+                            R.drawable.bg_chooselang_button
+                        )
+                    holder.binding.tvTime.setTextColor(Color.WHITE)
+
+            } else {
+                holder.binding.layoutTime.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_completeprofile)
+                holder.binding.tvTime.setTextColor(Color.parseColor("#262D70"))
+
+            }
+
+
+
 
     }
 

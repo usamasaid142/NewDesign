@@ -22,6 +22,7 @@ class SharedDataViewmodel:ViewModel() {
     val chooseGender=MutableLiveData<ChooseGender>()
     val country=MutableLiveData<DataCountry>()
     val ClinicSchedualByClinicDayId=MutableLiveData<ClinicSchedualByClinicDayId>()
+    val ExaminationTypeId=MutableLiveData<ImageServices>()
 
     fun getspecialication(specialist:SpecialistData){
         specialication.postValue(specialist)
@@ -63,5 +64,8 @@ class SharedDataViewmodel:ViewModel() {
 
     fun getCountry(selectCountry: DataCountry){
         country.postValue(selectCountry)
+    }
+    fun getMedicalExaminationTypeId(medicalExamination: ImageServices){
+        ExaminationTypeId.postValue(medicalExamination)
     }
 }

@@ -269,6 +269,9 @@
             android:name="status"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_bookAppointmentFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
     </fragment>
     <dialog
         android:id="@+id/dialogSchduleFragment"

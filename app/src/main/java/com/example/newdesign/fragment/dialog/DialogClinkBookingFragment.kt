@@ -202,7 +202,8 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                             intervaltime,
                             doctorWorkingDayTimeId,
                             fees,
-                            medicalExaminationTypeName
+                            medicalExaminationTypeName,
+                            appointmentTime[0]?.bookedAppointments as List<String>?
                         )
                     )
 
@@ -214,7 +215,8 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                                 intervaltime,
                                 doctorWorkingDayTimeId,
                                 fees,
-                                medicalExaminationTypeName
+                                medicalExaminationTypeName,
+                                appointmentTime[0]?.bookedAppointments as List<String>?
                             )
                         )
 

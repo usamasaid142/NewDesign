@@ -20,6 +20,7 @@ import com.example.newdesign.adapter.MyScheduleAdapter
 import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.databinding.MySchedulefragmentBinding
 import com.example.newdesign.fragment.home.HomeFragment
+import com.example.newdesign.model.MedicalExamination
 import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
@@ -177,9 +178,7 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
 
             }
         })
-        sharedDataViewmodel.ClinicSchedualByClinicDayId.observe(viewLifecycleOwner, Observer {
 
-        })
         viewmodel.getPatientAppointmentes(examinationtypeId)
 
     }
@@ -240,8 +239,8 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
         findNavController().navigate(action)
     }
 
-    override fun onItemClick(examinationTypeId: Int) {
-        this.examinationtypeId = examinationTypeId
+    override fun onItemClick( medicalExamination: MedicalExamination) {
+        this.examinationtypeId = medicalExamination.id
     }
 
     private fun getDayId(formattedDate:String): Int {

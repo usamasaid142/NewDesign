@@ -98,6 +98,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         callBack()
         callBackGetClinicSchedualByClinicDayId()
         appointmentsAvailableRecylerview()
+        getmedicalExaminationTypeId()
     }
 
     private fun initButton() {
@@ -117,6 +118,12 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 }
             }
 
+        }
+
+        binding.layoutChooseService.setOnClickListener {
+
+            val action =BookAppointmentFragmentDirections.actionBookAppointmentFragmentToDialogBottomSheetFragment("examinationtype")
+            findNavController().navigate(action)
         }
 
 
@@ -247,10 +254,8 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 }
                 is Resource.Error -> {
                     hideprogressbar()
-//                   loginresponse.data?.let {
-//                       Log.e("msg : ",it.message)
-//
-//                   }
+
+
                 }
 
             }
@@ -366,7 +371,8 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                             intervaltime,
                             doctorWorkingDayTimeId,
                             fees,
-                            medicalExaminationTypeName
+                            medicalExaminationTypeName,
+                            appointmentTime[0].bookedAppointments as List<String>?
                         )
                     )
 
@@ -378,7 +384,8 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                                 intervaltime,
                                 doctorWorkingDayTimeId,
                                 fees,
-                                medicalExaminationTypeName
+                                medicalExaminationTypeName,
+                                appointmentTime[0].bookedAppointments as List<String>?
                             )
                         )
 
@@ -461,7 +468,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         viewmodel.getClinicSchedualByClinicDayId(
             clinicId,
             dayId,
-            1,
+            medicalExaminationId,
             formattedDate
         )
     }
@@ -492,9 +499,16 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 dayId=6
             }
             "Sat"->{
-                dayId=6
+                dayId=7
             }
         }
 
+    }
+
+    private fun getmedicalExaminationTypeId(){
+        sharedDataViewmodel.ExaminationTypeId.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            this.medicalExaminationId= it.Id!!
+            binding.etChooseService.setText(it.textService)
+        })
     }
 }

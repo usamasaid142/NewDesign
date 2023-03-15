@@ -93,21 +93,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             this.timeZone = TimeZone.getTimeZone("CST")
         }
         formattedDate = formatter.format(now.time)
-        val doctorssearchRequset = DoctorSearchRequest(
-            0,
-            formattedDate,
-            0,
-            "",
-            feesFrom = 0,
-            feesTo = 0,
-            genderId,
-            10,
-            examinationtypeid,
-            0,
-            0,
-            specialistId
-        )
-        viewmodel.searchDoctors(doctorssearchRequset)
+
         doctorsSearch()
         callBackGetClinicSchedualByClinicDayId()
         getDayId()
@@ -304,9 +290,22 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     private fun bindFields() {
         sharedDataViewmodel.specialication.observe(viewLifecycleOwner) {
             binding.layoutBottomsheetpersistant.etSpecialization.setText(it.name)
-            if (!binding.layoutBottomsheetpersistant.etSpecialization.toString().isEmpty()) {
-                specialistId = it.id
-            } else specialistId = 0
+            specialistId = it.id
+            val doctorssearchRequset = DoctorSearchRequest(
+                0,
+                formattedDate,
+                0,
+                "",
+                feesFrom = 0,
+                feesTo = 0,
+                genderId,
+                10,
+                examinationtypeid,
+                0,
+                0,
+                specialistId
+            )
+            viewmodel.searchDoctors(doctorssearchRequset)
         }
         sharedDataViewmodel.subSpecialication.observe(viewLifecycleOwner) {
             var name = ""
@@ -524,7 +523,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                 dayId = 6
             }
             "Sat" -> {
-                dayId = 6
+                dayId = 7
             }
         }
 

@@ -90,10 +90,9 @@ class AppointmentDetailsFragment : Fragment() {
 
                     is Resource.Error -> {
                         hideprogressbar()
-//                   loginresponse.data?.let {
-//                       Log.e("msg : ",it.message)
-//
-//                   }
+
+                    Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
+
                     }
                 }
 

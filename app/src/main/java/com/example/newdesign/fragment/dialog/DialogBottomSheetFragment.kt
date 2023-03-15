@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
+import com.example.newdesign.fragment.home.HomeFragment
 import com.example.newdesign.model.*
 import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
@@ -38,7 +40,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter.SelectSpecialist,
     SubSpecialistAdapter.SelectSubSpecialist, SeniorityLevelAdapter.SelectSeniorityLevel,
-    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea,NationalityAdapter.SelectCountry {
+    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea,NationalityAdapter.SelectCountry,MedicalEaxminationTypeAdapter.Action {
 
 
     private lateinit var binding: DialogBottomSheetfragmentBinding
@@ -51,6 +53,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     private lateinit var seniorityLevelAdapter: SeniorityLevelAdapter
     private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
+    private lateinit var examinationAdapter: MedicalEaxminationTypeAdapter
 
     //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
     @Inject
@@ -82,7 +85,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         setupresyclerviewGetAllArea()
         initButton()
         chooseGender()
-
+        examinationRecylerview()
+        imageServices()
     }
 
     fun setupresyclerview() {
@@ -137,6 +141,14 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             adapter = getAllAreaAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
+        }
+    }
+    private fun examinationRecylerview() {
+        examinationAdapter = MedicalEaxminationTypeAdapter(this)
+        binding.itemExaminationtype.rvExaminationtype.apply {
+            adapter = examinationAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
         }
     }
 
@@ -258,6 +270,12 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
                 binding.layoutAllArea.visibility = View.VISIBLE
                 binding.tvAllSpecial.text = getString(R.string.choose_area)
                 callBackGetAllArea()
+            }
+            "examinationtype" -> {
+                binding.layoutExaminationtype.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.examination_type)
+
+
             }
         }
 
@@ -443,7 +461,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     }
 
-
     private fun showprogtessbar() {
         binding.itemNationality.progressBar.visibility = View.VISIBLE
         binding.itemSpecialist.progressBar.visibility = View.VISIBLE
@@ -451,6 +468,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         binding.itemSeniorityLevel.progressBar.visibility = View.VISIBLE
         binding.itemAllcities.progressBar.visibility = View.VISIBLE
         binding.itemAllArea.progressBar.visibility = View.VISIBLE
+        binding.itemExaminationtype.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideprogressbar() {
@@ -460,6 +478,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         binding.itemSeniorityLevel.progressBar.visibility = View.GONE
         binding.itemAllcities.progressBar.visibility = View.GONE
         binding.itemAllArea.progressBar.visibility = View.GONE
+        binding.itemExaminationtype.progressBar.visibility = View.GONE
     }
 
     override fun onItemSelected(specialist: SpecialistData) {
@@ -490,6 +509,11 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     override fun onItemSelectSeniorityLevel(selectCountry: DataCountry) {
         sharedDataViewmodel.getCountry(selectCountry)
     }
+
+    override fun onItemClick(medicalExamination: ImageServices) {
+        sharedDataViewmodel.getMedicalExaminationTypeId(medicalExamination)
+    }
+
 
 
 //    private fun updateUi(it: List<DataCountry>?) {
@@ -528,6 +552,51 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         sharedDataViewmodel.getBirthDate(birthdate)
     }
 
+    private fun imageServices(){
+
+        val list= mutableListOf<ImageServices>()
+
+        list.add(
+            ImageServices(
+                R.drawable.ic_clinic_booking,
+                getString(R.string.Clinic_Booking),
+                Id = 1
+            )
+        )
+
+        list.add(
+            ImageServices(
+                R.drawable.ic_hom_visit,
+                getString(R.string.Home_Visit)  ,
+                Id = 2
+
+            )
+        )
+        list.add(
+            ImageServices(
+                R.drawable.ic_chat,
+                getString(R.string.Chat),
+                Id = 3
+            )
+        )
+        list.add(
+            ImageServices(
+                R.drawable.ic_call,
+                getString(R.string.Call),
+                Id = 4
+            )
+        )
+        list.add(
+            ImageServices(
+                R.drawable.ic_videocall,
+                getString(R.string.Video_Call),
+                Id = 5
+            )
+        )
+        examinationAdapter.submitList(list)
+        examinationAdapter.notifyDataSetChanged()
+
+    }
 
 
 
