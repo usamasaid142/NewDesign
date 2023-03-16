@@ -243,9 +243,7 @@
         <argument
             android:name="status"
             app:argType="boolean" />
-        <action
-            android:id="@+id/action_appointmentDetailsFragment_to_myScheduleFragment"
-            app:destination="@id/myScheduleFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/bookingAppointmentFragment"
