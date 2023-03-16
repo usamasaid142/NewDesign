@@ -30,6 +30,7 @@ import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -211,13 +212,16 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
     private fun setUpCalendar() {
         val calendarList = ArrayList<CalendarDateModel>()
+        val formatter = SimpleDateFormat("yyyy-MM-dd").apply {
+            this.timeZone = TimeZone.getTimeZone("CST")
+        }
         binding.tvDate.text = sdf.format(cal.time)
         val monthCalendar = cal.clone() as Calendar
         val maxDaysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         dates.clear()
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1)
         while (dates.size < maxDaysInMonth) {
-            if (monthCalendar.time.time >= now.time.time) {
+            if (formatter.format(monthCalendar.time)>=formatter.format(now.time)) {
 
                 calendarList.add(CalendarDateModel(monthCalendar.time))
             }
@@ -308,7 +312,8 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
                 is Resource.Error -> {
                     binding.progressbar1.visibility=View.GONE
-                    Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), "${it.message}", Snackbar.LENGTH_SHORT).show()
+
                 }
             }
         }
@@ -339,7 +344,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         var timeFrom = ""
         var timeTo = ""
         var doctorWorkingDayTimeId = 0
-        var intervaltime = 1
+        var intervaltime:Int? = 1
         var fees = 0
         var medicalExaminationTypeName = ""
 
@@ -348,7 +353,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
                 timeFrom = appointmentTime[i]?.timeFrom!!
                 timeTo = appointmentTime[i]?.timeTo!!
-                intervaltime = appointmentTime[i]?.timeInterval!!
+                intervaltime = appointmentTime[i]?.timeInterval?:10
                 doctorWorkingDayTimeId = appointmentTime[i]?.schedualId!!
                 fees = appointmentTime[i]?.fees!!
                 medicalExaminationTypeName = appointmentTime[i]?.medicalExaminationTypeName!!

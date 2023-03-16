@@ -23,6 +23,7 @@ import com.example.newdesign.utils.Constans.UserSIGNUP
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.RegisterViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -146,9 +147,7 @@ class SignupFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     hideprogressbar()
-                    it.message?.let { error ->
-                        Log.e("error", error)
-                    }
+                    Snackbar.make(requireView(), "${it.message}", Snackbar.LENGTH_SHORT).show()
                 }
 
             }

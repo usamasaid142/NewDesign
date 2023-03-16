@@ -30,9 +30,9 @@ class CalenderAdapter(private val selectDate:Action) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val calender = getItem(position)
-        var date = calender.data
-        holder.binding.tvCalendarDay.text = sdf.format(date).subSequence(0,3)
-        holder.binding.tvCalendarDate.text = date.date.toString()
+//        var date = calender.data
+        holder.binding.tvCalendarDay.text = sdf.format(calender.data).subSequence(0,3)
+        holder.binding.tvCalendarDate.text =calender.data.date.toString()
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
             selectDate.onItemClick(calender.data)

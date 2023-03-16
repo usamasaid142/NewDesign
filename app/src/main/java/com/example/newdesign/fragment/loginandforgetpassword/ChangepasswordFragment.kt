@@ -56,6 +56,13 @@ class ChangepasswordFragment : Fragment() {
     }
 
     private fun initButton() {
+
+        binding.layoutHelp.setOnClickListener {
+            val action=ChangepasswordFragmentDirections.actionChangepasswordFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
+        }
+
+
         binding.ivShowpassword.setOnClickListener {
 
             if (binding.etPassword.transformationMethod is PasswordTransformationMethod) {

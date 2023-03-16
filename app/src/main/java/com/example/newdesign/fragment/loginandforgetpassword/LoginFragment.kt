@@ -23,6 +23,7 @@ import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -102,9 +103,7 @@ class LoginFragment : Fragment() {
 
         if (mobile.trim().isNullOrEmpty()) {
 
-//            binding.textinputMobile.error = "no *"
             binding.etMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
-            // binding.textinputMobile.boxBackgroundMode= TextInputLayout.BOX_BACKGROUND_OUTLINE
             binding.textinputMobile.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.tvFullNameError.text = getString(R.string.required)
             binding.tvFullNameError.visibility = View.VISIBLE
@@ -121,7 +120,6 @@ class LoginFragment : Fragment() {
         }
 
         if (password.trim().isEmpty()) {
-//            binding.textinputPassword.error = "no *"
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             binding.tvPasswordError.text = getString(R.string.required)
@@ -129,7 +127,6 @@ class LoginFragment : Fragment() {
 
             isValid = false
         } else if (password.length < 6) {
-//            binding.textinputPassword.error = "passwored should > 6 "
             binding.layoutPassword.setBackgroundResource(R.drawable.bg_edittext_error)
             binding.etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
             binding.tvPasswordError.text = getString(R.string.lesstthan6number)
@@ -175,9 +172,7 @@ class LoginFragment : Fragment() {
 
                 is Resource.Error->{
                     hideprogressbar()
-                    loginresponse.message?.let { Log.e("msg : ", it) }
-                    Toast.makeText(requireContext(),"${loginresponse.message}",Toast.LENGTH_SHORT).show()
-
+                    Snackbar.make(requireView(), "${loginresponse.message}", Snackbar.LENGTH_SHORT).show()
                 }
             }
 

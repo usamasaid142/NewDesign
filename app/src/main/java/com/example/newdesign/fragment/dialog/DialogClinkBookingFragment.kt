@@ -179,7 +179,7 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
 
                 timeFrom = appointmentTime[i]?.timeFrom!!
                 timeTo = appointmentTime[i]?.timeTo!!
-                intervaltime = appointmentTime[i]?.timeInterval!!
+                intervaltime = appointmentTime[i]?.timeInterval?:10
                 doctorWorkingDayTimeId = appointmentTime[i]?.schedualId!!
                 fees = appointmentTime[i]?.fees!!
                 medicalExaminationTypeName = appointmentTime[i]?.medicalExaminationTypeName!!

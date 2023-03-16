@@ -30,6 +30,7 @@ import com.example.newdesign.utils.Constans.NameEN
 import com.example.newdesign.utils.Constans.PROFILE_STATUS
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -501,8 +502,7 @@ class PersonalInfoFragment : Fragment() {
                     binding.progressBar.visibility=View.GONE
 
                     response.message?.let {
-                        Toast.makeText(requireContext(),"${response.message}",Toast.LENGTH_SHORT).show()
-
+                        Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
                     }
                 }
 

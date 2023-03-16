@@ -35,6 +35,7 @@ class ImageVideoAdapter : ListAdapter<HomeAdsData, ImageVideoAdapter.ViewHolder>
                     override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
                         val videoId = videoid[1]
                         youTubePlayer.loadVideo(videoId, 0f)
+                        youTubePlayer.pause()
                     }
                 })
             }

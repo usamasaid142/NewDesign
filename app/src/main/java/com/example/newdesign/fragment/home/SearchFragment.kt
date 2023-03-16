@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -32,6 +33,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.internal.bind.util.ISO8601Utils.format
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.String.format
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -54,12 +59,12 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     var dayId = 0
     var feesTo = 0
     var seniortyLevelId = 0
-    var examinationtypeid=0
+    var examinationtypeid = 0
     var cityId = 0
     var areaId = 0
     var genderId = 0
     var formattedDate = ""
-    var step=1
+    var step = 1
     var sub_SpecialistId = mutableListOf<Int>()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
@@ -79,7 +84,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivPrevious.isEnabled = step != 1
-        examinationtypeid= HomeFragment.instance?.medicalExaminatioId!!
+        examinationtypeid = HomeFragment.instance?.medicalExaminatioId!!
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
@@ -100,6 +105,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         setUpCalendar()
         initButton()
         setupSpinner()
+        getSearchDoctors()
     }
 
     private fun initButton() {
@@ -176,16 +182,17 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         }
 
         binding.layoutBottomsheetpersistant.btnApply.setOnClickListener {
-            var feesFrom=0
-            var feesTo=0
-           if( binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().isNullOrEmpty() &&
-               binding.layoutBottomsheetpersistant.etFeesTo.text.toString().isNullOrEmpty()){
-               feesFrom=0
-               feesTo=0
-           }else{
-               feesFrom= binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().toInt()
-               feesTo=binding.layoutBottomsheetpersistant.etFeesTo.text.toString().toInt()
-           }
+            var feesFrom = 0
+            var feesTo = 0
+            if (binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().isNullOrEmpty() &&
+                binding.layoutBottomsheetpersistant.etFeesTo.text.toString().isNullOrEmpty()
+            ) {
+                feesFrom = 0
+                feesTo = 0
+            } else {
+                feesFrom = binding.layoutBottomsheetpersistant.etFeesFrom.text.toString().toInt()
+                feesTo = binding.layoutBottomsheetpersistant.etFeesTo.text.toString().toInt()
+            }
             val doctorssearchRequset = DoctorSearchRequest(
                 areaId,
                 formattedDate,
@@ -436,17 +443,21 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
 
     private fun setUpCalendar() {
         val calendarList = ArrayList<CalendarDateModel>()
+        val formatter = SimpleDateFormat("yyyy-MM-dd").apply {
+            this.timeZone = TimeZone.getTimeZone("CST")
+        }
         binding.tvDate.text = sdf.format(cal.time)
         val monthCalendar = cal.clone() as Calendar
         val maxDaysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         dates.clear()
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1)
         while (dates.size < maxDaysInMonth) {
-            if (monthCalendar.time.time >= now.time.time) {
+            if (formatter.format(monthCalendar.time)>=formatter.format(now.time)) {
                 calendarList.add(CalendarDateModel(monthCalendar.time))
             }
-            dates.add(monthCalendar.time)
-            monthCalendar.add(Calendar.DAY_OF_MONTH, 1)
+                dates.add(monthCalendar.time)
+                monthCalendar.add(Calendar.DAY_OF_MONTH, 1)
+
         }
         searchServicesAdapter.submitList(calendarList)
     }
@@ -463,7 +474,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             feesTo = 0,
             genderId,
             10,
-           examinationtypeid,
+            examinationtypeid,
             0,
             0,
             specialistId
@@ -528,12 +539,18 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         }
 
     }
+
     fun setupSpinner() {
-        val typelist= arrayOf( getString(R.string.Clinic_Booking), getString(R.string.Home_Visit), getString(R.string.Chat)
-        ,  getString(R.string.Call), getString(R.string.Video_Call))
+        val typelist = arrayOf(
+            getString(R.string.Clinic_Booking),
+            getString(R.string.Home_Visit),
+            getString(R.string.Chat),
+            getString(R.string.Call),
+            getString(R.string.Video_Call)
+        )
         val typeadapter = ArrayAdapter(
             requireActivity(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , typelist
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, typelist
         )
         binding.layoutBottomsheetpersistant.spStatus.adapter = typeadapter
         binding.layoutBottomsheetpersistant.spStatus.onItemSelectedListener = object :
@@ -542,11 +559,60 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                 parent: AdapterView<*>,
                 view: View, position: Int, id: Long
             ) {
-                examinationtypeid=position+1
+                examinationtypeid = position + 1
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // write code to perform some action
+
+            }
+        }
+    }
+
+
+    private fun getSearchDoctors() {
+
+        var job: Job? = null
+        binding.etSearch.addTextChangedListener {
+            job?.cancel()
+            job = MainScope().launch {
+                delay(500L)
+                it?.let {
+                    if (it.isNotEmpty()) {
+                        val doctorssearchRequset = DoctorSearchRequest(
+                            areaId,
+                            formattedDate,
+                            cityId,
+                           it.toString(),
+                           feesFrom = 0,
+                            feesTo,
+                            genderId,
+                            10,
+                            examinationtypeid,
+                            0,
+                            0,
+                            specialistId
+                        )
+                        viewmodel.searchDoctors(doctorssearchRequset)
+                    }else{
+                        val doctorssearchRequset = DoctorSearchRequest(
+                            areaId,
+                            formattedDate,
+                            cityId,
+                           binding.etSearch.text.toString(),
+                            feesFrom = 0,
+                            feesTo,
+                            genderId,
+                            10,
+                            examinationtypeid,
+                            0,
+                            0,
+                            specialistId
+                        )
+                        viewmodel.searchDoctors(doctorssearchRequset)
+                    }
+
+                    }
 
             }
         }

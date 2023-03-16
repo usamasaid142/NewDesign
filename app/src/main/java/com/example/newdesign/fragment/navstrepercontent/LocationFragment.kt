@@ -18,6 +18,7 @@ import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -168,7 +169,7 @@ class LocationFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility=View.GONE
-                        Toast.makeText(requireContext(),"${response.message}",Toast.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
                 }
 
                 is Resource.Loading -> {

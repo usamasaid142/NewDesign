@@ -10,10 +10,6 @@ data class RegisterReponse(
     val `data`: Data,
     @SerializedName("Message")
     val message: String,
-    @SerializedName("MessageCode")
-    val messageCode: Int,
-    @SerializedName("Success")
-    val success: Boolean
 ): Serializable
 
 data class Data(

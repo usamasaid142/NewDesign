@@ -71,9 +71,9 @@ class MoreFragment : Fragment() {
             binding.layoutTermsConditions.setOnClickListener {
                 findNavController().navigate(R.id.webViewFragment)
             }
-            binding.layoutNextAvailableBooking.setOnClickListener {
-                findNavController().navigate(R.id.editProfileFragment)
-            }
+//            binding.layoutNextAvailableBooking.setOnClickListener {
+//                findNavController().navigate(R.id.editProfileFragment)
+//            }
 
         }
 

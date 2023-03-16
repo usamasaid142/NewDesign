@@ -1,7 +1,6 @@
 package com.example.newdesign.adapter
 
 
-
 import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
@@ -37,10 +36,10 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val appoinments = getItem(position)
 
-                 var timefrom = LocalTime.parse(appoinments.time)
-                 val time = timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                 holder.binding.tvTime.text = time
-                 timefrom = timefrom.plusHours(2)
+        var timefrom = LocalTime.parse(appoinments.time)
+        val time = timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        holder.binding.tvTime.text = time
+        timefrom = timefrom.plusHours(2)
 
 
 
@@ -50,7 +49,8 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
                 appoinments.fees?.let { it2 ->
                     appoinments.DoctorWorkingDayTimeId?.let { it3 ->
                         appoinments.MedicalExaminationTypeName?.let { it4 ->
-                            selecttime.onItemClick(timefrom.toString(),
+                            selecttime.onItemClick(
+                                timefrom.toString(),
                                 it1, it2, it3, it4
                             )
                         }
@@ -61,40 +61,36 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
 
         }
 
-        appoinments.bookingAppointments?.forEach {
-            if (it?.contains("${appoinments.time}")!!){
-                holder.binding.layoutTime.background =
-                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_chooselang_button)
-                holder.binding.tvTime.text="booked"
-                holder.binding.tvTime.setTextColor(Color.WHITE)
-                holder.binding.layoutTime.isEnabled=false
 
-            }else {
-                holder.binding.layoutTime.background =
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.bg_chooselang_button
-                    )
-                holder.binding.tvTime.setTextColor(Color.WHITE)
-            }
+
+
+        if (selectedItemPosition == position) {
+
+            holder.binding.layoutTime.background =
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    R.drawable.bg_chooselang_button
+                )
+            holder.binding.tvTime.setTextColor(Color.WHITE)
+
+
+        } else {
+            holder.binding.layoutTime.background =
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    R.drawable.bg_completeprofile
+                )
+            holder.binding.tvTime.setTextColor(Color.parseColor("#262D70"))
         }
 
-
-            if (selectedItemPosition == position) {
-
-                    holder.binding.layoutTime.background =
-                        ContextCompat.getDrawable(
-                            holder.itemView.context,
-                            R.drawable.bg_chooselang_button
-                        )
-                    holder.binding.tvTime.setTextColor(Color.WHITE)
-
-            } else {
+        appoinments.bookingAppointments?.forEach {
+            if (it?.contains("${appoinments.time}")!!) {
                 holder.binding.layoutTime.background =
-                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_completeprofile)
-                holder.binding.tvTime.setTextColor(Color.parseColor("#262D70"))
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.bg_helpgray)
+                holder.binding.tvTime.setTextColor(Color.parseColor("#B7B7B7"))
 
             }
+        }
 
 
 
@@ -125,7 +121,13 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
     }
 
     interface Action {
-        fun onItemClick(time: String,intervalTime:Int,Fess:Int,doctorWorkingDayTimeId:Int,medicalExaminationTypeName:String)
+        fun onItemClick(
+            time: String,
+            intervalTime: Int,
+            Fess: Int,
+            doctorWorkingDayTimeId: Int,
+            medicalExaminationTypeName: String
+        )
     }
 
 

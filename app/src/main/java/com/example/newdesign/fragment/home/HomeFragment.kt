@@ -1,29 +1,28 @@
 package com.example.newdesign.fragment.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.bumptech.glide.Glide
 import com.example.newdesign.R
 import com.example.newdesign.adapter.ImageVideoAdapter
 import com.example.newdesign.adapter.MedicalServicesAdapter
 import com.example.newdesign.adapter.ServicesAdapter
 import com.example.newdesign.databinding.HomefragmentBinding
-import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
-import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,6 +53,14 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
+
+        if (currentTime.contains("AM")){
+            binding.tvWelcome.text="Good Morning"
+        }else{
+            binding.tvWelcome.text="Good Evening"
+        }
 
         binding.tvPatientname.text=sp.getUser()?.name
         binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {

@@ -17,6 +17,7 @@ import com.example.newdesign.databinding.AppointmentDetailsfragmentBinding
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -90,9 +91,7 @@ class AppointmentDetailsFragment : Fragment() {
 
                     is Resource.Error -> {
                         hideprogressbar()
-
-                    Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-
+                        Snackbar.make(requireView(), "${it.message}", Snackbar.LENGTH_SHORT).show()
                     }
                 }
 

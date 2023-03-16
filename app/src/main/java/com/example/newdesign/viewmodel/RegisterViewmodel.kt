@@ -85,7 +85,8 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
 
         }
 
-        return Resource.Error(response.message())
+        val error = Gson().fromJson<RegisterReponse>(response.errorBody()!!.string(), RegisterReponse::class.java)
+        return Resource.Error(error.message)
 
     }
 
