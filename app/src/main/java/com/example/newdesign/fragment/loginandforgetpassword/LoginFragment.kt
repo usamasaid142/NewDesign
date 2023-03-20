@@ -1,8 +1,8 @@
 package com.example.newdesign.fragment.loginandforgetpassword
 
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +15,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.LoginfragmentBinding
 import com.example.newdesign.model.register.LoginUser
-import com.example.newdesign.utils.Constans.NameAR
-import com.example.newdesign.utils.Constans.PROFILE_STATUS
 import com.example.newdesign.utils.Constans.TOKEN
 import com.example.newdesign.utils.Constans.UserLOGIN
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.RegisterViewmodel
@@ -160,6 +159,7 @@ class LoginFragment : Fragment() {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                         loginresponse.data?.data?.let { it1 -> sp.saveUserToken(TOKEN, it1.token) }
                     }
+                    loginresponse.data!!?.data?.let { DateUtils.setToken(it.token) }
                     sharedDataViewmodel.getProfileStatus(loginresponse.data?.data?.profileStatus!!)
                  if (loginresponse.data?.data?.profileStatus!!<2) {
                         findNavController().navigate(R.id.docotorProfileFragment)

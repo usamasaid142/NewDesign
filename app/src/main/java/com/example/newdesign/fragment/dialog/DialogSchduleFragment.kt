@@ -79,6 +79,11 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
             callBackCancelAppointment()
         }
 
+        binding.tvHelp.setOnClickListener {
+            val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
+        }
+
 
 
     }

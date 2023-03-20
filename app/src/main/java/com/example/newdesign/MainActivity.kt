@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     companion object {
         var instance: MainActivity? = null
@@ -49,6 +50,11 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
         navController = navHostFragment.navController
+        appBarConfiguration= AppBarConfiguration(
+
+            setOf(R.id.homeFragment,R.id.moreFragment,R.id.myScheduleFragment)
+        )
+        //setupActionBarWithNavController(navController,appBarConfiguration)
         binding.bottomViewNav.setupWithNavController(navController)
 //      val appConfig= AppBarConfiguration(setOf(R.id.chooseLanguageFragment,R.id.splashFragment))
 //       setupActionBarWithNavController(navController,appConfig)

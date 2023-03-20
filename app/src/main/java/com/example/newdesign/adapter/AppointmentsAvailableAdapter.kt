@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ItemLayoutAppointmentsavailableBinding
 import com.example.newdesign.model.booking.AppointmentBooking
+import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.*
 
 
 class AppointmentsAvailableAdapter(private val selecttime: Action) :
@@ -35,10 +37,8 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val appoinments = getItem(position)
-
         var timefrom = LocalTime.parse(appoinments.time)
-        val time = timefrom.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        holder.binding.tvTime.text = time
+        holder.binding.tvTime.text =timefrom.format(DateTimeFormatter.ofPattern("hh:mm a",Locale.getDefault()))
         timefrom = timefrom.plusHours(2)
 
 

@@ -1,5 +1,7 @@
 package com.example.newdesign.fragment.signupanddocotorprofile
 
+
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,26 +9,24 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.DocotorProfilefragmentBinding
-import com.example.newdesign.utils.Constans
-import com.example.newdesign.utils.Constans.PROFILE_STATUS
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class DocotorProfileFragment : Fragment() {
 
 private lateinit var binding:DocotorProfilefragmentBinding
-  //  private lateinit var navController: NavController
+   // private lateinit var navController: NavController
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     var profileStatus=0
     @Inject
@@ -45,7 +45,7 @@ private lateinit var binding:DocotorProfilefragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         //setupNavigationBottom()
+         // setupNavigationBottom()
           initButton()
           getProfileStatus()
 
@@ -55,7 +55,7 @@ private lateinit var binding:DocotorProfilefragmentBinding
     {
 
         binding.tvSkip.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            findNavController().navigate(com.example.newdesign.R.id.homeFragment)
         }
 
         binding.layoutHelp.setOnClickListener {
@@ -65,32 +65,66 @@ private lateinit var binding:DocotorProfilefragmentBinding
 
     }
 
+    @SuppressLint("ResourceType")
     private fun setupNavigationBottom(){
 //        val navHostFragment =
-//            requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentnav_Streper) as NavHostFragment
-//        navController = navHostFragment.navController
+//            requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentnav_Streper) as NavHostFragment navController = navHostFragment.navController
+//        val navController: NavController =
+//            Navigation.findNavController(requireActivity(),com.example.newdesign.R.id.fragmentnav_Streper)
+//        var navGraph = navController.navInflater.inflate(com.example.newdesign.R.navigation.nav_streper)
 //
-//        var navGraph = navController.navInflater.inflate(R.navigation.nav_streper)
-//        navGraph.id =
 //            if (profileStatus==1) {
-//                R.id.locationFragment
+//               navGraph.setStartDestination( com.example.newdesign.R.id.locationFragment)
 //            } else {
-//                R.id.medicalStateFragment
+//                navGraph.setStartDestination( com.example.newdesign.R.id.medicalStateFragment)
 //            }
+
+
+        val navHostFragment = (requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentnav_Streper) as NavHostFragment)
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_streper)
+//graph.addArgument("argument", NavArgument)
+
+//or
+//graph.setStartDestination(R.id.fragment2)
+
+        if (profileStatus==1) {
+            graph.setStartDestination(R.id.locationFragment)
+        } else {
+            graph.setStartDestination(R.id.medicalStateFragment)
+        }
+
+        navHostFragment.navController.graph = graph
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //        navController.graph = navGraph
 
-        val nextDestination = if (profileStatus==1) {
-            R.id.locationFragment
-        } else {
-            R.id.medicalStateFragment
-        }
-
-        val options = NavOptions.Builder()
-            .setPopUpTo(R.id.fragmentnav_Streper, true)
-            .build()
-
-       findNavController().navigate(nextDestination, null, options)
+//        val nextDestination = if (profileStatus==1) {
+//            R.id.locationFragment
+//        } else {
+//            R.id.medicalStateFragment
+//        }
+//
+//        val options = NavOptions.Builder()
+//            .setPopUpTo(R.id.fragmentnav_Streper, true)
+//            .build()
+//
+//       findNavController().navigate(nextDestination, null, options)
 
     }
 private fun getVisibleFragment(): Fragment? {
@@ -129,6 +163,7 @@ private fun getVisibleFragment(): Fragment? {
                     binding.layoutStep2.visibility=View.VISIBLE
                     binding.layoutStep3.visibility=View.VISIBLE
                     binding.tvSkip.visibility=View.VISIBLE
+
                 }
                 3->{
                     binding.ivPlus.visibility=View.VISIBLE

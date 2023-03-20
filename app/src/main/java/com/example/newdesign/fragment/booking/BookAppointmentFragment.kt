@@ -60,7 +60,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     private var clinkname = ""
     private var clinicId = 0
     var dayId = 0
-    var step=1
+    var step = 1
     private var medicalExaminationId = 0
     var time: String? = null
     private var doctorWorkingDayTimeId: Int? = null
@@ -80,17 +80,18 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivPrevious.isEnabled = step != 1
-        binding.tvName.text=args.status
+        binding.tvName.text = args.status
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.clinksBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
-        val name="${args.doctorclinks.data?.firstName}${args.doctorclinks.data?.middelName}${args.doctorclinks.data?.lastName}"
-        binding.tvDoctorName.text=name
-        var subspecialist:String?=""
+        val name =
+            "${args.doctorclinks.data?.firstName}${args.doctorclinks.data?.middelName}${args.doctorclinks.data?.lastName}"
+        binding.tvDoctorName.text = name
+        var subspecialist: String? = ""
         args.doctorclinks.data?.subSpecialistName?.forEach {
-            subspecialist= "$subspecialist $it,"
+            subspecialist = "$subspecialist $it,"
         }
-        binding.tvSpecialization.text=subspecialist
+        binding.tvSpecialization.text = subspecialist
         initButton()
         CalenderRecylerview()
         clinksRecylerview()
@@ -104,18 +105,18 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
     private fun initButton() {
         binding.ivArrow.setOnClickListener {
-            when(args.status){
-                "Edit Appointment"->{
+            when (args.status) {
+                "Edit Appointment" -> {
                     findNavController().navigate(R.id.myScheduleFragment)
                 }
-                "Reschedule"->{
+                "Reschedule" -> {
                     findNavController().navigate(R.id.myScheduleFragment)
                 }
-                "Re-Booking Appointment"->{
+                "Re-Booking Appointment" -> {
                     findNavController().navigate(R.id.myScheduleFragment)
                 }
-                else->{
-                findNavController().navigate(R.id.bookingAppointmentFragment)
+                else -> {
+                    findNavController().navigate(R.id.bookingAppointmentFragment)
                 }
             }
 
@@ -123,7 +124,10 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
         binding.layoutChooseService.setOnClickListener {
 
-            val action =BookAppointmentFragmentDirections.actionBookAppointmentFragmentToDialogBottomSheetFragment("examinationtype")
+            val action =
+                BookAppointmentFragmentDirections.actionBookAppointmentFragmentToDialogBottomSheetFragment(
+                    "examinationtype"
+                )
             findNavController().navigate(action)
         }
 
@@ -168,7 +172,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 val total = date.time + startHour.time
                 formattedDate = formatter.format(total)
                 val patientAppointmentRequest = PatientAppointmentRequest(
-                   args.doctorclinks.data?.id ,
+                    args.doctorclinks.data?.id,
                     doctorWorkingDayTimeId,
                     formattedDate,
                     true
@@ -221,7 +225,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         dates.clear()
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1)
         while (dates.size < maxDaysInMonth) {
-            if (formatter.format(monthCalendar.time)>=formatter.format(now.time)) {
+            if (formatter.format(monthCalendar.time) >= formatter.format(now.time)) {
 
                 calendarList.add(CalendarDateModel(monthCalendar.time))
             }
@@ -246,10 +250,10 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                             getAppointments(time as List<BookingData>)
                             binding.etChooseService.setText(time[0]?.medicalExaminationTypeName)
                             binding.ivCalenderviw.visibility = View.GONE
-                            binding.rvAppointmentsAvailable.visibility=View.VISIBLE
+                            binding.rvAppointmentsAvailable.visibility = View.VISIBLE
                         } else {
                             binding.ivCalenderviw.visibility = View.VISIBLE
-                           binding.rvAppointmentsAvailable.visibility=View.GONE
+                            binding.rvAppointmentsAvailable.visibility = View.GONE
 
                         }
 
@@ -274,11 +278,11 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
             when (it) {
 
                 is Resource.Loading -> {
-                   binding.progressbar1.visibility=View.VISIBLE
+                    binding.progressbar1.visibility = View.VISIBLE
                 }
 
                 is Resource.sucess -> {
-                    binding.progressbar1.visibility=View.GONE
+                    binding.progressbar1.visibility = View.GONE
                     val appointmentDetailBooking = args.doctorclinks.data?.let { it1 ->
                         it1.id?.let { it2 ->
                             AppointmentDetailBooking(
@@ -294,16 +298,16 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                         }
                     }
 
-                    if (args.status=="Book Appointment"){
+                    if (args.status == "Book Appointment") {
                         val action =
                             BookAppointmentFragmentDirections.actionBookAppointmentFragmentToAppointmentDetailsFragment(
-                                appointmentDetailBooking,true
+                                appointmentDetailBooking, true
                             )
                         findNavController().navigate(action)
-                    }else{
+                    } else {
                         val action =
                             BookAppointmentFragmentDirections.actionBookAppointmentFragmentToAppointmentDetailsFragment(
-                                appointmentDetailBooking,false
+                                appointmentDetailBooking, false
                             )
                         findNavController().navigate(action)
                     }
@@ -311,7 +315,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 }
 
                 is Resource.Error -> {
-                    binding.progressbar1.visibility=View.GONE
+                    binding.progressbar1.visibility = View.GONE
                     Snackbar.make(requireView(), "${it.message}", Snackbar.LENGTH_SHORT).show()
 
                 }
@@ -320,7 +324,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     }
 
 
-    private fun getClinicSchedualByClinicDayId(){
+    private fun getClinicSchedualByClinicDayId() {
         sharedDataViewmodel.ClinicSchedualByClinicDayId.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
@@ -333,7 +337,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 binding.etChooseClinic.setText(it.clinicName)
                 this.clinicId = it.clinicId
                 this.medicalExaminationId = this.medicalExaminationId
-                this.formattedDate=it.formattedDate
+                this.formattedDate = it.formattedDate
             })
     }
 
@@ -344,7 +348,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         var timeFrom = ""
         var timeTo = ""
         var doctorWorkingDayTimeId = 0
-        var intervaltime:Int? = 1
+        var intervaltime: Int? = 1
         var fees = 0
         var medicalExaminationTypeName = ""
 
@@ -353,7 +357,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
                 timeFrom = appointmentTime[i]?.timeFrom!!
                 timeTo = appointmentTime[i]?.timeTo!!
-                intervaltime = appointmentTime[i]?.timeInterval?:10
+                intervaltime = appointmentTime[i]?.timeInterval ?: 10
                 doctorWorkingDayTimeId = appointmentTime[i]?.schedualId!!
                 fees = appointmentTime[i]?.fees!!
                 medicalExaminationTypeName = appointmentTime[i]?.medicalExaminationTypeName!!
@@ -460,15 +464,15 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         this.intervalTime = intervalTime
     }
 
-    override fun onItemClick(clinkid: Int,clinkname:String) {
+    override fun onItemClick(clinkid: Int, clinkname: String) {
         this.clinicId = clinkid
-        this.clinkname=clinkname
+        this.clinkname = clinkname
     }
 
     override fun onItemClick(date: Date) {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
         formattedDate = formatter.format(date)
-        this.formattedDate=formattedDate
+        this.formattedDate = formattedDate
         getDayId()
         viewmodel.getClinicSchedualByClinicDayId(
             clinicId,
@@ -500,20 +504,22 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
             "Thu" -> {
                 dayId = 5
             }
-            "Fri"->{
-                dayId=6
+            "Fri" -> {
+                dayId = 6
             }
-            "Sat"->{
-                dayId=7
+            "Sat" -> {
+                dayId = 7
             }
         }
 
     }
 
-    private fun getmedicalExaminationTypeId(){
-        sharedDataViewmodel.ExaminationTypeId.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            this.medicalExaminationId= it.Id!!
-            binding.etChooseService.setText(it.textService)
-        })
+    private fun getmedicalExaminationTypeId() {
+        sharedDataViewmodel.ExaminationTypeId.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                this.medicalExaminationId = it.Id!!
+                binding.etChooseService.setText(it.textService)
+            })
     }
 }

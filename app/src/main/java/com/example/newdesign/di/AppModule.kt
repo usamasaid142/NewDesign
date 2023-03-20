@@ -1,10 +1,13 @@
 package com.example.newdesign.di
+import android.content.SharedPreferences
 import android.util.Log
 import com.example.newdesign.BuildConfig
 import com.example.newdesign.api.ApiService
 import com.example.newdesign.fragment.loginandforgetpassword.LoginFragment
 import com.example.newdesign.utils.Constans.BASE_URL
 import com.example.newdesign.utils.Constans.TOKEN
+import com.example.newdesign.utils.DateUtils
+import com.example.newdesign.utils.SpUtil
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -20,6 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
@@ -114,7 +118,8 @@ object AppModule {
 
 
     private fun getOkHttpClient(): OkHttpClient {
-        val token= LoginFragment.instance?.sp?.getUserToken(TOKEN)
+    //    val token= LoginFragment.instance?.sp?.getUserToken(TOKEN)
+
         val okHttpClientBuilder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
@@ -131,7 +136,7 @@ object AppModule {
                 val requestBuilder =
                     originalRequest.newBuilder()
 
-                requestBuilder.addHeader("Authorization", "Bearer $token")
+                requestBuilder.addHeader("Authorization", "Bearer ${DateUtils.getToken()}")
 
                 chain.proceed(requestBuilder.build())
             } catch (exception: SocketTimeoutException) {

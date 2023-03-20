@@ -24,6 +24,7 @@ import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.DataBinding.displayToastText
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.DateUtils.convertDateToLong
 import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
@@ -177,6 +178,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
         binding.itemSignOut.btnYes.setOnClickListener {
             sp.saveUserToken(Constans.TOKEN,"")
+            DateUtils.setToken("")
             findNavController().navigate(R.id.loginFragment)
         }
 
