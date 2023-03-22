@@ -55,7 +55,7 @@
             android:textColor="@color/white"
             android:drawablePadding="5dp"
             android:textSize="16sp"
-           android:paddingStart="120dp"
+            android:paddingStart="120dp"
             android:visibility="gone"
             android:drawableStart="@drawable/ic_call"
             android:gravity="center_vertical"

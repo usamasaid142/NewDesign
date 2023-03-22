@@ -8,6 +8,8 @@ import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
+import com.example.newdesign.model.healthy.GetHealthEntityResponse
+import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.profile.PatientLocationResponse
 import com.example.newdesign.model.profile.PatientProfileResponse
@@ -43,6 +45,8 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val cancelPatientResponse=MutableLiveData<Resource<CancelPatientAppointmentResponse>>()
     val patientProfileResponse=MutableLiveData<Resource<PatientProfileResponse>>()
     val patientLocationResponse=MutableLiveData<Resource<PatientLocationResponse>>()
+    val healthyResponse=MutableLiveData<Resource<GetHealthEntityResponse>>()
+    val popularResponse=MutableLiveData<Resource<List<PopularDoctorsResponseItem>>>()
 
 
 
@@ -286,6 +290,39 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         }
         val error = Gson().fromJson<PatientLocationResponse>(response.errorBody()!!.string(), PatientLocationResponse::class.java)
         return error.message?.let { Resource.Error(it) }
+    }
+
+     fun getHealthEntityPagedList(CityId :Int,AreaId :Int,HealthEntityTypeId :Int,
+                                         MaxResultCount :Int,SkipCount :Int)=viewModelScope.launch {
+        healthyResponse.postValue(Resource.Loading())
+        val response = repositry.getHealthEntityPagedList(CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount)
+
+        healthyResponse.postValue(handleGetHealthEntityPagedList(response))
+    }
+
+    private fun handleGetHealthEntityPagedList(response: Response<GetHealthEntityResponse>): Resource<GetHealthEntityResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<GetHealthEntityResponse>(response.errorBody()!!.string(), GetHealthEntityResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+    fun getPopularDoctors()=viewModelScope.launch(Dispatchers.IO) {
+        popularResponse.postValue(Resource.Loading())
+        val response=repositry.getPopularDoctors()
+        popularResponse.postValue(handlegetPopularDoctors(response))
+    }
+
+    private fun handlegetPopularDoctors(response: Response<List<PopularDoctorsResponseItem>>): Resource<List<PopularDoctorsResponseItem>>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
     }
 
 

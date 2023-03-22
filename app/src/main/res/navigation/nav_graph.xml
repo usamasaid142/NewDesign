@@ -154,6 +154,9 @@
         <action
             android:id="@+id/action_homeFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_healthEntityFragment"
+            app:destination="@id/healthEntityFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -174,7 +177,8 @@
             app:destination="@id/dialogClinkBookingFragment" />
         <action
             android:id="@+id/action_searchFragment_to_bookingAppointmentFragment"
-            app:destination="@id/bookingAppointmentFragment" />
+            app:destination="@id/bookingAppointmentFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/myScheduleFragment"
@@ -259,6 +263,10 @@
         <action
             android:id="@+id/action_bookingAppointmentFragment_to_bookAppointmentFragment"
             app:destination="@id/bookAppointmentFragment" />
+        <action
+            android:id="@+id/action_bookingAppointmentFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:popUpTo="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookAppointmentFragment"
@@ -298,4 +306,19 @@
             android:id="@+id/action_dialogSchduleFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/healthEntityFragment"
+        android:name="com.example.newdesign.fragment.healthy.HealthEntityFragment"
+        android:label="health_entityfragment"
+        tools:layout="@layout/health_entityfragment" >
+        <argument
+            android:name="healthname"
+            app:argType="string" />
+        <argument
+            android:name="healthtype"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_healthEntityFragment_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+    </fragment>
 </navigation>

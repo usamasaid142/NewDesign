@@ -90,7 +90,8 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                 val startHour: Date = time?.let { it1 -> SimpleDateFormat("hh:mm").parse(it1) }!!
                 val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
                 val total = date.time + startHour.time
-                formattedDate = formatter.format(total)
+                formattedDate = formatter.format(total+1)
+                Log.e("date",formattedDate.toString())
                 val patientAppointmentRequest = PatientAppointmentRequest(
                     args.appointmentrequest.DoctorId,
                     doctorWorkingDayTimeId,

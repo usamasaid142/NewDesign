@@ -184,6 +184,31 @@
         app:layout_constraintTop_toTopOf="@+id/rv_PatientAppointment"
         android:visibility="gone"
         />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crd_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardCornerRadius="15dp"
+            android:elevation="8dp"
+            android:visibility="gone"
+            android:backgroundTint="@color/dark_gray"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data to show"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:padding="30dp"/>
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     <include
         android:id="@+id/layoutBottomsheetpersistant"

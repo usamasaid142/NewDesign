@@ -3,7 +3,6 @@ package com.example.newdesign.fragment.home
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,19 +25,17 @@ import com.example.newdesign.model.CalendarDateModel
 import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
+import com.example.newdesign.model.docotorsearch.Item
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.gson.internal.bind.util.ISO8601Utils.format
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.String.format
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -375,6 +372,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
                         searchDoctorsAdapter.submitList(it.data?.data?.items)
                         searchDoctorsAdapter.notifyDataSetChanged()
+                        updateUi(it.data?.data?.items as List<Item>)
                     }
 
                 }
@@ -615,6 +613,14 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                     }
 
             }
+        }
+    }
+
+    private fun updateUi(it: List<Item>) {
+        if (it.isNullOrEmpty()) {
+            binding.crdView.visibility = View.VISIBLE
+        } else {
+            binding.crdView.visibility = View.GONE
         }
     }
 

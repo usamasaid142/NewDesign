@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,11 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.EaxminationTypeAdapter
 import com.example.newdesign.adapter.MyScheduleAdapter
-import com.example.newdesign.adapter.SearchDoctorsAdapter
 import com.example.newdesign.databinding.MySchedulefragmentBinding
-import com.example.newdesign.fragment.home.HomeFragment
 import com.example.newdesign.model.MedicalExamination
 import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
+import com.example.newdesign.model.scheduling.DataAppointment
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
@@ -155,6 +153,7 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
                             Log.e("true", upcominglist.toString())
                             myScheduleAdapter.submitList(upcominglist)
                             myScheduleAdapter.notifyDataSetChanged()
+                            updateUi(upcominglist as MutableList<DataAppointment>)
                         }
                         "Canceled" -> {
                             val Canceledlist = it.data?.data?.filter {
@@ -163,10 +162,12 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
                             Log.e("true", Canceledlist.toString())
                             myScheduleAdapter.submitList(Canceledlist)
                             myScheduleAdapter.notifyDataSetChanged()
+                            updateUi(Canceledlist as List<DataAppointment>)
                         }
                         else -> {
                             myScheduleAdapter.submitList(it.data?.data)
                             myScheduleAdapter.notifyDataSetChanged()
+                            updateUi(it.data?.data as List<DataAppointment>)
                         }
 
                     }
@@ -274,6 +275,14 @@ class MyScheduleFragment : Fragment(), MyScheduleAdapter.ActionSchedule,
             }
         }
         return dayId
+    }
+
+    private fun updateUi(it: List<DataAppointment>) {
+        if (it.isNullOrEmpty()) {
+            binding.crdView.visibility = View.VISIBLE
+        } else {
+            binding.crdView.visibility = View.GONE
+        }
     }
 
 }

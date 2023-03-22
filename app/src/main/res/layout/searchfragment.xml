@@ -252,17 +252,37 @@
             app:layout_constraintTop_toTopOf="@+id/rv_Doctors"
             android:visibility="gone"
             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crd_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="@+id/rv_Doctors"
+            app:layout_constraintEnd_toEndOf="@+id/rv_Doctors"
+            app:layout_constraintTop_toTopOf="@+id/rv_Doctors"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_Doctors"
+            app:cardCornerRadius="15dp"
+            android:elevation="8dp"
+            android:visibility="gone"
+            android:backgroundTint="@color/dark_gray"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data to show"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:padding="30dp"/>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <include
             android:id="@+id/layoutBottomsheetpersistant"
             layout="@layout/layout_bottomsheet_filter"
             />
-
-
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

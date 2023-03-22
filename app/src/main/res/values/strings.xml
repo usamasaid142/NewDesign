@@ -193,5 +193,6 @@
     <string name="medical_history">Medical History</string>
     <string name="rate">Rate</string>
     <string name="personal_info">Personal Info.</string>
+    <string name="popular_doctors">Popular Doctors</string>
 
 </resources>

@@ -14,11 +14,13 @@ import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.adapter.ImageVideoAdapter
 import com.example.newdesign.adapter.MedicalServicesAdapter
+import com.example.newdesign.adapter.PopularDoctorsAdapter
 import com.example.newdesign.adapter.ServicesAdapter
 import com.example.newdesign.databinding.HomefragmentBinding
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
+import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -32,10 +34,12 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     private lateinit var imageServicesAdapter:ServicesAdapter
     private lateinit var imageMedicalServicesAdapter:MedicalServicesAdapter
     private lateinit var imageVideoAdapter:ImageVideoAdapter
+    private lateinit var popularDoctorsAdapter: PopularDoctorsAdapter
     @Inject
     lateinit var sp: SpUtil
     var medicalExaminatioId:Int?=null
-    val viewmodel: RegisterViewmodel by viewModels()
+    val regviewmodel: RegisterViewmodel by viewModels()
+    val viewmodel: DialogBottomSheetViewmodel by viewModels()
 
 
     companion object{
@@ -73,9 +77,11 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         imageVideoAdapter= ImageVideoAdapter()
         servicesRecylerview()
         medicalServicesRecylerview()
+        popularDoctorsRecylerview()
         imageServices()
         medicalServices()
         callBack()
+        callBackPopularDoctors()
         initButton()
     }
 
@@ -100,6 +106,14 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         imageMedicalServicesAdapter = MedicalServicesAdapter()
         binding.rvSalamtakmedicalServices.apply {
             adapter = imageMedicalServicesAdapter
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun popularDoctorsRecylerview(){
+        popularDoctorsAdapter = PopularDoctorsAdapter()
+        binding.rvPopularDoctors.apply {
+            adapter = popularDoctorsAdapter
             setHasFixedSize(true)
         }
     }
@@ -158,7 +172,7 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
                 R.drawable.ic_hospitals,
                 getString(R.string.hospitals),
                 R.color.color_1,
-                0
+                1
             )
         )
 
@@ -166,30 +180,29 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
             ImageServices(
                 R.drawable.ic_polyclinics,
                 getString(R.string.polyclinics)  ,
-                R.color.color_2,0
+                R.color.color_2,2
                 )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_pharmacies,
                 getString(R.string.pharmacies),
-                R.color.color_3,0
+                R.color.color_3,3
                 )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_laboratories,
                 getString(R.string.laboratories),
-                R.color.color_4,0
+                R.color.color_4,4
                 )
         )
         imageMedicalServicesAdapter.submitList(list)
         imageMedicalServicesAdapter.notifyDataSetChanged()
 
     }
-
    private fun callBack(){
-       viewmodel.imagevedioresponse.observe(viewLifecycleOwner, Observer {response->
+       regviewmodel.imagevedioresponse.observe(viewLifecycleOwner, Observer {response->
 
            when(response){
 
@@ -217,7 +230,39 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
        })
 
-       viewmodel.getHomeAdds()
+       regviewmodel.getHomeAdds()
+   }
+
+   private fun callBackPopularDoctors(){
+       viewmodel.popularResponse.observe(viewLifecycleOwner, Observer {response->
+
+           when(response){
+
+               is Resource.Loading->{
+                   showprogtessbar()
+               }
+
+               is Resource.sucess->{
+                   hideprogressbar()
+                   response.let {
+                       popularDoctorsAdapter.submitList(it.data)
+                       popularDoctorsAdapter.notifyDataSetChanged()
+                   }
+
+               }
+
+               is Resource.Error->{
+                   hideprogressbar()
+//                   loginresponse.data?.let {
+//                       Log.e("msg : ",it.message)
+//
+//                   }
+               }
+           }
+
+       })
+
+      viewmodel.getPopularDoctors()
    }
 
     private fun showprogtessbar() {

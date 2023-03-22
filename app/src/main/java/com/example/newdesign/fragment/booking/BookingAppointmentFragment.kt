@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.adapter.ClinksDoctorsAdapter
 import com.example.newdesign.adapter.SearchDoctorsAdapter
@@ -75,6 +77,11 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
                 }
                 is Resource.sucess -> {
                     hideprogressbar()
+                    binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${it.data?.data?.image}") {
+                        crossfade(true)
+                        crossfade(1000)
+                        transformations(CircleCropTransformation())
+                    }
                     getDoctorClinksResponse= GetDoctorClinksResponse(it.data?.data,it.message)
                     binding.AboutDoctor.text=it.data?.data?.doctorInfo
                     val name="${it.data?.data?.firstName}${it.data?.data?.middelName}${it.data?.data?.lastName}"

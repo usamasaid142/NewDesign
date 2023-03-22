@@ -122,13 +122,12 @@
                         android:fontFamily="@font/avenirltstd_black"
                         android:gravity="start"
                         android:padding="2dp"
-                        android:maxLines="1"
                         android:text="التجمع الخامس الحي الرابع بجوار مركز شباب التجمع الخامس 44 بـــ شارع 11"
                         android:textColor="@color/gray"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_Address"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_Address"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -188,7 +187,7 @@
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_Fees"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_Fees"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

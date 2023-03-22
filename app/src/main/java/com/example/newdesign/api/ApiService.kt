@@ -5,6 +5,8 @@ import com.example.newdesign.model.booking.*
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
+import com.example.newdesign.model.healthy.GetHealthEntityResponse
+import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.profile.PatientLocationResponse
 import com.example.newdesign.model.profile.PatientProfileResponse
@@ -145,6 +147,21 @@ interface ApiService {
         @Path("culture") culture: String,
         @Body changePasswordRequest: ChangePasswordRequest
     ): Response<ChangePasswordResponse>
+
+    @GET("{culture}/HealthEntity/GetHealthEntityPagedList")
+    suspend fun getHealthEntityPagedList(
+        @Path("culture") culture: String,
+        @Query("CityId") CityId :Int,
+        @Query("AreaId") AreaId :Int,
+        @Query("HealthEntityTypeId") HealthEntityTypeId :Int,
+        @Query("MaxResultCount") MaxResultCount :Int,
+        @Query("SkipCount") SkipCount :Int,
+    ): Response<GetHealthEntityResponse>
+
+    @POST("{culture}/Doctor/GetPopularDoctors")
+    suspend fun getPopularDoctors(
+        @Path("culture") culture: String,
+    ):Response<List<PopularDoctorsResponseItem>>
 
 
 }

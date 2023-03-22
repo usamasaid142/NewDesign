@@ -67,6 +67,6 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp()
+        return onNavigateUp()||super.onSupportNavigateUp()
     }
 }
