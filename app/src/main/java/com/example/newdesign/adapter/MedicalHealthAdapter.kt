@@ -39,7 +39,9 @@ class MedicalHealthAdapter(val onclick:Action):ListAdapter<ItemHealth,MedicalHea
             transformations(CircleCropTransformation())
         }
         holder.binding.tvDoctorName.text=services.name
-        holder.binding.tvSubSpecialization.text= services.healthEntityPhoneDtos?.get(0) ?: ""
+         if(!services.healthEntityPhoneDtos.isNullOrEmpty()) {
+             holder.binding.tvSubSpecialization.text = services.healthEntityPhoneDtos?.get(0)
+         }
         holder.binding.tvAddress.text=services.address
         holder.binding.tvWaitingTime.text=services.fixedFee.toString()
 

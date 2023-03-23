@@ -351,13 +351,14 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         var intervaltime: Int? = 1
         var fees = 0
         var medicalExaminationTypeName = ""
+        var numbersofpatient=0
 
         if (!appointmentTime.isNullOrEmpty()) {
             for (i in appointmentTime!!.indices) {
 
                 timeFrom = appointmentTime[i]?.timeFrom!!
                 timeTo = appointmentTime[i]?.timeTo!!
-                intervaltime = appointmentTime[i]?.timeInterval ?: 10
+                intervaltime = appointmentTime[i]?.timeInterval
                 doctorWorkingDayTimeId = appointmentTime[i]?.schedualId!!
                 fees = appointmentTime[i]?.fees!!
                 medicalExaminationTypeName = appointmentTime[i]?.medicalExaminationTypeName!!
@@ -369,10 +370,17 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                     val timeto = LocalTime.parse(timeTo)
                     val diff: Duration = Duration.between(timefrom, timeto)
                     var hours: Long = diff.toHours()
-                    val numbersofpatient = if (hours.toInt() == 0) {
-                        60 / intervaltime
-                    } else {
-                        ((hours * 60) / intervaltime).toInt()
+                    if(intervaltime!=null) {
+                        numbersofpatient = if (hours.toInt() == 0) {
+                            60 / intervaltime
+                        } else {
+                            ((hours * 60) / intervaltime).toInt()
+                        }
+                    }else if (appointmentTime[i]?.maxNoOfPatients!=null){
+                        numbersofpatient= appointmentTime[i]?.maxNoOfPatients!!
+                        intervaltime=((hours * 60) / numbersofpatient).toInt()
+                    }else{
+                        Snackbar.make(requireView(), "there is no Appointment Available ", Snackbar.LENGTH_SHORT).show()
                     }
                     appointmentBookingList.add(
                         AppointmentBooking(
@@ -386,7 +394,9 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                     )
 
                     for (i in 1 until numbersofpatient) {
-                        timefrom = timefrom.plusMinutes(intervaltime.toLong())
+                        if (intervaltime != null) {
+                            timefrom = timefrom.plusMinutes(intervaltime.toLong())
+                        }
                         appointmentBookingList.add(
                             AppointmentBooking(
                                 timefrom.toString(),

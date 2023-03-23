@@ -555,7 +555,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                view: View?, position: Int, id: Long
             ) {
                 examinationtypeid = position + 1
             }

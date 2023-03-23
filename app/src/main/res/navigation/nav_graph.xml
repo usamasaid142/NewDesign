@@ -249,9 +249,7 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_appointmentDetailsFragment_to_myScheduleFragment"
-            app:destination="@id/myScheduleFragment"
-            app:popUpTo="@id/myScheduleFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/myScheduleFragment" />
 
     </fragment>
     <fragment

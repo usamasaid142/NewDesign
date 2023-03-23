@@ -23,13 +23,17 @@ import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 
 @AndroidEntryPoint
 class DialogClinkBookingFragment : BottomSheetDialogFragment(),
@@ -89,8 +93,11 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                     SimpleDateFormat("yyyy-MM-dd").parse(args.appointmentrequest.AppointmentDate)
                 val startHour: Date = time?.let { it1 -> SimpleDateFormat("hh:mm").parse(it1) }!!
                 val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-                val total = date.time + startHour.time
-                formattedDate = formatter.format(total+1)
+                val total = date.time+startHour.time
+                Log.e("total",total.toString())
+                formattedDate = formatter.format(total)
+                Log.e("date",date.toString())
+                Log.e("date",startHour.toString())
                 Log.e("date",formattedDate.toString())
                 val patientAppointmentRequest = PatientAppointmentRequest(
                     args.appointmentrequest.DoctorId,
@@ -174,13 +181,14 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
         var intervaltime = 1
         var fees = 0
         var medicalExaminationTypeName = ""
+        var numbersofpatient=0
         val appointmentTime = args.appointments?.data
         if (!appointmentTime.isNullOrEmpty()) {
             for (i in appointmentTime!!.indices) {
 
                 timeFrom = appointmentTime[i]?.timeFrom!!
                 timeTo = appointmentTime[i]?.timeTo!!
-                intervaltime = appointmentTime[i]?.timeInterval?:10
+                intervaltime = appointmentTime[i]?.timeInterval?:0
                 doctorWorkingDayTimeId = appointmentTime[i]?.schedualId!!
                 fees = appointmentTime[i]?.fees!!
                 medicalExaminationTypeName = appointmentTime[i]?.medicalExaminationTypeName!!
@@ -192,10 +200,21 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                     val timeto = LocalTime.parse(timeTo)
                     val diff: Duration = Duration.between(timefrom, timeto)
                     var hours: Long = diff.toHours()
-                   val numbersofpatient = if (hours.toInt()==0){
-                        60 / intervaltime
-                    }else {
-                        ((hours * 60) / intervaltime).toInt()
+                    if(intervaltime!=null && intervaltime!=0) {
+                        numbersofpatient = if (hours.toInt() == 0) {
+                            60 / intervaltime
+                        } else {
+                            ((hours * 60) / intervaltime).toInt()
+                        }
+                    }else if (appointmentTime[i]?.maxNoOfPatients!=null){
+                        numbersofpatient= appointmentTime[i]?.maxNoOfPatients!!
+                        intervaltime=((hours * 60) / numbersofpatient).toInt()
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "there is no Appointments available",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     appointmentBookingList.add(
                         AppointmentBooking(

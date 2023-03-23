@@ -118,9 +118,9 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sub_specialization"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:fontFamily="@font/avenirltstd_roman"
                         android:gravity="start"
@@ -130,7 +130,7 @@
                         android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/layout_Sub_specialization"
-                        app:layout_constraintBottom_toBottomOf="@+id/layout_Sub_specialization"
+                        app:layout_constraintBottom_toBottomOf="parent"
                        app:layout_constraintTop_toTopOf="parent" />
 
 
