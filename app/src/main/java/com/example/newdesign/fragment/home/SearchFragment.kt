@@ -89,7 +89,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         doctorsRecylerview()
         initButtonCollabsedFiller()
         bindFields()
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH).apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
         formattedDate = formatter.format(now.time)

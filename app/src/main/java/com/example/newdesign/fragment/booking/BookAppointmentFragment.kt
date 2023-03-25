@@ -156,7 +156,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 val date: Date =
                     SimpleDateFormat("yyyy-MM-dd").parse(formattedDate)
                 val startHour: Date = time?.let { it1 -> SimpleDateFormat("hh:mm").parse(it1) }!!
-                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
                 val total = date.time + startHour.time
                 formattedDate = formatter.format(total)
                 val patientAppointmentRequest = PatientAppointmentRequest(
@@ -454,7 +454,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     }
 
     override fun onItemClick(date: Date) {
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
         formattedDate = formatter.format(date)
         this.formattedDate=formattedDate
         getDayId()

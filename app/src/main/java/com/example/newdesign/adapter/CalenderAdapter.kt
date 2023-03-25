@@ -17,7 +17,7 @@ import java.util.*
 
 class CalenderAdapter(private val selectDate:Action) :
     ListAdapter<CalendarDateModel, CalenderAdapter.ViewHolder>(DiffCallback()) {
-    private val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
+    private val sdf = SimpleDateFormat("EEEE", Locale.getDefault())
     private var selectedItemPosition: Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -31,7 +31,7 @@ class CalenderAdapter(private val selectDate:Action) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val calender = getItem(position)
         var date = calender.data
-        holder.binding.tvCalendarDay.text = sdf.format(date).subSequence(0,3)
+        holder.binding.tvCalendarDay.text = sdf.format(date)
         holder.binding.tvCalendarDate.text = date.date.toString()
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
