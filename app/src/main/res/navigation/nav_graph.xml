@@ -303,6 +303,9 @@
         <action
             android:id="@+id/action_dialogSchduleFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_dialogSchduleFragment_to_medicalHistoryFragment"
+            app:destination="@id/medicalHistoryFragment" />
     </dialog>
     <fragment
         android:id="@+id/healthEntityFragment"
@@ -318,5 +321,18 @@
         <action
             android:id="@+id/action_healthEntityFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/medicalHistoryFragment"
+        android:name="com.example.newdesign.fragment.medicalhistory.MedicalHistoryFragment"
+        android:label="medical_historyfragment"
+        tools:layout="@layout/medical_historyfragment" >
+        <argument
+            android:name="doctorclinks"
+            app:argType="com.example.newdesign.model.booking.clink.GetDoctorClinksResponse"
+            app:nullable="true" />
+        <argument
+            android:name="AppointmentId"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -103,7 +103,7 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                     args.appointmentrequest.DoctorId,
                     doctorWorkingDayTimeId,
                     formattedDate,
-                    args.appointmentrequest.IsBook
+                    args.appointmentrequest.IsBook,""
                 )
                 viewmodel.createPatientAppointment(patientAppointmentRequest)
             }
@@ -135,7 +135,7 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
                     hideprogressbar()
                     val appointmentDetailBooking= args.appointmentrequest.DoctorId?.let { it1 ->
                         AppointmentDetailBooking(it.data?.data?.doctorName,
-                            it1,formattedDate,intervalTime,doctorWorkingDayTimeId,fees,medicalExaminationTypeName,it.data?.data?.doctorDto?.specialistName )
+                            it1,formattedDate,intervalTime,doctorWorkingDayTimeId,fees,medicalExaminationTypeName,it.data?.data?.doctorDto?.specialistName,args.appointmentrequest.image)
                     }
                    val action=DialogClinkBookingFragmentDirections.actionDialogClinkBookingFragmentToAppointmentDetailsFragment(appointmentDetailBooking
                   ,true )

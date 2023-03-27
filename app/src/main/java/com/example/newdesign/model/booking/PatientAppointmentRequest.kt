@@ -7,4 +7,5 @@ data class PatientAppointmentRequest(
     val DoctorWorkingDayTimeId:Int?,
     val AppointmentDate:String?,
     val IsBook:Boolean?,
+    val image:String?
 ): Serializable

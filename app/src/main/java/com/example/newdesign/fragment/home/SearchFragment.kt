@@ -61,6 +61,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     var areaId = 0
     var genderId = 0
     var formattedDate = ""
+    var image=""
     var step = 1
     var sub_SpecialistId = mutableListOf<Int>()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
@@ -404,7 +405,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                         if (time != null) {
 
                             val patientAppointmentRequest =
-                                PatientAppointmentRequest(doctorId, 0, formattedDate, false)
+                                PatientAppointmentRequest(doctorId, 0, formattedDate, false,image)
                             val action =
                                 SearchFragmentDirections.actionSearchFragmentToDialogClinkBookingFragment(
                                     patientAppointmentRequest, it.data
@@ -481,9 +482,10 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
 
     }
 
-    override fun onItemClick(clinicId: Int, doctorId: Int, fessTo: Int) {
+    override fun onItemClick(clinicId: Int, doctorId: Int, fessTo: Int,image:String) {
         this.doctorId = doctorId
         this.feesTo = feesTo
+        this.image=image
         getDayId()
         viewmodel.getClinicSchedualByClinicDayId(
             clinicId,

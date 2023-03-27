@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.adapter.AppointmentsAvailableAdapter
 import com.example.newdesign.adapter.ChooseClinksDoctorsAdapter
@@ -80,18 +82,10 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivPrevious.isEnabled = step != 1
-        binding.tvName.text = args.status
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.clinksBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN
-        val name =
-            "${args.doctorclinks.data?.firstName}${args.doctorclinks.data?.middelName}${args.doctorclinks.data?.lastName}"
-        binding.tvDoctorName.text = name
-        var subspecialist: String? = ""
-        args.doctorclinks.data?.subSpecialistName?.forEach {
-            subspecialist = "$subspecialist $it,"
-        }
-        binding.tvSpecialization.text = subspecialist
+        bindDataToViews()
         initButton()
         CalenderRecylerview()
         clinksRecylerview()
@@ -176,7 +170,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                     doctorWorkingDayTimeId,
                     formattedDate,
                     true
-                )
+                ,"")
                 viewmodel.createPatientAppointment(patientAppointmentRequest)
             }
         }
@@ -293,7 +287,8 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                                 doctorWorkingDayTimeId,
                                 fees,
                                 medicalExaminationTypeName,
-                                it.data?.data?.doctorDto?.specialistName
+                                it.data?.data?.doctorDto?.specialistName,
+                                args.doctorclinks.data!!.image
                             )
                         }
                     }
@@ -531,5 +526,24 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 this.medicalExaminationId = it.Id!!
                 binding.etChooseService.setText(it.textService)
             })
+    }
+
+
+    private fun bindDataToViews(){
+        binding.tvName.text = args.status
+        val name =
+            "${args.doctorclinks.data?.firstName}${args.doctorclinks.data?.middelName}${args.doctorclinks.data?.lastName}"
+        binding.tvDoctorName.text = name
+        var subspecialist: String? = ""
+        args.doctorclinks.data?.subSpecialistName?.forEach {
+            subspecialist = "$subspecialist $it,"
+        }
+        binding.tvSpecialization.text = subspecialist
+
+        binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${args.doctorclinks.data?.image}") {
+            crossfade(true)
+            crossfade(1000)
+            transformations(CircleCropTransformation())
+        }
     }
 }

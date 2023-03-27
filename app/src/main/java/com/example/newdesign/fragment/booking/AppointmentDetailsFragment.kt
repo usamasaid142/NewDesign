@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.AppointmentDetailsfragmentBinding
 import com.example.newdesign.model.booking.PatientAppointmentRequest
@@ -40,6 +42,11 @@ class AppointmentDetailsFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${args.confirmappointments?.image}") {
+            crossfade(true)
+            crossfade(1000)
+            transformations(CircleCropTransformation())
+        }
         bindDataToViews()
         initButton()
         callBack()
@@ -58,7 +65,7 @@ class AppointmentDetailsFragment : Fragment() {
             viewmodel.createPatientAppointment(
                 PatientAppointmentRequest(args.confirmappointments?.doctorId,
                     args.confirmappointments?.DoctorWorkingDayTimeId,args.confirmappointments?.formattedDate
-                    ,true)
+                    ,true,"")
             )
         }
 
@@ -72,6 +79,7 @@ class AppointmentDetailsFragment : Fragment() {
         binding.Service.text=args.confirmappointments?.MedicalExaminationTypeName
         binding.WaitingTime.text=args.confirmappointments?.timeInterval.toString()
         binding.TotalFees.text=args.confirmappointments?.fees.toString()
+
 
     }
 

@@ -194,5 +194,6 @@
     <string name="rate">Rate</string>
     <string name="personal_info">Personal Info.</string>
     <string name="popular_doctors">Popular Doctors</string>
+    <string name="diagnosis">Diagnosis</string>
 
 </resources>

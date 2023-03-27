@@ -45,10 +45,12 @@ class SearchDoctorsAdapter(private val booking: Booking) :
             services.clinicId?.let { it1 ->
                 services.doctorId?.let { it2 ->
                     services.feesTo?.let { it3 ->
-                        booking.onItemClick(
-                            it1,
-                            it2, it3
-                        )
+                        services.image?.let { it4 ->
+                            booking.onItemClick(
+                                it1,
+                                it2, it3, it4
+                            )
+                        }
                     }
                 }
             }
@@ -100,7 +102,7 @@ class SearchDoctorsAdapter(private val booking: Booking) :
 
     interface Booking {
 
-        fun onItemClick(clinicId: Int, doctorId: Int, fess: Int)
+        fun onItemClick(clinicId: Int, doctorId: Int, fess: Int,image:String)
         fun onItemClick(clinicId: Int, doctorId: Int,clinkname:String)
     }
 }

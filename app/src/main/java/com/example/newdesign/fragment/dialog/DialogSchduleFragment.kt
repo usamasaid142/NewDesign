@@ -43,6 +43,7 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         showView()
         callBack()
         initButton()
@@ -81,6 +82,11 @@ class DialogSchduleFragment : BottomSheetDialogFragment() {
 
         binding.tvHelp.setOnClickListener {
             val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
+        }
+
+        binding.tvMedicalHistory.setOnClickListener {
+            val action=DialogSchduleFragmentDirections.actionDialogSchduleFragmentToMedicalHistoryFragment(getDoctorClinksResponse,args.appointmentId)
             findNavController().navigate(action)
         }
 
