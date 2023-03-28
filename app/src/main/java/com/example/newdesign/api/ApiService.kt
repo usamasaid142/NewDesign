@@ -6,6 +6,8 @@ import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.healthy.GetHealthEntityResponse
+import com.example.newdesign.model.populardoctors.GetDoctorHealthTopicsResponse
+import com.example.newdesign.model.populardoctors.GetDoctorSpotLightResponse
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.profile.PatientLocationResponse
@@ -166,7 +168,12 @@ interface ApiService {
     @POST("{culture}/LookUp/GetDoctorSpotLight")
     suspend fun getDoctorSpotLight(
         @Path("culture") culture: String,
-    ):Response<List<PopularDoctorsResponseItem>>
+    ):Response<GetDoctorSpotLightResponse>
+
+    @GET("{culture}/LookUp/GetDoctorHealthTopics")
+    suspend fun getDoctorHealthTopics(
+        @Path("culture") culture: String,
+    ):Response<GetDoctorHealthTopicsResponse>
 
 
 }

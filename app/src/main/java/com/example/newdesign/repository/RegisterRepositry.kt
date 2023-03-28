@@ -41,4 +41,5 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun getHealthEntityPagedList(CityId :Int,AreaId :Int,HealthEntityTypeId :Int,
                                          MaxResultCount :Int,SkipCount :Int)=apiService.getHealthEntityPagedList("En",CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount)
     suspend fun getPopularDoctors()=apiService.getPopularDoctors("En")
+    suspend fun getDoctorHealthTopics()=apiService.getDoctorHealthTopics("En")
 }

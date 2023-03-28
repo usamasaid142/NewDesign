@@ -33,4 +33,16 @@
         <item name="android:datePickerMode">calendar</item>
 
     </style>
+
+    <style name="autoscroll">
+        <item name="android:lines">4</item>
+        <item name="android:maxLines">20</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ems">12</item>
+
+    </style>
 </resources>

@@ -351,12 +351,66 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="15dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="5dp"
                 android:orientation="horizontal"
                 tools:listitem="@layout/item_layout_poulardoctors"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/tv_PopularDoctors"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_HealthTopics"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirltstd_black"
+                android:gravity="start"
+                android:padding="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:text="@string/health_topics"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_PopularDoctors"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_HealthTopics_seeAll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirltstd_black"
+                android:gravity="start"
+                android:padding="2dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/see_all"
+                android:textColor="@color/green"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_PopularDoctors"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_HealthTopics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal"
+                tools:listitem="@layout/item_layout_health_topics"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tv_HealthTopics"
+                />
+
+            <ProgressBar
+                android:id="@+id/health_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/rv_HealthTopics"
+                app:layout_constraintStart_toStartOf="@+id/rv_HealthTopics"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_HealthTopics"
+                app:layout_constraintTop_toTopOf="@+id/rv_HealthTopics"
+                android:visibility="gone"
                 />
 
 

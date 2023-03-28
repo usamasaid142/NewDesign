@@ -12,16 +12,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
-import com.example.newdesign.adapter.ImageVideoAdapter
-import com.example.newdesign.adapter.MedicalServicesAdapter
-import com.example.newdesign.adapter.PopularDoctorsAdapter
-import com.example.newdesign.adapter.ServicesAdapter
+import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.HomefragmentBinding
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,6 +33,7 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     private lateinit var imageMedicalServicesAdapter:MedicalServicesAdapter
     private lateinit var imageVideoAdapter:ImageVideoAdapter
     private lateinit var popularDoctorsAdapter: PopularDoctorsAdapter
+    private lateinit var healthTopicsAdapter: HealthTopicsAdapter
     @Inject
     lateinit var sp: SpUtil
     var medicalExaminatioId:Int?=null
@@ -78,10 +77,12 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         servicesRecylerview()
         medicalServicesRecylerview()
         popularDoctorsRecylerview()
+        healthTopicsRecylerview()
         imageServices()
         medicalServices()
         callBack()
         callBackPopularDoctors()
+        callBackDoctorHealthTopics()
         initButton()
     }
 
@@ -114,6 +115,14 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         popularDoctorsAdapter = PopularDoctorsAdapter()
         binding.rvPopularDoctors.apply {
             adapter = popularDoctorsAdapter
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun healthTopicsRecylerview(){
+        healthTopicsAdapter = HealthTopicsAdapter()
+        binding.rvHealthTopics.apply {
+            adapter = healthTopicsAdapter
             setHasFixedSize(true)
         }
     }
@@ -264,6 +273,34 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
       viewmodel.getPopularDoctors()
    }
+
+    private fun callBackDoctorHealthTopics(){
+        viewmodel.healthTopicsResponse.observe(viewLifecycleOwner, Observer {response->
+
+            when(response){
+
+                is Resource.Loading->{
+                    binding.healthProgressBar.visibility=View.VISIBLE
+                }
+
+                is Resource.sucess->{
+                    binding.healthProgressBar.visibility=View.GONE
+
+                    response.let {
+                        healthTopicsAdapter.submitList(it.data?.data)
+                        healthTopicsAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error->{
+                    binding.healthProgressBar.visibility=View.GONE
+                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
+        viewmodel.getDoctorHealthTopics()
+    }
 
     private fun showprogtessbar() {
         binding.progressBar.visibility = View.VISIBLE

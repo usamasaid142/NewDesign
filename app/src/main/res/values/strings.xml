@@ -104,7 +104,7 @@
     <string name="all">All</string>
     <string name="home">Home</string>
     <string name="my_schedule">My Schedule</string>
-    <string name="more">More</string>
+    <string name="more">...More</string>
     <string name="reviews">Reviews</string>
     <string name="next_available_booking_at_08_nov_from_06_30_pm">Next Available Booking at 08 Nov. from 06:30 PM</string>
     <string name="sub_specialization">Sub specialization</string>
@@ -195,5 +195,9 @@
     <string name="personal_info">Personal Info.</string>
     <string name="popular_doctors">Popular Doctors</string>
     <string name="diagnosis">Diagnosis</string>
+    <string name="pursed_lip_breathing">Pursed lip breathing</string>
+    <string name="health_topics">Health Topics</string>
+    <string name="readmore">ReadMore</string>
+    <string name="genecology_and_infertility">Genecology and Infertility</string>
 
 </resources>

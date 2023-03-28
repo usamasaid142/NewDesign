@@ -9,6 +9,7 @@ import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.docotorsearch.DoctorsearchItemResponse
 import com.example.newdesign.model.healthy.GetHealthEntityResponse
+import com.example.newdesign.model.populardoctors.GetDoctorHealthTopicsResponse
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.profile.PatientLocationResponse
@@ -47,6 +48,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val patientLocationResponse=MutableLiveData<Resource<PatientLocationResponse>>()
     val healthyResponse=MutableLiveData<Resource<GetHealthEntityResponse>>()
     val popularResponse=MutableLiveData<Resource<List<PopularDoctorsResponseItem>>>()
+    val healthTopicsResponse=MutableLiveData<Resource<GetDoctorHealthTopicsResponse>>()
 
 
 
@@ -317,6 +319,21 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
     private fun handlegetPopularDoctors(response: Response<List<PopularDoctorsResponseItem>>): Resource<List<PopularDoctorsResponseItem>>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    fun getDoctorHealthTopics()=viewModelScope.launch(Dispatchers.IO) {
+        healthTopicsResponse.postValue(Resource.Loading())
+        val response=repositry.getDoctorHealthTopics()
+        healthTopicsResponse.postValue(handlegetDoctorHealthTopics(response))
+    }
+
+    private fun handlegetDoctorHealthTopics(response: Response<GetDoctorHealthTopicsResponse>): Resource<GetDoctorHealthTopicsResponse>? {
         if (response.isSuccessful){
             response.body()?.let {
                 return Resource.sucess(it)
