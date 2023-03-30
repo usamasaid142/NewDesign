@@ -413,11 +413,66 @@
                 android:visibility="gone"
                 />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_Spotlight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirltstd_black"
+                android:gravity="start"
+                android:padding="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:text="@string/spotlight"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_HealthTopics"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_Spotlight_seeAll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenirltstd_black"
+                android:gravity="start"
+                android:padding="2dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/see_all"
+                android:textColor="@color/green"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_PopularDoctors"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_Spotlight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal"
+                tools:listitem="@layout/item_layout_health_topics"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tv_Spotlight"
+                />
+
+            <ProgressBar
+                android:id="@+id/Spotlight_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/rv_HealthTopics"
+                app:layout_constraintStart_toStartOf="@+id/rv_HealthTopics"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_HealthTopics"
+                app:layout_constraintTop_toTopOf="@+id/rv_HealthTopics"
+                android:visibility="gone"
+                />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

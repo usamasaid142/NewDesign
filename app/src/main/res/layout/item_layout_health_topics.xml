@@ -80,7 +80,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_HealthTopics"
                     app:readMoreColor="@color/blue"
                     app:readMoreMaxLine="4"
-                    app:readMoreText="@string/more"
+                    app:readMoreText="@string/readmore"
                     tools:ignore="TouchTargetSizeCheck" />
 
 

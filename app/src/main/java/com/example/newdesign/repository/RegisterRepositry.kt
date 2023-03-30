@@ -1,7 +1,6 @@
 package com.example.newdesign.repository
 
 import com.example.newdesign.api.ApiService
-import com.example.newdesign.model.booking.BookingRequest
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.profile.LocationRequest
@@ -42,4 +41,5 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
                                          MaxResultCount :Int,SkipCount :Int)=apiService.getHealthEntityPagedList("En",CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount)
     suspend fun getPopularDoctors()=apiService.getPopularDoctors("En")
     suspend fun getDoctorHealthTopics()=apiService.getDoctorHealthTopics("En")
+    suspend fun getDoctorSpotLight()=apiService.getDoctorSpotLight("En")
 }

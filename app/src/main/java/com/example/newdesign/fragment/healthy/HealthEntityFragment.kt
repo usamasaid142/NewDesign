@@ -143,8 +143,11 @@ class HealthEntityFragment : Fragment(),MedicalHealthAdapter.Action {
 
 
     override fun onItemClick(phone: String) {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null))
-        this.startActivity(intent)
+        phone?.let {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", it, null))
+            this.startActivity(intent)
+        }
+
     }
 
 

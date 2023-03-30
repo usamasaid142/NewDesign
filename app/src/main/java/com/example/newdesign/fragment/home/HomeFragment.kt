@@ -34,6 +34,7 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     private lateinit var imageVideoAdapter:ImageVideoAdapter
     private lateinit var popularDoctorsAdapter: PopularDoctorsAdapter
     private lateinit var healthTopicsAdapter: HealthTopicsAdapter
+    private lateinit var spotlightAdapter: SpotlightAdapter
     @Inject
     lateinit var sp: SpUtil
     var medicalExaminatioId:Int?=null
@@ -78,11 +79,13 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         medicalServicesRecylerview()
         popularDoctorsRecylerview()
         healthTopicsRecylerview()
+        spotlightRecylerview()
         imageServices()
         medicalServices()
         callBack()
         callBackPopularDoctors()
         callBackDoctorHealthTopics()
+        callBackSpotlight()
         initButton()
     }
 
@@ -123,6 +126,13 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         healthTopicsAdapter = HealthTopicsAdapter()
         binding.rvHealthTopics.apply {
             adapter = healthTopicsAdapter
+            setHasFixedSize(true)
+        }
+    }
+    private fun spotlightRecylerview(){
+        spotlightAdapter = SpotlightAdapter()
+        binding.rvSpotlight.apply {
+            adapter = spotlightAdapter
             setHasFixedSize(true)
         }
     }
@@ -300,6 +310,34 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         })
 
         viewmodel.getDoctorHealthTopics()
+    }
+
+    private fun callBackSpotlight(){
+        viewmodel.doctorSpotLightResponse.observe(viewLifecycleOwner, Observer {response->
+
+            when(response){
+
+                is Resource.Loading->{
+                    binding.healthProgressBar.visibility=View.VISIBLE
+                }
+
+                is Resource.sucess->{
+                    binding.healthProgressBar.visibility=View.GONE
+
+                    response.let {
+                        spotlightAdapter.submitList(it.data?.data)
+                        spotlightAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error->{
+                    binding.healthProgressBar.visibility=View.GONE
+                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
+        viewmodel.getDoctorSpotLight()
     }
 
     private fun showprogtessbar() {

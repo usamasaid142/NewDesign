@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName
 
 data class GetDoctorSpotLightResponse(
     @SerializedName("Data")
-    val data: List<Data?>?,
+    val data: List<SpotlightData?>?,
     @SerializedName("Message")
     val message: String?
 )
 
-data class Data(
+data class SpotlightData(
     @SerializedName("CreatedDate")
     val createdDate: String?,
     @SerializedName("Details")

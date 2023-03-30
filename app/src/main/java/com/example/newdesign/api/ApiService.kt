@@ -165,7 +165,7 @@ interface ApiService {
         @Path("culture") culture: String,
     ):Response<List<PopularDoctorsResponseItem>>
 
-    @POST("{culture}/LookUp/GetDoctorSpotLight")
+    @GET("{culture}/LookUp/GetDoctorSpotLight")
     suspend fun getDoctorSpotLight(
         @Path("culture") culture: String,
     ):Response<GetDoctorSpotLightResponse>
