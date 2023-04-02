@@ -29,6 +29,7 @@
     <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
     <string name="save">حفظ</string>
     <string name="sign_up">تسجبل</string>
+    <string name="lets_start">لنبدأ</string>
     <string name="upload_your_photo">ارفع صورتك</string>
     <string name="full_name_in_english_first_middle_last">الاسم الكامل بالانجليزي (الاول - الوسط - الاخير)</string>
     <string name="full_name_in_arabic_first_middle_last">الاسم الكامل بالعربية (الأول - الأوسط - الأخير)</string>
@@ -81,7 +82,6 @@
     <string name="salamtak_booking">Salamtak Booking</string>
     <string name="verification_code_will_be_sent_within_1_30">سيتم إرسال رمز التحقق في غضون 1:30</string>
     <string name="conter">1:30</string>
-    <string name="good_morning">صباح الخير</string>
     <string name="complete_your_profile">أكمل ملفك الشخصي</string>
     <string name="you_must_complete_your_profile_to_can_book_your_doctor">يجب عليك إكمال ملف التعريف الخاص بك لتتمكن من حجز طبيبك</string>
     <string name="salamtak_services">خدمات سلامتك</string>
@@ -96,7 +96,7 @@
     <string name="polyclinics">العيادات</string>
     <string name="pharmacies">الصيدليات</string>
     <string name="laboratories">المختبرات</string>
-    <string name="search">يبحث</string>
+    <string name="search">بحث</string>
     <string name="search_by_doctor_name">البحث باسم الطبيب ...</string>
     <string name="doctors_found">العثور على الأطباء</string>
     <string name="all">الجميع</string>
@@ -198,5 +198,7 @@
     <string name="readmore">...اقرأ أكثر</string>
     <string name="genecology_and_infertility">علم الوراثة والعقم</string>
     <string name="spotlight">أضواء كاشفة</string>
+    <string name="good_morning">صباح الخير</string>
+    <string name="good_evening">مساء الخير</string>
 
 </resources>

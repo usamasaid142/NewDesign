@@ -1,19 +1,24 @@
 package com.example.newdesign.fragment.splash
 
-import android.app.Activity
+import android.annotation.TargetApi
+import android.content.Context
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ChooseLanguagefragmentBinding
-import com.example.newdesign.utils.Constans.Language_ENG
-
+import com.example.newdesign.utils.Constans.Language
+import com.example.newdesign.utils.LocaleHelper
+import com.example.newdesign.utils.SpUtil
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -21,6 +26,10 @@ class ChooseLanguageFragment : Fragment() {
 
     private lateinit var binding: ChooseLanguagefragmentBinding
     var lang: String?=null
+
+
+    @Inject
+    lateinit var sp: SpUtil
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,26 +42,15 @@ class ChooseLanguageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->  } {
-//            chooseLanuage(checkedId)
-//        }
         chooseLanuage()
 
         binding.btnChoose.setOnClickListener {
 
-            if (lang.isNullOrEmpty()) {
+            if (sp.getUserLang(Language).isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "Choose language", Toast.LENGTH_SHORT).show()
             } else {
-                if (lang == Language_ENG) {
+
                     findNavController().navigate(R.id.onboardingFragment)
-                   // local.updateLocale(Locales.English)
-                } else {
-                    findNavController().navigate(R.id.onboardingFragment)
-
-                   // local.updateLocale(Locales.Arabic)
-
-                }
-
             }
         }
 
@@ -68,20 +66,18 @@ class ChooseLanguageFragment : Fragment() {
                 R.id.radio_english -> {
                     // Pirates are the best
                     lang = "EN"
-//                    setLocal(requireActivity(), lang!!)
-//                    requireActivity().finish()
-//                    startActivity(requireActivity().intent)
-
-
-                }
+                    sp.saveUserLang(Language, lang!!)
+                    setLocale( lang!!)
+                    requireActivity().finish()
+                    startActivity(requireActivity().intent)
+                                 }
                 R.id.radio_arabic -> {
-                    // Ninjas rule
-                    //  findNavController().navigate(R.id.onboardingFragment)
-                    lang = "AR"
-//                        setLocal(requireActivity(), lang!!)
-//                         requireActivity().finish()
-//                         startActivity(requireActivity().intent)
 
+                    lang = "AR"
+                    sp.saveUserLang(Language, lang!!)
+                    setLocale( lang!!)
+                    requireActivity().finish()
+                    startActivity(requireActivity().intent)
 
                 }
             }
@@ -92,21 +88,36 @@ class ChooseLanguageFragment : Fragment() {
 
     }
 
-    private fun setLocal(context: Activity, lang: String) {
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun updateResources(context: Context, language: String): Context? {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val configuration = context.resources.configuration
+        configuration.setLocale(locale)
+        return context.createConfigurationContext(configuration)
+    }
 
-        val local = Locale(lang)
-        Locale.setDefault(local)
-        val resource = context.resources
-        val config = resource.configuration
-        config.setLocale(local)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//           context.createConfigurationContext(config);
-//        } else {
-//         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-//        }
+    @Suppress("deprecation")
+    private fun updateResourcesLegacy(context: Context, language: String): Context? {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val resources = context.resources
+        val configuration = resources.configuration
+        configuration.locale = locale
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        return context
+    }
 
-        resource.updateConfiguration(config, resource.displayMetrics)
-
+    fun setLocale(lang: String): Context? {
+        return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            updateResources(
+                requireContext(),
+                lang
+            )
+        } else updateResourcesLegacy(
+            requireContext(),
+            lang
+        )
     }
 
 

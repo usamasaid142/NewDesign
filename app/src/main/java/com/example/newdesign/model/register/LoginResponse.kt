@@ -6,7 +6,7 @@ import java.io.Serializable
 
 data class LoginResponse(
     @SerializedName("Data")
-    val `data`: DataLogin,
+    val data: DataLogin,
     @SerializedName("Message")
     val message: String,
     @SerializedName("MessageCode")
@@ -22,6 +22,8 @@ data class DataLogin(
     val image: Any,
     @SerializedName("Name")
     val name: String,
+    @SerializedName("NameAR")
+    val NameAR: String,
     @SerializedName("Phone")
     val phone: String,
     @SerializedName("ProfileStatus")

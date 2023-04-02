@@ -22,6 +22,17 @@ class SpUtil @Inject constructor(private val sharedpref:SharedPreferences){
         return sharedpref.getString(Key_Name,"")
     }
 
+    //to store name
+    fun saveUserLang(Key_Name:String,text:String){
+        val editor:SharedPreferences.Editor=sharedpref.edit()
+        editor.putString(Key_Name,text)
+        editor.apply()
+    }
+    // to retrieve nameArabic
+    fun getUserLang(Key_Name: String):String?{
+        return sharedpref.getString(Key_Name,"")
+    }
+
     fun saveUserNameInEnglish(Key_Name:String,text:String){
         val editor:SharedPreferences.Editor=sharedpref.edit()
         editor.putString(Key_Name,text)

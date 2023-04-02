@@ -51,7 +51,7 @@
             android:id="@+id/radio_female"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:drawableStart="@drawable/ic_ar"
+            android:drawableStart="@drawable/ic_arabic"
             android:text="@string/arabic"
             android:textSize="14sp"
             android:background="@drawable/lang_background"

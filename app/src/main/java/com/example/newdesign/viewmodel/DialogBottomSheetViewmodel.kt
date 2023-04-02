@@ -59,7 +59,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getSpecialist()=viewModelScope.launch(Dispatchers.IO) {
         specialistResponse.postValue(Resource.Loading())
         val response=repositry.getSpecialist()
-        specialistResponse.postValue(handleGetSpecialist(response))
+        specialistResponse.postValue(response?.let { handleGetSpecialist(it) })
     }
 
     private fun handleGetSpecialist(response: Response<GetSpecialistResponse>): Resource<GetSpecialistResponse>? {
@@ -150,7 +150,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
      fun searchDoctors(doctorSearchRequest: DoctorSearchRequest)=viewModelScope.launch(Dispatchers.IO) {
         docorsResponse.postValue(Resource.Loading())
         val response=repositry.searchDoctors(doctorSearchRequest)
-        docorsResponse.postValue(handlingSearchDoctors(response))
+        docorsResponse.postValue(response?.let { handlingSearchDoctors(it) })
     }
 
     private fun handlingSearchDoctors(response: Response<DoctorsearchItemResponse>): Resource<DoctorsearchItemResponse>? {
@@ -317,7 +317,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getPopularDoctors()=viewModelScope.launch(Dispatchers.IO) {
         popularResponse.postValue(Resource.Loading())
         val response=repositry.getPopularDoctors()
-        popularResponse.postValue(handlegetPopularDoctors(response))
+        popularResponse.postValue(response?.let { handlegetPopularDoctors(it) })
     }
 
     private fun handlegetPopularDoctors(response: Response<List<PopularDoctorsResponseItem>>): Resource<List<PopularDoctorsResponseItem>>? {

@@ -39,7 +39,7 @@ class OnboardingFragment : Fragment() {
             if (binding.vpContainer.currentItem+1<onBoardingAdapter.itemCount){
                 binding.vpContainer.currentItem+=1
                 if ( binding.vpContainer.currentItem==2){
-                    binding.next.text="Lets start"
+                    binding.next.text=getString(R.string.lets_start)
                 }
             }else{
                 findNavController().navigate(R.id.loginFragment)

@@ -487,7 +487,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         if (args.changeview == "services") {
             sharedDataViewmodel.getspecialication(specialist)
             findNavController().navigate(R.id.searchFragment)
-        } else {
+        } else if (args.changeview=="Specialist"){
             sharedDataViewmodel.getspecialication(specialist)
         }
 

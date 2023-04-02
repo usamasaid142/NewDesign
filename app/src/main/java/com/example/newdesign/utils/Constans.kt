@@ -12,8 +12,7 @@ object Constans {
     const val UserLOGIN = "UserLOGIN"
     const val UserSIGNUP = "UserSIGNUP"
     const val KEY_PREF_LANGUAGE = "EN"
-    const val Language_ENG = "EN"
-    const val Language_Ar = "AR"
+    const val Language = "LANg"
     const val PROFILE_STATUS = "ProfileStatus"
     const val TOKEN = "TOKEN"
 

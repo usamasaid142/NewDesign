@@ -15,12 +15,14 @@ import com.example.newdesign.R
 import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.HomefragmentBinding
 import com.example.newdesign.model.ImageServices
+import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import org.intellij.lang.annotations.Language
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -58,22 +60,9 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
 
-        if (currentTime.contains("AM")){
-            binding.tvWelcome.text="Good Morning"
-        }else{
-            binding.tvWelcome.text="Good Evening"
-        }
-
-        binding.tvPatientname.text=sp.getUser()?.name
-        binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {
-            crossfade(true)
-            crossfade(1000)
-            placeholder(R.drawable.ic_profile)
-            transformations(CircleCropTransformation())
-        }
         instance =this
+        bindDataToViews()
         imageVideoAdapter= ImageVideoAdapter()
         servicesRecylerview()
         medicalServicesRecylerview()
@@ -355,7 +344,34 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     }
 
 
+private fun bindDataToViews(){
 
+    val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
+
+    if (sp.getUserLang(Constans.Language)=="EN"){
+        if (currentTime.contains("AM")){
+            binding.tvWelcome.text=getString(R.string.good_morning)
+        }else{
+            binding.tvWelcome.text=getString(R.string.good_evening)
+        }
+        binding.tvPatientname.text= sp.getUser()?.name
+    }else{
+        if (currentTime.contains("AM")){
+            binding.tvWelcome.text=getString(R.string.good_morning)
+        }else{
+            binding.tvWelcome.text=getString(R.string.good_evening)
+        }
+        binding.tvPatientname.text= sp.getUser()?.NameAR
+    }
+
+    binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {
+        crossfade(true)
+        crossfade(1000)
+        placeholder(R.drawable.ic_profile)
+        transformations(CircleCropTransformation())
+    }
+
+}
 
 
 }

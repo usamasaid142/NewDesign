@@ -5,11 +5,14 @@ import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.register.*
+import com.example.newdesign.utils.Constans
+import com.example.newdesign.utils.SpUtil
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class RegisterRepositry @Inject constructor(private val apiService: ApiService) {
-
+    @Inject
+    lateinit var sp: SpUtil
     suspend fun login(culture:String,loginUser: LoginUser)=apiService.Login(culture, loginUser)
     suspend fun registerUser(culture:String,registerUser: CreateUser)=apiService.registerUser(culture,registerUser)
     suspend fun SendOTP(culture:String,registerUser: CreateUser)=apiService.SendOTP(culture,registerUser)
@@ -19,7 +22,8 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest)=apiService.changePassword("En",changePasswordRequest)
     suspend fun getHomeAds()=apiService.getHomeAds("En",1,true)
     suspend fun getCountries()=apiService.getCountries("En")
-    suspend fun getSpecialist()=apiService.getSpecialist("En")
+    suspend fun getSpecialist()= sp.getUserLang(Constans.Language)
+        ?.let { apiService.getSpecialist("En") }
     suspend fun getMedicalExamination()=apiService.getMedicalExamination("En")
     suspend fun getSubSpecialist(specialListId:Int)=apiService.getSubSpecialist("En",specialListId)
     suspend fun getSeniorityLevel()=apiService.getSeniorityLevel("En")
@@ -39,7 +43,8 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun sendPatientLocation(locationRequest: LocationRequest)=apiService.sendPatientLocation("En",locationRequest)
     suspend fun getHealthEntityPagedList(CityId :Int,AreaId :Int,HealthEntityTypeId :Int,
                                          MaxResultCount :Int,SkipCount :Int)=apiService.getHealthEntityPagedList("En",CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount)
-    suspend fun getPopularDoctors()=apiService.getPopularDoctors("En")
+    suspend fun getPopularDoctors()= sp.getUserLang(Constans.Language)
+        ?.let { apiService.getPopularDoctors(it) }
     suspend fun getDoctorHealthTopics()=apiService.getDoctorHealthTopics("En")
     suspend fun getDoctorSpotLight()=apiService.getDoctorSpotLight("En")
 }

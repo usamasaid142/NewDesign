@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.LoginfragmentBinding
 import com.example.newdesign.model.register.LoginUser
+import com.example.newdesign.utils.Constans.Language
 import com.example.newdesign.utils.Constans.TOKEN
 import com.example.newdesign.utils.Constans.UserLOGIN
 import com.example.newdesign.utils.DateUtils
@@ -78,7 +79,7 @@ class LoginFragment : Fragment() {
 
             if (isvalidateFeilds(mobile, password)) {
                 val userlogin=LoginUser("",password,mobile,3)
-                viewmodel.loginUser("en",userlogin)
+                sp.getUserLang(Language)?.let { it1 -> viewmodel.loginUser(it1,userlogin) }
             }
 
         }

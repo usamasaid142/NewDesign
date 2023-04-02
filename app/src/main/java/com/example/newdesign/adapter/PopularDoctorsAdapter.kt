@@ -11,9 +11,13 @@ import com.example.newdesign.databinding.ItemLayoutPoulardoctorsBinding
 import com.example.newdesign.databinding.ItemLayoutRvservicesBinding
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
-
+import com.example.newdesign.utils.Constans
+import com.example.newdesign.utils.SpUtil
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 class PopularDoctorsAdapter():ListAdapter<PopularDoctorsResponseItem,PopularDoctorsAdapter.ViewHolder>(DiffCallback()) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
