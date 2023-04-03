@@ -1,9 +1,8 @@
 package com.example.newdesign.model.populardoctors
 
-
 import com.google.gson.annotations.SerializedName
 
-data class PopularDoctorsResponseItem(
+data class PopularDoctorsResponseItem (
     @SerializedName("DoctorImage")
     val doctorImage: String?,
     @SerializedName("DoctorNameAr")

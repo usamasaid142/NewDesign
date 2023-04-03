@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ChooseLanguagefragmentBinding
 import com.example.newdesign.utils.Constans.Language
-import com.example.newdesign.utils.LocaleHelper
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.SpUtil
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class ChooseLanguageFragment : Fragment() {
 
     private lateinit var binding: ChooseLanguagefragmentBinding
-    var lang: String?=null
+    var lang: String? = null
 
 
     @Inject
@@ -41,7 +41,6 @@ class ChooseLanguageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         chooseLanuage()
 
         binding.btnChoose.setOnClickListener {
@@ -50,7 +49,7 @@ class ChooseLanguageFragment : Fragment() {
                 Toast.makeText(requireContext(), "Choose language", Toast.LENGTH_SHORT).show()
             } else {
 
-                    findNavController().navigate(R.id.onboardingFragment)
+                findNavController().navigate(R.id.onboardingFragment)
             }
         }
 
@@ -67,15 +66,20 @@ class ChooseLanguageFragment : Fragment() {
                     // Pirates are the best
                     lang = "EN"
                     sp.saveUserLang(Language, lang!!)
-                    setLocale( lang!!)
+                    DateUtils.setLanguage(lang!!)
+                    setLocale(lang!!)
                     requireActivity().finish()
                     startActivity(requireActivity().intent)
-                                 }
+
+                }
                 R.id.radio_arabic -> {
 
                     lang = "AR"
                     sp.saveUserLang(Language, lang!!)
-                    setLocale( lang!!)
+                    DateUtils.setLanguage(lang!!)
+//                    LocaleHelper.setLocale(requireActivity(), lang!!);
+//                    requireContext().resources
+                    setLocale(lang!!)
                     requireActivity().finish()
                     startActivity(requireActivity().intent)
 

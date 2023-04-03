@@ -109,14 +109,15 @@ class SignupFragment : Fragment() {
                     sp.saveUserNameInArabic(NameAR, fullNameAr)
                     sp.saveUserNameInEnglish(NameEN, fullNameEn)
                     sp.saveUserfromSignup(UserSIGNUP, user!!)
-                    viewmodel.registerUser("En", user!!)
+                    sp.getUserLang(Constans.Language)
+                        ?.let { it1 -> viewmodel.registerUser(it1, user!!) }
                 }
 
 
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "check terms and conditions",
+                    getString(R.string.terms_conditions),
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.newdesign.R
 import com.example.newdesign.databinding.OtpfragmentBinding
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.RegisterViewmodel
 import com.karumi.dexter.Dexter.withContext
@@ -71,13 +72,13 @@ class OtpFragment : Fragment() {
         binding.btnSend.setOnClickListener {
 
             if (args.responsemodel?.code.toString() == getCodeFromEdittext()) {
-                args.user?.let { it1 -> viewmodel.createuser("en", it1) }
+                args.user?.let { it1 -> viewmodel.createuser(DateUtils.getLanguage().toString(), it1) }
                 findNavController().navigate(R.id.docotorProfileFragment)
-                Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT).show()
             } else if (otpCode == getCodeFromEdittext()) {
-                args.user?.let { it1 -> viewmodel.createuser("en", it1) }
+                args.user?.let { it1 -> viewmodel.createuser(DateUtils.getLanguage().toString(), it1) }
                 findNavController().navigate(R.id.docotorProfileFragment)
-                Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT).show()
             } else if (args.userforgetpassword?.code.toString() == getCodeFromEdittext()) {
                 val action= args.userforgetpassword?.let { it1 ->
                     OtpFragmentDirections.actionOtpFragmentToChangepasswordFragment(
@@ -86,16 +87,16 @@ class OtpFragment : Fragment() {
                 if (action != null) {
                     findNavController().navigate(action)
                 }
-                Toast.makeText(requireContext(), "Verified", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "invalid code", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.invalid_code), Toast.LENGTH_SHORT).show()
             }
 
         }
 
         binding.tvResendCode.setOnClickListener {
             binding.tvResendCode.visibility = View.GONE
-            args.user?.let { it1 -> viewmodel.Sentotp("en", it1) }
+            args.user?.let { it1 -> viewmodel.Sentotp(DateUtils.getLanguage().toString(), it1) }
         }
 
 

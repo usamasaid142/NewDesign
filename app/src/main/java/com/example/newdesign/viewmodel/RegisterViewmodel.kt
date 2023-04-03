@@ -107,7 +107,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
 
         imagevedioresponse.postValue(Resource.Loading())
         val imageVedioResponse=repositry.getHomeAds()
-        imagevedioresponse.postValue(handleImageVedio(imageVedioResponse))
+        imagevedioresponse.postValue(imageVedioResponse?.let { handleImageVedio(it) })
     }
 
     private fun handleImageVedio(imageVedioResponse: Response<HomeAdsResponse>): Resource<HomeAdsResponse>? {
@@ -123,7 +123,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     fun resetPassword(resetRequest: ResetRequest)=viewModelScope.launch(Dispatchers.IO) {
         resetPasswordesponse.postValue(Resource.Loading())
         val response=repositry.resetPassword(resetRequest)
-        resetPasswordesponse.postValue(handleResetPassword(response))
+        resetPasswordesponse.postValue(response?.let { handleResetPassword(it) })
     }
 
     private fun handleResetPassword(response: Response<ResetResponse>): Resource<ResetResponse>? {
@@ -140,7 +140,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     fun updatePassword(resetChangePassword: ResetChangePassword)=viewModelScope.launch(Dispatchers.IO) {
         updatePasswordesponse.postValue(Resource.Loading())
         val response=repositry.updatePassword(resetChangePassword)
-        updatePasswordesponse.postValue(handleUpdatePassword(response))
+        updatePasswordesponse.postValue(response?.let { handleUpdatePassword(it) })
     }
 
     private fun handleUpdatePassword(response: Response<UpdatePasswordResponse>): Resource<UpdatePasswordResponse>? {
@@ -156,7 +156,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     fun changePassword(changePasswordRequest: ChangePasswordRequest)=viewModelScope.launch(Dispatchers.IO) {
         changePasswordesponse.postValue(Resource.Loading())
         val response=repositry.changePassword(changePasswordRequest)
-        changePasswordesponse.postValue(handleChangePassword(response))
+        changePasswordesponse.postValue(response?.let { handleChangePassword(it) })
     }
 
     private fun handleChangePassword(response: Response<ChangePasswordResponse>): Resource<ChangePasswordResponse>? {

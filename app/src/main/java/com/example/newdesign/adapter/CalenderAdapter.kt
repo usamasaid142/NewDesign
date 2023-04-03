@@ -11,13 +11,14 @@ import com.example.newdesign.R
 
 import com.example.newdesign.databinding.ItemLayoutcalendardateBinding
 import com.example.newdesign.model.CalendarDateModel
+import com.example.newdesign.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class CalenderAdapter(private val selectDate:Action) :
     ListAdapter<CalendarDateModel, CalenderAdapter.ViewHolder>(DiffCallback()) {
-    private val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
+    private val sdf = SimpleDateFormat("EEEE", Locale.getDefault())
     private var selectedItemPosition: Int = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -31,7 +32,13 @@ class CalenderAdapter(private val selectDate:Action) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val calender = getItem(position)
 //        var date = calender.data
-        holder.binding.tvCalendarDay.text = sdf.format(calender.data).subSequence(0,3)
+        if (DateUtils.getLanguage()=="En"){
+            holder.binding.tvCalendarDay.text = sdf.format(calender.data).subSequence(0,3)
+            holder.binding.tvCalendarDate.text =calender.data.date.toString()
+        }else{
+            holder.binding.tvCalendarDay.text = sdf.format(calender.data)
+            holder.binding.tvCalendarDate.text =calender.data.date.toString()
+        }
         holder.binding.tvCalendarDate.text =calender.data.date.toString()
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition

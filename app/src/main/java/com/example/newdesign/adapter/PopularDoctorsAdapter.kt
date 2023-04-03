@@ -12,6 +12,7 @@ import com.example.newdesign.databinding.ItemLayoutRvservicesBinding
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.utils.Constans
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.SpUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,7 +32,11 @@ class PopularDoctorsAdapter():ListAdapter<PopularDoctorsResponseItem,PopularDoct
             .load("https://salamtechapi.azurewebsites.net/${services.doctorImage}")
             .into(holder.binding.ivDoctorProfile)
 
-        holder.binding.tvDoctorName.text=services.doctorNameEn
+        if (DateUtils.getLanguage()=="En"){
+            holder.binding.tvDoctorName.text=services.doctorNameEn
+        }else{
+            holder.binding.tvDoctorName.text=services.doctorNameAr
+        }
         holder.binding.tvSpecialization.text=services.doctorSpec
         holder.binding.tvReviews.text=services.rate.toString()
 

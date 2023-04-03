@@ -35,4 +35,10 @@ object DateUtils {
     fun setToken(token: String) {
         SharedPreferencesTool.setString(context, SharedPreferencesKeys.PREF_USER_TOKEN.name, token)
     }
+    fun setLanguage(lang: String) {
+        SharedPreferencesTool.setString(context, SharedPreferencesKeys.Language.name, lang)
+    }
+    fun getLanguage(): String? {
+        return SharedPreferencesTool.getString(context,SharedPreferencesKeys.Language.name)
+    }
 }

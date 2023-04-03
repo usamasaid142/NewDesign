@@ -73,7 +73,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getCountries()=viewModelScope.launch(Dispatchers.IO) {
         nationalityResponse.postValue(Resource.Loading())
         val response=repositry.getCountries()
-        nationalityResponse.postValue(handleGetCountries(response))
+        nationalityResponse.postValue(response?.let { handleGetCountries(it) })
     }
 
     private fun handleGetCountries(response: Response<GetCountry>): Resource<GetCountry>? {
@@ -89,7 +89,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getSubSpecialist(specialListId:Int)=viewModelScope.launch(Dispatchers.IO) {
         subSpecialistResponse.postValue(Resource.Loading())
         val response=repositry.getSubSpecialist(specialListId)
-        subSpecialistResponse.postValue(handelGetSUBSpecialist(response))
+        subSpecialistResponse.postValue(response?.let { handelGetSUBSpecialist(it) })
     }
 
     private fun handelGetSUBSpecialist(response: Response<GetSubSpecilistResponse>): Resource<GetSubSpecilistResponse>? {
@@ -105,7 +105,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getSeniorityLevel()=viewModelScope.launch(Dispatchers.IO) {
         seniorityLevelResponse.postValue(Resource.Loading())
         val response=repositry.getSeniorityLevel()
-        seniorityLevelResponse.postValue(handelGetseniorityLevel(response))
+        seniorityLevelResponse.postValue(response?.let { handelGetseniorityLevel(it) })
     }
 
     private fun handelGetseniorityLevel(response: Response<GetSeniorityLevelResponse>): Resource<GetSeniorityLevelResponse>? {
@@ -121,7 +121,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getAllCities()=viewModelScope.launch(Dispatchers.IO) {
         allCitiesResponse.postValue(Resource.Loading())
         val response=repositry.getAllCities()
-        allCitiesResponse.postValue(handelGetAllCities(response))
+        allCitiesResponse.postValue(response?.let { handelGetAllCities(it) })
     }
 
     private fun handelGetAllCities(response: Response<GetAllCitiesResponse>): Resource<GetAllCitiesResponse>? {
@@ -135,7 +135,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getAreasByCityId(cityId:Int)=viewModelScope.launch(Dispatchers.IO) {
         allAreasByCityIdResponse.postValue(Resource.Loading())
         val response=repositry.getAreasByCityId(cityId)
-        allAreasByCityIdResponse.postValue(handelgetAreasByCityId(response))
+        allAreasByCityIdResponse.postValue(response?.let { handelgetAreasByCityId(it) })
     }
 
     private fun handelgetAreasByCityId(response: Response<GetAreasByCityIdResponse>): Resource<GetAreasByCityIdResponse>? {
@@ -166,7 +166,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getMedicalExaminationType()=viewModelScope.launch(Dispatchers.IO) {
         medicalExamination.postValue(Resource.Loading())
         val response=repositry.getMedicalExamination()
-        medicalExamination.postValue(handleGetMedicalExamination(response))
+        medicalExamination.postValue(response?.let { handleGetMedicalExamination(it) })
     }
 
     private fun handleGetMedicalExamination(response: Response<MedicalExaminationResponse>): Resource<MedicalExaminationResponse>? {
@@ -184,7 +184,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
                                        BookDate:String)=viewModelScope.launch(Dispatchers.IO) {
         bookingResponse.postValue(Resource.Loading())
         val response=repositry.getClinicSchedualByClinicDayId(ClinicId,DayId,MedicalExaminationTypeId,BookDate)
-        bookingResponse.postValue(handleGetClinicSchedualByClinicDayId(response))
+        bookingResponse.postValue(response?.let { handleGetClinicSchedualByClinicDayId(it) })
     }
 
     private fun handleGetClinicSchedualByClinicDayId(response: Response<BookingResponse>): Resource<BookingResponse>? {

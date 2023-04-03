@@ -13,6 +13,7 @@ import com.example.newdesign.databinding.ItemLayoutRvservicesBinding
 import com.example.newdesign.model.ImageServices
 import com.example.newdesign.model.populardoctors.HealthTopicsData
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
+import com.example.newdesign.utils.DateUtils
 
 
 class HealthTopicsAdapter():ListAdapter<HealthTopicsData,HealthTopicsAdapter.ViewHolder>(DiffCallback()) {
@@ -28,9 +29,11 @@ class HealthTopicsAdapter():ListAdapter<HealthTopicsData,HealthTopicsAdapter.Vie
         Glide.with(holder.binding.ivHealthTopics)
             .load("https://salamtechapi.azurewebsites.net/${services.imageURL}")
             .into(holder.binding.ivHealthTopics)
+       if (DateUtils.getLanguage()=="En"){
+           holder.binding.tvHealthTopics.text=services.title
+           holder.binding.tvHealthTopicsDetails.text=services.details
+       }
 
-        holder.binding.tvHealthTopics.text=services.title
-        holder.binding.tvHealthTopicsDetails.text=services.details
 
 
     }
