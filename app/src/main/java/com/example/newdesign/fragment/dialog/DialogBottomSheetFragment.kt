@@ -1,7 +1,10 @@
 package com.example.newdesign.fragment.dialog
 
+import android.annotation.TargetApi
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,13 +38,15 @@ import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter.SelectSpecialist,
     SubSpecialistAdapter.SelectSubSpecialist, SeniorityLevelAdapter.SelectSeniorityLevel,
-    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea,NationalityAdapter.SelectCountry,MedicalEaxminationTypeAdapter.Action {
+    GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea, NationalityAdapter.SelectCountry,
+    MedicalEaxminationTypeAdapter.Action {
 
 
     private lateinit var binding: DialogBottomSheetfragmentBinding
@@ -55,6 +60,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
     private lateinit var examinationAdapter: MedicalEaxminationTypeAdapter
+    var lang: String? = null
 
     //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
     @Inject
@@ -77,7 +83,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         args.changeview?.let { changeViews(it) }
-        //showDatepicker()
+        chooseLanuage()
         setupresyclerview()
         setupresyclerviewSpecialist()
         setupresyclerviewSubSpecialist()
@@ -144,6 +150,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
     }
+
     private fun examinationRecylerview() {
         examinationAdapter = MedicalEaxminationTypeAdapter(this)
         binding.itemExaminationtype.rvExaminationtype.apply {
@@ -155,6 +162,20 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
 
     private fun initButton() {
+        binding.itemLanguage.btnSave.setOnClickListener {
+            if (lang == null) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.choose_language),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                setLocale(lang!!)
+                requireActivity().finish()
+                startActivity(requireActivity().intent)
+            }
+
+        }
         binding.btnCalling.setOnClickListener {
             call()
             dismiss()
@@ -177,29 +198,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         }
 
         binding.itemSignOut.btnYes.setOnClickListener {
-            sp.saveUserToken(Constans.TOKEN,"")
+            sp.saveUserToken(Constans.TOKEN, "")
             DateUtils.setToken("")
             findNavController().navigate(R.id.loginFragment)
-        }
-
-    }
-
-
-    private fun showDatepicker() {
-        val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select Date")
-            .build()
-
-        datePicker.show(requireActivity().supportFragmentManager.beginTransaction(), "date range")
-
-        datePicker.addOnPositiveButtonClickListener { date ->
-            val startDate = date
-            val second = date
-            Toast.makeText(
-                requireContext(),
-                "${convertLongToDate(startDate)} // ${second.toTimeDateString()}",
-                Toast.LENGTH_LONG
-            ).show()
         }
 
     }
@@ -487,10 +488,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         if (args.changeview == "services") {
             sharedDataViewmodel.getspecialication(specialist)
             findNavController().navigate(R.id.searchFragment)
-        } else if (args.changeview=="Specialist"){
-            sharedDataViewmodel.getspecialication(specialist)
         }
-
+        sharedDataViewmodel.getspecialication(specialist)
     }
 
     override fun onSelectSubcialist(listofsubSpecialist: MutableList<SubSpecialistData>) {
@@ -508,6 +507,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     override fun onSelectArea(Area: AreaData) {
         sharedDataViewmodel.getArea(Area)
     }
+
     override fun onItemSelectSeniorityLevel(selectCountry: DataCountry) {
         sharedDataViewmodel.getCountry(selectCountry)
     }
@@ -516,26 +516,16 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         sharedDataViewmodel.getMedicalExaminationTypeId(medicalExamination)
     }
 
-
-
-//    private fun updateUi(it: List<DataCountry>?) {
-//        if (it.isNullOrEmpty()) {
-//            binding.itemNationality.crdView.visibility = View.VISIBLE
-//        } else {
-//            binding.itemNationality.crdView.visibility = View.GONE
-//        }
-//    }
-
     private fun chooseGender() {
 
         binding.itemGender.radio.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radio_male -> {
-                    val chooseGender = ChooseGender("Male", 1)
+                    val chooseGender = ChooseGender(getString(R.string.male), 1)
                     sharedDataViewmodel.getGender(chooseGender)
                 }
                 R.id.radio_female -> {
-                    val chooseGender = ChooseGender("Female", 2)
+                    val chooseGender = ChooseGender(getString(R.string.female), 2)
                     sharedDataViewmodel.getGender(chooseGender)
                 }
             }
@@ -543,20 +533,21 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     }
 
-   private fun call() {
+    private fun call() {
 
         val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "17143", null))
         this.startActivity(intent)
     }
 
-    private fun getDate(){
-        val birthdate= ""+binding.itemDatespiner.datePicker1.getDayOfMonth()+"-"+(binding.itemDatespiner.datePicker1.getMonth() + 1)+"-"+binding.itemDatespiner.datePicker1.getYear()
+    private fun getDate() {
+        val birthdate =
+            "" + binding.itemDatespiner.datePicker1.getDayOfMonth() + "-" + (binding.itemDatespiner.datePicker1.getMonth() + 1) + "-" + binding.itemDatespiner.datePicker1.getYear()
         sharedDataViewmodel.getBirthDate(birthdate)
     }
 
-    private fun imageServices(){
+    private fun imageServices() {
 
-        val list= mutableListOf<ImageServices>()
+        val list = mutableListOf<ImageServices>()
 
         list.add(
             ImageServices(
@@ -569,7 +560,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         list.add(
             ImageServices(
                 R.drawable.ic_hom_visit,
-                getString(R.string.Home_Visit)  ,
+                getString(R.string.Home_Visit),
                 Id = 2
 
             )
@@ -600,6 +591,60 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     }
 
+    private fun chooseLanuage() {
+
+        binding.itemLanguage.radio.setOnCheckedChangeListener { group, checkedId ->
+
+            when (checkedId) {
+                binding.itemLanguage.radioEnglish.id -> {
+                    // Pirates are the best
+                    lang = "En"
+                    sp.saveUserLang(Constans.Language, lang!!)
+                    DateUtils.setLanguage(lang!!)
+                }
+                binding.itemLanguage.radioArabic.id -> {
+                    lang = "AR"
+                    sp.saveUserLang(Constans.Language, lang!!)
+                    DateUtils.setLanguage(lang!!)
+                }
+
+            }
+
+        }
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun updateResources(context: Context, language: String): Context? {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val configuration = context.resources.configuration
+        configuration.setLocale(locale)
+        return context.createConfigurationContext(configuration)
+    }
+
+    @Suppress("deprecation")
+    private fun updateResourcesLegacy(context: Context, language: String): Context? {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val resources = context.resources
+        val configuration = resources.configuration
+        configuration.locale = locale
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        return context
+    }
+
+    fun setLocale(lang: String): Context? {
+        return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            updateResources(
+                requireContext(),
+                lang
+            )
+        } else updateResourcesLegacy(
+            requireContext(),
+            lang
+        )
+    }
 
 
 }

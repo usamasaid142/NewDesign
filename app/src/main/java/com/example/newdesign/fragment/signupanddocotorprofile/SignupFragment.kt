@@ -54,6 +54,10 @@ class SignupFragment : Fragment() {
 
     private fun initButton() {
 
+        binding.tvTermsandconditions.setOnClickListener {
+            findNavController().navigate(R.id.webViewFragment)
+        }
+
         binding.ivShowpassword.setOnClickListener {
 
             if (binding.etPassword.transformationMethod is PasswordTransformationMethod) {

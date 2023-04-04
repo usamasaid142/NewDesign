@@ -10,6 +10,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.MorefragmentBinding
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.SpUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,8 +33,12 @@ class MoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (DateUtils.getLanguage()=="En"){
+            binding.tvName.text = sp.getUser()?.name
+        }else{
+            binding.tvName.text = sp.getUser()?.NameAR
+        }
 
-        binding.tvName.text = sp.getUser()?.name
         binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {
             crossfade(true)
             crossfade(1000)

@@ -31,7 +31,7 @@
         android:orientation="vertical">
 
         <RadioButton
-            android:id="@+id/radio_male"
+            android:id="@+id/radio_english"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:drawableStart="@drawable/ic_en"
@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <RadioButton
-            android:id="@+id/radio_female"
+            android:id="@+id/radio_arabic"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:drawableStart="@drawable/ic_arabic"

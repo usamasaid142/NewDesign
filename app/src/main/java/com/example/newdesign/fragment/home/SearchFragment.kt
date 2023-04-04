@@ -47,8 +47,8 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
 
-    private val sdf = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
-    private val cal = Calendar.getInstance(Locale.ENGLISH)
+    private val sdf = SimpleDateFormat("MMMM yyyy", Locale.US)
+    private val cal = Calendar.getInstance(Locale.US)
     private val dates = ArrayList<Date>()
     val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
     var specialistId = 0
@@ -92,7 +92,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
         doctorsRecylerview()
         initButtonCollabsedFiller()
         bindFields()
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").apply {
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US).apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
         formattedDate = formatter.format(now.time)
@@ -304,7 +304,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                 feesFrom = 0,
                 feesTo = 0,
                 genderId,
-                10,
+                20,
                 examinationtypeid,
                 0,
                 0,
@@ -442,7 +442,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
 
     private fun setUpCalendar() {
         val calendarList = ArrayList<CalendarDateModel>()
-        val formatter = SimpleDateFormat("yyyy-MM-dd").apply {
+        val formatter = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).apply {
             this.timeZone = TimeZone.getTimeZone("CST")
         }
         binding.tvDate.text = sdf.format(cal.time)
@@ -462,7 +462,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     }
 
     override fun onItemClick(date: Date) {
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
         formattedDate = formatter.format(date)
         val doctorssearchRequset = DoctorSearchRequest(
             areaId,
@@ -472,7 +472,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             feesFrom = 0,
             feesTo = 0,
             genderId,
-            10,
+            20,
             examinationtypeid,
             0,
             0,
@@ -509,7 +509,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     }
 
     private fun getDayId() {
-        val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
+        val sdf = SimpleDateFormat("EEEE", Locale.US)
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
         val date = format.parse(formattedDate)
         val day = sdf.format(date).subSequence(0, 3)
@@ -603,7 +603,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                             feesFrom = 0,
                             feesTo,
                             genderId,
-                            10,
+                            20,
                             examinationtypeid,
                             0,
                             0,

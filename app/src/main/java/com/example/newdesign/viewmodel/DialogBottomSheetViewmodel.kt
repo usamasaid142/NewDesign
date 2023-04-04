@@ -200,7 +200,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=viewModelScope.launch(Dispatchers.IO) {
         patientAppointmentResponse.postValue(Resource.Loading())
         val response=repositry.createPatientAppointment(appointmentRequest)
-        patientAppointmentResponse.postValue(handlecreatePatientAppointment(response))
+        patientAppointmentResponse.postValue(response?.let { handlecreatePatientAppointment(it) })
     }
 
     private fun handlecreatePatientAppointment(response: Response<CreatepatientAppointementsResponse>): Resource<CreatepatientAppointementsResponse>? {
@@ -216,7 +216,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getDoctorProfileByDoctorId(DoctorId :Int)=viewModelScope.launch(Dispatchers.IO) {
         doctorClinkResponse.postValue(Resource.Loading())
         val response=repositry.getDoctorProfileByDoctorId(DoctorId)
-        doctorClinkResponse.postValue(handleGetDoctorProfileByDoctorId(response))
+        doctorClinkResponse.postValue(response?.let { handleGetDoctorProfileByDoctorId(it) })
     }
 
     private fun handleGetDoctorProfileByDoctorId(response: Response<GetDoctorClinksResponse>): Resource<GetDoctorClinksResponse>? {
@@ -232,7 +232,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getPatientAppointmentes(medicalExaminationTypeId :Int?)=viewModelScope.launch(Dispatchers.IO) {
         patientsAppointmentesResponse.postValue(Resource.Loading())
         val response=repositry.getPatientAppointmentes(medicalExaminationTypeId)
-        patientsAppointmentesResponse.postValue(handleGetPatientAppointmentes(response))
+        patientsAppointmentesResponse.postValue(response?.let { handleGetPatientAppointmentes(it) })
     }
 
     private fun handleGetPatientAppointmentes(response: Response<GetPatientAppointmentesResponse>): Resource<GetPatientAppointmentesResponse>? {
@@ -248,7 +248,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun cancelPatientAppointment(AppointmentId :Int)=viewModelScope.launch(Dispatchers.IO) {
         cancelPatientResponse.postValue(Resource.Loading())
         val response=repositry.cancelPatientAppointment(AppointmentId)
-        cancelPatientResponse.postValue(handleCancelPatientAppointment(response))
+        cancelPatientResponse.postValue(response?.let { handleCancelPatientAppointment(it) })
     }
 
     private fun handleCancelPatientAppointment(response: Response<CancelPatientAppointmentResponse>): Resource<CancelPatientAppointmentResponse>? {
@@ -265,7 +265,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         patientProfileResponse.postValue(Resource.Loading())
         val response = repositry.createPatientProfile(partmap)
 
-        patientProfileResponse.postValue(handlePatientProfile(response))
+        patientProfileResponse.postValue(response?.let { handlePatientProfile(it) })
     }
 
     private fun handlePatientProfile(response: Response<PatientProfileResponse>): Resource<PatientProfileResponse>? {
@@ -283,7 +283,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         patientLocationResponse.postValue(Resource.Loading())
         val response = repositry.sendPatientLocation(locationRequest)
 
-        patientLocationResponse.postValue(handlePatientLocation(response))
+        patientLocationResponse.postValue(response?.let { handlePatientLocation(it) })
     }
 
     private fun handlePatientLocation(response: Response<PatientLocationResponse>): Resource<PatientLocationResponse>? {
@@ -301,7 +301,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         healthyResponse.postValue(Resource.Loading())
         val response = repositry.getHealthEntityPagedList(CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount)
 
-        healthyResponse.postValue(handleGetHealthEntityPagedList(response))
+        healthyResponse.postValue(response?.let { handleGetHealthEntityPagedList(it) })
     }
 
     private fun handleGetHealthEntityPagedList(response: Response<GetHealthEntityResponse>): Resource<GetHealthEntityResponse>? {
@@ -332,7 +332,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getDoctorHealthTopics()=viewModelScope.launch(Dispatchers.IO) {
         healthTopicsResponse.postValue(Resource.Loading())
         val response=repositry.getDoctorHealthTopics()
-        healthTopicsResponse.postValue(handlegetDoctorHealthTopics(response))
+        healthTopicsResponse.postValue(response?.let { handlegetDoctorHealthTopics(it) })
     }
 
     private fun handlegetDoctorHealthTopics(response: Response<GetDoctorHealthTopicsResponse>): Resource<GetDoctorHealthTopicsResponse>? {
@@ -347,7 +347,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun getDoctorSpotLight()=viewModelScope.launch(Dispatchers.IO) {
         doctorSpotLightResponse.postValue(Resource.Loading())
         val response=repositry.getDoctorSpotLight()
-        doctorSpotLightResponse.postValue(handleGetDoctorSpotLight(response))
+        doctorSpotLightResponse.postValue(response?.let { handleGetDoctorSpotLight(it) })
     }
 
     private fun handleGetDoctorSpotLight(response: Response<GetDoctorSpotLightResponse>): Resource<GetDoctorSpotLightResponse>? {

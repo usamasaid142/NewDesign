@@ -48,16 +48,29 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
                                                )= sp.getUserLang(Constans.Language)
         ?.let { apiService.getClinicSchedualByClinicDayId(it,ClinicId,DayId,MedicalExaminationTypeId,BookDate) }
 
-    suspend fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=apiService.createPatientAppointment("En",appointmentRequest)
-    suspend fun getDoctorProfileByDoctorId( DoctorId :Int)=apiService.getDoctorProfileByDoctorId("En",DoctorId)
-    suspend fun getPatientAppointmentes(medicalExaminationTypeId:Int?)=apiService.getPatientAppointmentes("En",medicalExaminationTypeId)
-    suspend fun cancelPatientAppointment(AppointmentId :Int)=apiService.cancelPatientAppointment("En",AppointmentId)
-    suspend fun createPatientProfile(partmap:MultipartBody)=apiService.createPatientProfile("En",partmap)
-    suspend fun sendPatientLocation(locationRequest: LocationRequest)=apiService.sendPatientLocation("En",locationRequest)
+    suspend fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=
+        sp.getUserLang(Constans.Language)
+            ?.let { apiService.createPatientAppointment(it,appointmentRequest) }
+    suspend fun getDoctorProfileByDoctorId( DoctorId :Int)=
+        sp.getUserLang(Constans.Language)
+            ?.let { apiService.getDoctorProfileByDoctorId(it,DoctorId) }
+    suspend fun getPatientAppointmentes(medicalExaminationTypeId:Int?)=
+        sp.getUserLang(Constans.Language)
+            ?.let { apiService.getPatientAppointmentes(it,medicalExaminationTypeId) }
+    suspend fun cancelPatientAppointment(AppointmentId :Int)= sp.getUserLang(Constans.Language)
+        ?.let { apiService.cancelPatientAppointment(it,AppointmentId) }
+    suspend fun createPatientProfile(partmap:MultipartBody)=
+        sp.getUserLang(Constans.Language)?.let { apiService.createPatientProfile(it,partmap) }
+    suspend fun sendPatientLocation(locationRequest: LocationRequest)=
+        sp.getUserLang(Constans.Language)
+            ?.let { apiService.sendPatientLocation(it,locationRequest) }
     suspend fun getHealthEntityPagedList(CityId :Int,AreaId :Int,HealthEntityTypeId :Int,
-                                         MaxResultCount :Int,SkipCount :Int)=apiService.getHealthEntityPagedList("En",CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount)
+                                         MaxResultCount :Int,SkipCount :Int)=
+        sp.getUserLang(Constans.Language)?.let { apiService.getHealthEntityPagedList(it,CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount) }
     suspend fun getPopularDoctors()= sp.getUserLang(Constans.Language)
         ?.let { apiService.getPopularDoctors(it) }
-    suspend fun getDoctorHealthTopics()=apiService.getDoctorHealthTopics("En")
-    suspend fun getDoctorSpotLight()=apiService.getDoctorSpotLight("En")
+    suspend fun getDoctorHealthTopics()= sp.getUserLang(Constans.Language)
+        ?.let { apiService.getDoctorHealthTopics(it) }
+    suspend fun getDoctorSpotLight()= sp.getUserLang(Constans.Language)
+        ?.let { apiService.getDoctorSpotLight(it) }
 }

@@ -3,7 +3,6 @@ package com.example.newdesign.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,6 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ItemLayoutDoctorsBinding
-import com.example.newdesign.fragment.home.SearchFragmentDirections
 import com.example.newdesign.model.docotorsearch.Item
 
 
@@ -38,8 +36,8 @@ class SearchDoctorsAdapter(private val booking: Booking) :
             subSpecialization.text = subspecialist
             subspecialist=""
             location.text = services.clinicDto?.Address
-            waitingTime.text = " ${services.waitingTime}"
-            Feesresult.text = services.feesFrom.toString()
+            waitingTime.text = "${services.waitingTime}"
+            Feesresult.text = "${services.feesFrom.toString()} ${holder.binding.Feesresult.context.getString(R.string.le)}"
         }
         holder.binding.btnBooking.setOnClickListener {
             services.clinicId?.let { it1 ->

@@ -28,6 +28,7 @@ import com.example.newdesign.model.booking.AppointmentBooking
 import com.example.newdesign.model.booking.AppointmentDetailBooking
 import com.example.newdesign.model.booking.BookingData
 import com.example.newdesign.model.booking.PatientAppointmentRequest
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
@@ -55,6 +56,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     private val sdf = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
     private val cal = Calendar.getInstance(Locale.ENGLISH)
     private val dates = ArrayList<Date>()
+    private var name=""
     val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
@@ -155,14 +157,14 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
             if (time.isNullOrEmpty()) {
                 Toast.makeText(
                     requireContext(),
-                    "choose appointment time first",
+                    getString(R.string.choose_appointment),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 val date: Date =
                     SimpleDateFormat("yyyy-MM-dd").parse(formattedDate)
                 val startHour: Date = time?.let { it1 -> SimpleDateFormat("hh:mm").parse(it1) }!!
-                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
                 val total = date.time + startHour.time
                 formattedDate = formatter.format(total)
                 val patientAppointmentRequest = PatientAppointmentRequest(
@@ -280,7 +282,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                     val appointmentDetailBooking = args.doctorclinks.data?.let { it1 ->
                         it1.id?.let { it2 ->
                             AppointmentDetailBooking(
-                                it.data?.data?.doctorName,
+                               name,
                                 it2,
                                 formattedDate,
                                 intervalTime,
@@ -375,7 +377,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                         numbersofpatient= appointmentTime[i]?.maxNoOfPatients!!
                         intervaltime=((hours * 60) / numbersofpatient).toInt()
                     }else{
-                        Snackbar.make(requireView(), "there is no Appointment Available ", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(requireView(), getString(R.string.there_is_no_appointment_available), Snackbar.LENGTH_SHORT).show()
                     }
                     appointmentBookingList.add(
                         AppointmentBooking(
@@ -417,7 +419,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "there is no Appointments available",
+                        getString(R.string.there_is_no_appointment_available),
                         Toast.LENGTH_SHORT
                     ).show()
                     Log.e("timeFrom is empty ", timeFrom.toString())
@@ -429,7 +431,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
         } else {
             Toast.makeText(
                 requireContext(),
-                "there is no Appointments available",
+                getString(R.string.there_is_no_appointment_available),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -475,7 +477,7 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
     }
 
     override fun onItemClick(date: Date) {
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
         formattedDate = formatter.format(date)
         this.formattedDate = formattedDate
         getDayId()
@@ -530,9 +532,28 @@ class BookAppointmentFragment : Fragment(), AppointmentsAvailableAdapter.Action,
 
 
     private fun bindDataToViews(){
-        binding.tvName.text = args.status
-        val name =
-            "${args.doctorclinks.data?.firstName}${args.doctorclinks.data?.middelName}${args.doctorclinks.data?.lastName}"
+
+        when (args.status) {
+            "Edit Appointment" -> {
+                binding.tvName.text = getString(R.string.edit_appointment)
+            }
+            "Reschedule" -> {
+                binding.tvName.text = getString(R.string.reschedule)
+            }
+            "Re-Booking Appointment" -> {
+                binding.tvName.text = getString(R.string.re_booking_appointment)
+            }
+            else -> {
+                binding.tvName.text = getString(R.string.book_appointment)
+            }
+        }
+
+        name =if (DateUtils.getLanguage()=="En"){
+            "${args.doctorclinks.data?.firstName} ${args.doctorclinks.data?.middelName} ${args.doctorclinks.data?.lastName}"
+
+        }else{
+            "${args.doctorclinks.data?.firstNameAr} ${args.doctorclinks.data?.middelNameAr} ${args.doctorclinks.data?.lastNameAr}"
+        }
         binding.tvDoctorName.text = name
         var subspecialist: String? = ""
         args.doctorclinks.data?.subSpecialistName?.forEach {

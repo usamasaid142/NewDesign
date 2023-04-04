@@ -348,7 +348,7 @@ private fun bindDataToViews(){
 
     val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
 
-    if (sp.getUserLang(Constans.Language)=="EN"){
+    if (sp.getUserLang(Constans.Language)=="En"){
         if (currentTime.contains("AM")){
             binding.tvWelcome.text=getString(R.string.good_morning)
         }else{

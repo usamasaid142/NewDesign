@@ -15,6 +15,7 @@ import com.example.newdesign.R
 import com.example.newdesign.databinding.ChooseLanguagefragmentBinding
 import com.example.newdesign.utils.Constans.Language
 import com.example.newdesign.utils.DateUtils
+import com.example.newdesign.utils.LocaleHelper
 import com.example.newdesign.utils.SpUtil
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -26,8 +27,6 @@ class ChooseLanguageFragment : Fragment() {
 
     private lateinit var binding: ChooseLanguagefragmentBinding
     var lang: String? = null
-
-
     @Inject
     lateinit var sp: SpUtil
     override fun onCreateView(
@@ -46,7 +45,7 @@ class ChooseLanguageFragment : Fragment() {
         binding.btnChoose.setOnClickListener {
 
             if (sp.getUserLang(Language).isNullOrEmpty()) {
-                Toast.makeText(requireContext(), "Choose language", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),getString(R.string.choose_language), Toast.LENGTH_SHORT).show()
             } else {
 
                 findNavController().navigate(R.id.onboardingFragment)
@@ -60,11 +59,11 @@ class ChooseLanguageFragment : Fragment() {
     private fun chooseLanuage() {
 
         binding.radio.setOnCheckedChangeListener { group, checkedId ->
-
             when (checkedId) {
                 R.id.radio_english -> {
                     // Pirates are the best
-                    lang = "EN"
+                    lang = "En"
+
                     sp.saveUserLang(Language, lang!!)
                     DateUtils.setLanguage(lang!!)
                     setLocale(lang!!)
@@ -77,11 +76,9 @@ class ChooseLanguageFragment : Fragment() {
                     lang = "AR"
                     sp.saveUserLang(Language, lang!!)
                     DateUtils.setLanguage(lang!!)
-//                    LocaleHelper.setLocale(requireActivity(), lang!!);
-//                    requireContext().resources
                     setLocale(lang!!)
                     requireActivity().finish()
-                    startActivity(requireActivity().intent)
+                   startActivity(requireActivity().intent)
 
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.newdesign.fragment.loginandforgetpassword
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.example.newdesign.model.register.ResetRequest
 import com.example.newdesign.model.register.UserForgetInfo
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.RegisterViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,7 +59,7 @@ class ForgetPasswordFragment : Fragment() {
 
         binding.btnSend.setOnClickListener {
             if (binding.etMobile.text.toString().isNullOrEmpty()){
-               Toast.makeText(requireContext(),"Enter mobile or email",Toast.LENGTH_SHORT).show()
+                Snackbar.make(requireView(), getString(R.string.Enter_mobile_or_email), Snackbar.LENGTH_SHORT).show()
             }else{
                 if (binding.etMobile.text.toString().contains(".com")){
                     val resetRequest=ResetRequest(binding.etMobile.text.toString(),binding.etMobile.text.toString(),1,3)
@@ -73,6 +75,7 @@ class ForgetPasswordFragment : Fragment() {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun otpCallBack(){
         viewmodel.resetPasswordesponse.observe(viewLifecycleOwner, Observer {
 

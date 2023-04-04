@@ -1,7 +1,6 @@
 package com.example.newdesign.fragment.loginandforgetpassword
 
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -168,7 +167,7 @@ class LoginFragment : Fragment() {
                         findNavController().navigate(R.id.homeFragment)
                     }
 
-                    Toast.makeText(requireContext(), " your are login Successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                 }
 
                 is Resource.Error->{

@@ -85,14 +85,14 @@ class DialogClinkBookingFragment : BottomSheetDialogFragment(),
             if (time.isNullOrEmpty()) {
                 Toast.makeText(
                     requireContext(),
-                    "choose appointment time first",
+                    getString(R.string.choose_appointment),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 val date: Date =
                     SimpleDateFormat("yyyy-MM-dd").parse(args.appointmentrequest.AppointmentDate)
                 val startHour: Date = time?.let { it1 -> SimpleDateFormat("hh:mm").parse(it1) }!!
-                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
                 val total = date.time+startHour.time
                 Log.e("total",total.toString())
                 formattedDate = formatter.format(total)

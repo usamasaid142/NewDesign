@@ -21,16 +21,17 @@ import com.example.newdesign.fragment.dialog.DialogBottomSheetFragmentArgs
 import com.example.newdesign.fragment.home.SearchFragmentDirections
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.booking.clink.GetDoctorClinksResponse
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
+class BookingAppointmentFragment : Fragment(), ClinksDoctorsAdapter.Booking {
 
-    private lateinit var binding:BookingAppointmentfragmentBinding
-    private  val viewmodel: DialogBottomSheetViewmodel by viewModels()
+    private lateinit var binding: BookingAppointmentfragmentBinding
+    private val viewmodel: DialogBottomSheetViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     private lateinit var clinksDoctorsAdapter: ClinksDoctorsAdapter
     private lateinit var getDoctorClinksResponse: GetDoctorClinksResponse
@@ -40,7 +41,7 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= BookingAppointmentfragmentBinding.inflate(layoutInflater,container,false)
+        binding = BookingAppointmentfragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -53,11 +54,12 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
     }
 
 
-    private fun initButton(){
+    private fun initButton() {
         binding.ivArrow.setOnClickListener {
             findNavController().navigate(R.id.searchFragment)
         }
     }
+
     private fun clinksRecylerview() {
         clinksDoctorsAdapter = ClinksDoctorsAdapter(this)
         binding.rvClinkDoctors.apply {
@@ -67,10 +69,10 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
         }
     }
 
-    private fun callBack(){
+    private fun callBack() {
 
         viewmodel.doctorClinkResponse.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when (it) {
 
                 is Resource.Loading -> {
                     showprogtessbar()
@@ -82,18 +84,23 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
                         crossfade(1000)
                         transformations(CircleCropTransformation())
                     }
-                    getDoctorClinksResponse= GetDoctorClinksResponse(it.data?.data,it.message)
-                    binding.AboutDoctor.text=it.data?.data?.doctorInfo
-                    val name="${it.data?.data?.firstName}${it.data?.data?.middelName}${it.data?.data?.lastName}"
-                    binding.tvDoctorName.text=name
-                    binding.tvName.text=name
-                     var subspecialist:String?=""
-                    it.data?.data?.subSpecialistName?.forEach {
-                        subspecialist= "$subspecialist $it,"
+                    getDoctorClinksResponse = GetDoctorClinksResponse(it.data?.data, it.message)
+                    binding.AboutDoctor.text = it.data?.data?.doctorInfo
+                    val name = if (DateUtils.getLanguage() == "En") {
+                        "${it.data?.data?.firstName} ${it.data?.data?.middelName} ${it.data?.data?.lastName}"
+                    } else {
+                        "${it.data?.data?.firstNameAr} ${it.data?.data?.middelNameAr} ${it.data?.data?.lastNameAr}"
+
                     }
-                    binding.tvSpecialization.text=subspecialist
-                   clinksDoctorsAdapter.submitList(it.data?.data?.clinicDtos)
-                   clinksDoctorsAdapter.notifyDataSetChanged()
+                    binding.tvDoctorName.text = name
+                    binding.tvName.text = name
+                    var subspecialist: String? = ""
+                    it.data?.data?.subSpecialistName?.forEach {
+                        subspecialist = "$subspecialist $it,"
+                    }
+                    binding.tvSpecialization.text = subspecialist
+                    clinksDoctorsAdapter.submitList(it.data?.data?.clinicDtos)
+                    clinksDoctorsAdapter.notifyDataSetChanged()
 
                 }
                 is Resource.Error -> {
@@ -109,16 +116,21 @@ class BookingAppointmentFragment : Fragment(),ClinksDoctorsAdapter.Booking{
         })
 
     }
+
     private fun showprogtessbar() {
         binding.progressBar.visibility = View.VISIBLE
-          }
+    }
 
     private fun hideprogressbar() {
         binding.progressBar.visibility = View.GONE
-          }
+    }
 
     override fun onItemClick() {
-        val action=BookingAppointmentFragmentDirections.actionBookingAppointmentFragmentToBookAppointmentFragment(getDoctorClinksResponse,"Book Appointment")
+        val action =
+            BookingAppointmentFragmentDirections.actionBookingAppointmentFragmentToBookAppointmentFragment(
+                getDoctorClinksResponse,
+                "Book Appointment"
+            )
         findNavController().navigate(action)
     }
 

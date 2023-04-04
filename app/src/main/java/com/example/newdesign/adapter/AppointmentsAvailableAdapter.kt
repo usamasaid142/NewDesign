@@ -41,8 +41,6 @@ class AppointmentsAvailableAdapter(private val selecttime: Action) :
         holder.binding.tvTime.text =timefrom.format(DateTimeFormatter.ofPattern("hh:mm a",Locale.getDefault()))
         timefrom = timefrom.plusHours(2)
 
-
-
         holder.itemView.setOnClickListener {
             selectedItemPosition = holder.bindingAdapterPosition
             appoinments.timeInterval?.let { it1 ->

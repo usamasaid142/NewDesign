@@ -457,7 +457,7 @@
             android:layout_marginTop="14dp"
             android:minWidth="0dp"
             android:minHeight="48dp"
-            android:text="Agree to"
+            android:text="@string/agree_to"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_confirmpassword" />
 
@@ -468,7 +468,7 @@
             android:layout_marginTop="14dp"
             android:layout_marginStart="2dp"
             android:fontFamily="@font/avenirltstd_roman"
-           android:text="the terms and conditions"
+           android:text="@string/terms_conditions"
             android:textColor="@color/green"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/ch_terms"

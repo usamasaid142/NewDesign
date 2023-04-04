@@ -12,17 +12,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.AppointmentDetailsfragmentBinding
 import com.example.newdesign.model.booking.PatientAppointmentRequest
+import com.example.newdesign.utils.DateUtils
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class AppointmentDetailsFragment : Fragment() {
@@ -73,13 +74,21 @@ class AppointmentDetailsFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun bindDataToViews(){
+        var locale = if (DateUtils.getLanguage() == "AR") {
+            Locale("ar")
+        } else {
+            Locale("en")
+        }
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", locale)
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", locale)
+        val date: Date = inputFormat.parse(args.confirmappointments?.formattedDate)
+        val outputText: String = outputFormat.format(date)
         binding.tvDoctorName.text=args.confirmappointments?.doctorName
         binding.tvSpecialization.text=args.confirmappointments?.SpecialistName
-        binding.tvDate.text=args.confirmappointments?.formattedDate
+        binding.tvDate.text=outputText
         binding.Service.text=args.confirmappointments?.MedicalExaminationTypeName
         binding.WaitingTime.text=args.confirmappointments?.timeInterval.toString()
-        binding.TotalFees.text=args.confirmappointments?.fees.toString()
-
+        binding.TotalFees.text=args.confirmappointments?.fees.toString()+" "+getString(R.string.le)
 
     }
 
