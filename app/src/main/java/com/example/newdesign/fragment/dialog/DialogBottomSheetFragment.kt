@@ -600,11 +600,13 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
                     // Pirates are the best
                     lang = "En"
                     sp.saveUserLang(Constans.Language, lang!!)
+                    DateUtils.setLanguageFromMore(lang!!)
                     DateUtils.setLanguage(lang!!)
                 }
                 binding.itemLanguage.radioArabic.id -> {
                     lang = "AR"
                     sp.saveUserLang(Constans.Language, lang!!)
+                    DateUtils.setLanguageFromMore(lang!!)
                     DateUtils.setLanguage(lang!!)
                 }
 

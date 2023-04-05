@@ -41,4 +41,11 @@ object DateUtils {
     fun getLanguage(): String? {
         return SharedPreferencesTool.getString(context,SharedPreferencesKeys.Language.name)
     }
+
+    fun setLanguageFromMore(lang: String) {
+        SharedPreferencesTool.setString(context, SharedPreferencesKeys.LanguageMore.name, lang)
+    }
+    fun getLanguageFromMore(): String? {
+        return SharedPreferencesTool.getString(context,SharedPreferencesKeys.LanguageMore.name)
+    }
 }

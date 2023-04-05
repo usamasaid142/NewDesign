@@ -56,6 +56,7 @@ class LoginFragment : Fragment() {
         instance=this
         initButton()
         callBack()
+        bindDataToviews()
     }
 
     private fun initButton() {
@@ -186,6 +187,15 @@ class LoginFragment : Fragment() {
 
     private fun hideprogressbar() {
         binding.progressBar.visibility = View.GONE
+    }
+
+
+    private fun bindDataToviews(){
+
+        if(sp.getUser()!=null){
+            binding.etMobile.setText(sp.getUser()!!.phone.toString())
+        }
+
     }
 
 

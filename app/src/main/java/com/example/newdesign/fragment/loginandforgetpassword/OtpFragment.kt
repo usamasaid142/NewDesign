@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -55,7 +56,6 @@ class OtpFragment : Fragment() {
 
         initButton()
         setupFocusEdittext()
-        callBack()
         otpCallBack()
         timer()
     }
@@ -72,24 +72,42 @@ class OtpFragment : Fragment() {
         binding.btnSend.setOnClickListener {
 
             if (args.responsemodel?.code.toString() == getCodeFromEdittext()) {
-                args.user?.let { it1 -> viewmodel.createuser(DateUtils.getLanguage().toString(), it1) }
+                args.user?.let { it1 ->
+                    viewmodel.createuser(
+                        DateUtils.getLanguage().toString(),
+                        it1
+                    )
+                }
                 findNavController().navigate(R.id.docotorProfileFragment)
-                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT)
+                    .show()
             } else if (otpCode == getCodeFromEdittext()) {
-                args.user?.let { it1 -> viewmodel.createuser(DateUtils.getLanguage().toString(), it1) }
+                args.user?.let { it1 ->
+                    viewmodel.createuser(
+                        DateUtils.getLanguage().toString(),
+                        it1
+                    )
+                }
                 findNavController().navigate(R.id.docotorProfileFragment)
-                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT)
+                    .show()
             } else if (args.userforgetpassword?.code.toString() == getCodeFromEdittext()) {
-                val action= args.userforgetpassword?.let { it1 ->
+                val action = args.userforgetpassword?.let { it1 ->
                     OtpFragmentDirections.actionOtpFragmentToChangepasswordFragment(
-                        it1.userId)
+                        it1.userId
+                    )
                 }
                 if (action != null) {
                     findNavController().navigate(action)
                 }
-                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.verified), Toast.LENGTH_SHORT)
+                    .show()
             } else {
-                Toast.makeText(requireContext(), getString(R.string.invalid_code), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.invalid_code),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
@@ -110,7 +128,12 @@ class OtpFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.toString().trim().isEmpty()) {
-                    binding.etOtpsecond.requestFocus()
+                    if (DateUtils.getLanguage() == "En") {
+                        binding.etOtpsecond.requestFocus()
+                    } else {
+                        binding.etOtpFirst.imeOptions = EditorInfo.IME_ACTION_DONE
+                        binding.etOtpFirst.requestFocus()
+                    }
                 }
             }
 
@@ -125,7 +148,12 @@ class OtpFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.toString().trim().isEmpty()) {
-                    binding.etOtpthird.requestFocus()
+                    if (DateUtils.getLanguage() == "En") {
+                        binding.etOtpthird.requestFocus()
+                    } else {
+                        binding.etOtpFirst.requestFocus()
+                    }
+
                 }
             }
 
@@ -140,7 +168,11 @@ class OtpFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.toString().trim().isEmpty()) {
-                    binding.etOtpforth.requestFocus()
+                    if (DateUtils.getLanguage() == "En") {
+                        binding.etOtpforth.requestFocus()
+                    } else {
+                        binding.etOtpsecond.requestFocus()
+                    }
                 }
             }
 
@@ -155,7 +187,14 @@ class OtpFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.toString().trim().isEmpty()) {
-                    binding.etOtpforth.requestFocus()
+                    if (DateUtils.getLanguage() == "En") {
+                        binding.etOtpforth.requestFocus()
+                        binding.etOtpforth.imeOptions = EditorInfo.IME_ACTION_DONE
+                    } else {
+                        binding.etOtpFirst.imeOptions = EditorInfo.IME_ACTION_DONE
+                        binding.etOtpforth.imeOptions = EditorInfo.IME_ACTION_NEXT
+                        binding.etOtpthird.requestFocus()
+                    }
                 }
             }
 
@@ -166,30 +205,6 @@ class OtpFragment : Fragment() {
 
     }
 
-    private fun callBack() {
-        viewmodel.createResponse.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is Resource.Loading -> {
-                    //     showprogtessbar()
-                }
-
-                is Resource.sucess -> {
-                    //   hideprogressbar()
-                    it?.data?.let { response ->
-
-                    }
-                }
-                is Resource.Error -> {
-                    //   hideprogressbar()
-                    it.message?.let { error ->
-                        Log.e("error", error)
-                    }
-                }
-
-            }
-        })
-
-    }
 
     private fun otpCallBack() {
         viewmodel.otpResponse.observe(viewLifecycleOwner, Observer {
@@ -241,16 +256,23 @@ class OtpFragment : Fragment() {
         val etOtpCode = binding.etOtpFirst.text.toString() + binding.etOtpsecond.text.toString() +
                 binding.etOtpthird.text.toString() + binding.etOtpforth.text.toString()
 
-        return etOtpCode
+        return if (DateUtils.getLanguage() == "En") {
+            etOtpCode
+        } else {
+            etOtpCode.reversed()
+        }
+
+
     }
 
     fun timer() {
-      object : CountDownTimer(120000, 1000) {
+        object : CountDownTimer(120000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvCounter.setText("(${millisUntilFinished / 1000})")
 
             }
+
             override fun onFinish() {
                 binding.tvCounter.setText("(0)")
                 binding.tvResendCode.visibility = View.VISIBLE

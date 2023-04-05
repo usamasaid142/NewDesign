@@ -153,6 +153,7 @@ class SignupFragment : Fragment() {
                 is Resource.Error -> {
                     hideprogressbar()
                     Snackbar.make(requireView(), "${it.message}", Snackbar.LENGTH_SHORT).show()
+
                 }
 
             }

@@ -48,7 +48,9 @@ class ChooseLanguageFragment : Fragment() {
                 Toast.makeText(requireContext(),getString(R.string.choose_language), Toast.LENGTH_SHORT).show()
             } else {
 
-                findNavController().navigate(R.id.onboardingFragment)
+                setLocale(lang!!)
+                requireActivity().finish()
+                startActivity(requireActivity().intent)
             }
         }
 
@@ -66,9 +68,7 @@ class ChooseLanguageFragment : Fragment() {
 
                     sp.saveUserLang(Language, lang!!)
                     DateUtils.setLanguage(lang!!)
-                    setLocale(lang!!)
-                    requireActivity().finish()
-                    startActivity(requireActivity().intent)
+
 
                 }
                 R.id.radio_arabic -> {
@@ -76,9 +76,6 @@ class ChooseLanguageFragment : Fragment() {
                     lang = "AR"
                     sp.saveUserLang(Language, lang!!)
                     DateUtils.setLanguage(lang!!)
-                    setLocale(lang!!)
-                    requireActivity().finish()
-                   startActivity(requireActivity().intent)
 
                 }
             }

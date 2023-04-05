@@ -9,11 +9,14 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.SplashfragmentBinding
+import com.example.newdesign.utils.Constans
+import com.example.newdesign.utils.DateUtils
 
 
 class SplashFragment : Fragment() {
 
     private lateinit var binding: SplashfragmentBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,9 +29,17 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         Handler().postDelayed({
             //doSomethingHere()
-            findNavController().navigate(R.id.chooseLanguageFragment)
+            if( DateUtils.getLanguage().isNullOrEmpty()){
+                findNavController().navigate(R.id.chooseLanguageFragment)
+            }else if (!DateUtils.getLanguageFromMore().isNullOrEmpty()){
+                findNavController().navigate(R.id.moreFragment)
+                 DateUtils.setLanguageFromMore("")
+            }else{
+                findNavController().navigate(R.id.onboardingFragment)
+            }
         }, 2000)
 
     }

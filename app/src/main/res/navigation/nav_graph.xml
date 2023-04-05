@@ -67,6 +67,9 @@
             android:name="changeview"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_dialogBottomSheetFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </dialog>
     <fragment
         android:id="@+id/forgetPasswordFragment"
