@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.SplashfragmentBinding
-import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.DateUtils
 
 
