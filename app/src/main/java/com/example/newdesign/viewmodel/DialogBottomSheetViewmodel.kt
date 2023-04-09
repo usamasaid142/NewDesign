@@ -282,7 +282,6 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     fun sendPatientLocation(locationRequest: LocationRequest)= viewModelScope.launch(Dispatchers.IO) {
         patientLocationResponse.postValue(Resource.Loading())
         val response = repositry.sendPatientLocation(locationRequest)
-
         patientLocationResponse.postValue(response?.let { handlePatientLocation(it) })
     }
 

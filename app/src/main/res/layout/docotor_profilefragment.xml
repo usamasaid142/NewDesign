@@ -109,7 +109,7 @@
                     android:id="@+id/iv_plus"
                     android:layout_width="11dp"
                     android:layout_height="10dp"
-                    android:src="@drawable/ic_plus"
+                    android:src="@drawable/iv_plus"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -220,7 +220,7 @@
                     android:id="@+id/iv_plusstep2"
                     android:layout_width="11dp"
                     android:layout_height="10dp"
-                    android:src="@drawable/ic_plus"
+                    android:src="@drawable/iv_plus"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -342,7 +342,7 @@
                     android:id="@+id/iv_plusstep3"
                     android:layout_width="11dp"
                     android:layout_height="10dp"
-                    android:src="@drawable/ic_plus"
+                    android:src="@drawable/iv_plus"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -388,6 +388,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentnav_Streper"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -395,41 +396,46 @@
         android:layout_height="0dp"
         android:padding="5dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_stepper"
         app:navGraph="@navigation/nav_streper" />
 
 
-    <!--    <androidx.appcompat.widget.AppCompatButton-->
-    <!--        android:id="@+id/btn_next"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@drawable/bg_chooselang_button"-->
-    <!--        android:fontFamily="@font/avenirltstd_black"-->
-    <!--        android:padding="5dp"-->
-    <!--        android:layout_marginBottom="10dp"-->
-    <!--        android:text="@string/next"-->
-    <!--        android:textColor="@color/white"-->
-    <!--        android:textSize="14sp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/fragmentnav_Streper"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/imageView"-->
-    <!--        app:layout_constraintWidth_percent=".9"-->
-    <!--        />-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_chooselang_button"
+            android:fontFamily="@font/avenirltstd_black"
+            android:padding="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/gotohome"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentnav_Streper"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintWidth_percent=".9"
+            tools:visibility="visible"
+            />
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView"-->
-    <!--        android:layout_width="100dp"-->
-    <!--        android:layout_height="4dp"-->
-    <!--        android:layout_marginTop="20dp"-->
-    <!--        android:layout_marginBottom="5dp"-->
-    <!--        android:adjustViewBounds="true"-->
-    <!--        android:background="@color/black"-->
-    <!--        android:contentDescription="TODO"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            android:adjustViewBounds="true"
+            android:background="@color/black"
+            android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible"
+            />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.MedicalStatefragmentBinding
+import com.example.newdesign.viewmodel.SharedDataViewmodel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MedicalStateFragment : Fragment() {
 
     private lateinit var binding: MedicalStatefragmentBinding
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +33,9 @@ class MedicalStateFragment : Fragment() {
 
     private fun  initButton(){
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            sharedDataViewmodel.getProfileStatus(3)
+            binding.btnNext.visibility=View.GONE
+            binding.imageView.visibility=View.GONE
         }
     }
 

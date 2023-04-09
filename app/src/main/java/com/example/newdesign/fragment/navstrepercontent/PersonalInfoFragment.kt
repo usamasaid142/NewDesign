@@ -494,7 +494,7 @@ class PersonalInfoFragment : Fragment() {
                                 it1
                             )
                         }
-                        findNavController().navigate(R.id.locationFragment)
+                        findNavController().navigate(R.id.locationFragment2)
                     }
 
                 }

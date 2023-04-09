@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.EditProfilefragmentBinding
 import com.example.newdesign.fragment.navstrepercontent.*
@@ -28,28 +30,22 @@ class EditProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding= EditProfilefragmentBinding.inflate(layoutInflater,container,false)
         return binding.root
-        val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
-        navController = navHostFragment.navController
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupNavigationBottom()
         initButton()
     }
 
-    private fun setupNavigationBottom() {
-//        val navHostFragment =
-//            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
-//        navController = navHostFragment.navController
-//
-    }
 
 
     private fun initButton(){
+
+        binding.ivArrow.setOnClickListener {
+            findNavController().navigate(R.id.moreFragment)
+        }
 
 
         binding.layoutProfileInfo.setOnClickListener {
@@ -60,15 +56,7 @@ class EditProfileFragment : Fragment() {
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
 
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,binding.fragment.getFragment<Fragment>().apply {
-                    this.id==R.id.personalInfoFragment2
-                })
-
-                addToBackStack(null)
-                commit()
-            }
-
+            setupNavigationBottom(1)
         }
 
         binding.layoutLocation.setOnClickListener {
@@ -78,15 +66,7 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
-            binding.fragment.getFragment<Fragment>().apply {
-                this.id==R.id.personalInfoFragment2==null
-
-            }
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,location)
-                addToBackStack(null)
-                commit()
-            }
+            setupNavigationBottom(2)
 
         }
 
@@ -97,17 +77,34 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutLocation.setBackgroundResource(R.drawable.bg_help)
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
-            binding.fragment.getFragment<Fragment>().apply {
-                this.id==R.id.personalInfoFragment2==null
-            }
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,medicalStateFragment)
-                addToBackStack(null)
-                commit()
-            }
-
+            setupNavigationBottom(3)
 
         }
+
+    }
+
+
+    private fun setupNavigationBottom(type:Int) {
+
+        val navHostFragment =
+            childFragmentManager.findFragmentById(R.id.editProfile_NavContainer) as NavHostFragment
+        navController = navHostFragment.navController
+        var navGraph = navController.navInflater.inflate(R.navigation.nav_editprofile)
+
+            when (type) {
+                1 -> {
+                    navGraph.setStartDestination(R.id.personalInfoFragment2)
+                }
+                2 -> {
+                    navGraph.setStartDestination(R.id.locationFragment2)
+                }
+                3->{
+                    navGraph.setStartDestination(R.id.medicalStateFragment)
+
+                }
+            }
+
+            navHostFragment.navController.graph = navGraph
 
     }
 

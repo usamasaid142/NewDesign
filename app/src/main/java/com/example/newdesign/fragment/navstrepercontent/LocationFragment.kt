@@ -65,13 +65,13 @@ class LocationFragment : Fragment() {
 
         binding.layoutChooseCity.setOnClickListener {
 
-            val action=LocationFragmentDirections.actionLocationFragmentToDialogBottomSheetFragment("AllCity")
+            val action=LocationFragmentDirections.actionLocationFragment2ToDialogBottomSheetFragment("AllCity")
             findNavController().navigate(action)
         }
 
         binding.layoutChooseArea.setOnClickListener {
             if (!binding.etChooseCity.text.toString().isNullOrEmpty()){
-                val action=LocationFragmentDirections.actionLocationFragmentToDialogBottomSheetFragment("AllArea")
+                val action=LocationFragmentDirections.actionLocationFragment2ToDialogBottomSheetFragment("AllArea")
                 findNavController().navigate(action)
             }else{
                 Toast.makeText(requireContext(),"choose city first",Toast.LENGTH_SHORT).show()
@@ -148,7 +148,7 @@ class LocationFragment : Fragment() {
         }
 
         val locationRequest=LocationRequest("${binding.etApartmentNumber.text}"+"",areaId,"${binding.etBuildingNumber.text}"+"",
-        cityId,1,"",etFloorNumber,"${binding.etStreet.text}"+"")
+        cityId,1,"",etFloorNumber,"${binding.etStreet.text}"+".")
         viewmodel.sendPatientLocation(locationRequest)
 
         viewmodel.patientLocationResponse.observe(viewLifecycleOwner) { response ->
@@ -178,7 +178,7 @@ class LocationFragment : Fragment() {
             }
 
 
-        }
+             }
     }
 
 }

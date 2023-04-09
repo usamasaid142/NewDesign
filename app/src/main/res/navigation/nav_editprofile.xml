@@ -35,4 +35,22 @@
         android:label="legal_docfragment"
         tools:layout="@layout/legal_docfragment" />
 
+    <fragment
+        android:id="@+id/medicalStateFragment"
+        android:name="com.example.newdesign.fragment.navstrepercontent.MedicalStateFragment"
+        android:label="medical_statefragment"
+        tools:layout="@layout/medical_statefragment" />
+    <fragment
+        android:id="@+id/locationFragment2"
+        android:name="com.example.newdesign.fragment.navstrepercontent.LocationFragment"
+        android:label="locationfragment"
+        tools:layout="@layout/locationfragment" >
+        <action
+            android:id="@+id/action_locationFragment2_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_locationFragment2_to_medicalStateFragment"
+            app:destination="@id/medicalStateFragment" />
+    </fragment>
+
 </navigation>

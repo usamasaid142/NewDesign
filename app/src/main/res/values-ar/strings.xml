@@ -210,4 +210,5 @@
     <string name="agree_to">موافق علي</string>
     <string name="Enter_mobile_or_email">أدخل الجوال أو البريد الإلكتروني</string>
     <string name="enter_your_email_we_will_send_you_code_to_reset_the_password">أدخل بريدك الإلكتروني أو هاتفك وسنرسل لك رمزًا لإعادة تعيين كلمة المرور</string>
+    <string name="gotohome">اذهب الى الرئيسية</string>
 </resources>

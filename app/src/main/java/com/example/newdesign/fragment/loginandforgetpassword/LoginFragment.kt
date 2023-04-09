@@ -32,16 +32,17 @@ class LoginFragment : Fragment() {
 
 
     private lateinit var binding: LoginfragmentBinding
-     val viewmodel:RegisterViewmodel by viewModels()
+    val viewmodel: RegisterViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
 
     @Inject
     lateinit var sp: SpUtil
 
-    companion object{
-        var instance:LoginFragment?=null
+    companion object {
+        var instance: LoginFragment? = null
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +54,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        instance=this
+        instance = this
         initButton()
         callBack()
         bindDataToviews()
@@ -78,14 +79,15 @@ class LoginFragment : Fragment() {
             val password = binding.textinputPassword.editText?.text.toString()
 
             if (isvalidateFeilds(mobile, password)) {
-                val userlogin=LoginUser("",password,mobile,3)
-                sp.getUserLang(Language)?.let { it1 -> viewmodel.loginUser(it1,userlogin) }
+                val userlogin = LoginUser("", password, mobile, 3)
+                sp.getUserLang(Language)?.let { it1 -> viewmodel.loginUser(it1, userlogin) }
             }
 
         }
 
         binding.layoutHelp.setOnClickListener {
-            val action=LoginFragmentDirections.actionLoginFragmentToDialogBottomSheetFragment("help")
+            val action =
+                LoginFragmentDirections.actionLoginFragmentToDialogBottomSheetFragment("help")
             findNavController().navigate(action)
         }
         binding.tvForgetPassword.setOnClickListener {
@@ -99,7 +101,7 @@ class LoginFragment : Fragment() {
 
     private fun isvalidateFeilds(mobile: String, password: String): Boolean {
 
-        var isValid=true
+        var isValid = true
 
         if (mobile.trim().isNullOrEmpty()) {
 
@@ -108,7 +110,7 @@ class LoginFragment : Fragment() {
             binding.tvFullNameError.text = getString(R.string.required)
             binding.tvFullNameError.visibility = View.VISIBLE
 
-            isValid=false
+            isValid = false
 
         } else {
             binding.textinputMobile.error = null
@@ -145,35 +147,40 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun callBack(){
+    private fun callBack() {
 
-        viewmodel.loginResponse.observe(viewLifecycleOwner, Observer {loginresponse->
-            when(loginresponse){
+        viewmodel.loginResponse.observe(viewLifecycleOwner, Observer { loginresponse ->
+            when (loginresponse) {
 
-                is Resource.Loading->{
+                is Resource.Loading -> {
                     showprogtessbar()
                 }
 
-                is Resource.sucess->{
+                is Resource.sucess -> {
                     hideprogressbar()
                     loginresponse.let {
                         it.data?.data?.let { it1 -> sp.save(UserLOGIN, it1) }
                         loginresponse.data?.data?.let { it1 -> sp.saveUserToken(TOKEN, it1.token) }
                     }
                     loginresponse.data!!?.data?.let { DateUtils.setToken(it.token) }
-                    sharedDataViewmodel.getProfileStatus(loginresponse.data?.data?.profileStatus!!)
-                 if (loginresponse.data?.data?.profileStatus!!<2) {
-                        findNavController().navigate(R.id.docotorProfileFragment)
-                    }else{
+                    sharedDataViewmodel.getProfileStatus( loginresponse.data?.data?.profileStatus!!)
+                     if (loginresponse.data?.data?.profileStatus!!<2) {
+                    findNavController().navigate(R.id.docotorProfileFragment)
+                     }else{
                         findNavController().navigate(R.id.homeFragment)
                     }
 
-                    Toast.makeText(requireContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.login_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
-                is Resource.Error->{
+                is Resource.Error -> {
                     hideprogressbar()
-                    Snackbar.make(requireView(), "${loginresponse.message}", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), "${loginresponse.message}", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
 
@@ -190,9 +197,9 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun bindDataToviews(){
+    private fun bindDataToviews() {
 
-        if(sp.getUser()!=null){
+        if (sp.getUser() != null) {
             binding.etMobile.setText(sp.getUser()!!.phone.toString())
         }
 
