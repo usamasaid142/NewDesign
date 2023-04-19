@@ -2,6 +2,7 @@ package com.example.newdesign.fragment.splash
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,9 @@ class SplashFragment : Fragment() {
             }else if (!DateUtils.getLanguageFromMore().isNullOrEmpty()){
                 findNavController().navigate(R.id.moreFragment)
                  DateUtils.setLanguageFromMore("")
+            }else if(!DateUtils.getToken().isNullOrEmpty()){
+                Log.e("lang",DateUtils.getLanguage().toString())
+                findNavController().navigate(R.id.homeFragment)
             }else{
                 findNavController().navigate(R.id.onboardingFragment)
             }

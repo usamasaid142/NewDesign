@@ -65,7 +65,6 @@ class ChooseLanguageFragment : Fragment() {
                 R.id.radio_english -> {
                     // Pirates are the best
                     lang = "En"
-
                     sp.saveUserLang(Language, lang!!)
                     DateUtils.setLanguage(lang!!)
 

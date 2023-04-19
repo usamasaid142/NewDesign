@@ -213,5 +213,6 @@
     <string name="Enter_mobile_or_email">Enter mobile or email</string>
     <string name="enter_your_email_we_will_send_you_code_to_reset_the_password">Enter your email we will send you code to reset the password</string>
     <string name="gotohome">Go To Home</string>
+    <string name="datasentsuccessfully">Data sent successfully</string>
 
 </resources>

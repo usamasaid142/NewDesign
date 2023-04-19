@@ -494,6 +494,7 @@ class PersonalInfoFragment : Fragment() {
                                 it1
                             )
                         }
+                        Snackbar.make(requireView(), getString(R.string.datasentsuccessfully), Snackbar.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.locationFragment2)
                     }
 

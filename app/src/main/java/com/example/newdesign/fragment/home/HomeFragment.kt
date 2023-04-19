@@ -28,32 +28,34 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(),ServicesAdapter.Action {
+class HomeFragment : Fragment(), ServicesAdapter.Action {
 
-    private lateinit var binding:HomefragmentBinding
-    private lateinit var imageServicesAdapter:ServicesAdapter
-    private lateinit var imageMedicalServicesAdapter:MedicalServicesAdapter
-    private lateinit var imageVideoAdapter:ImageVideoAdapter
+    private lateinit var binding: HomefragmentBinding
+    private lateinit var imageServicesAdapter: ServicesAdapter
+    private lateinit var imageMedicalServicesAdapter: MedicalServicesAdapter
+    private lateinit var imageVideoAdapter: ImageVideoAdapter
     private lateinit var popularDoctorsAdapter: PopularDoctorsAdapter
     private lateinit var healthTopicsAdapter: HealthTopicsAdapter
     private lateinit var spotlightAdapter: SpotlightAdapter
+
     @Inject
     lateinit var sp: SpUtil
-    var medicalExaminatioId:Int?=null
+    var medicalExaminatioId: Int? = null
     val regviewmodel: RegisterViewmodel by viewModels()
     val viewmodel: DialogBottomSheetViewmodel by viewModels()
 
 
-    companion object{
-        var instance: HomeFragment?=null
+    companion object {
+        var instance: HomeFragment? = null
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding= HomefragmentBinding.inflate(layoutInflater,container,false)
+        binding = HomefragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -61,9 +63,9 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         super.onViewCreated(view, savedInstanceState)
 
 
-        instance =this
+        instance = this
         bindDataToViews()
-        imageVideoAdapter= ImageVideoAdapter()
+        imageVideoAdapter = ImageVideoAdapter()
         servicesRecylerview()
         medicalServicesRecylerview()
         popularDoctorsRecylerview()
@@ -78,8 +80,7 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         initButton()
     }
 
-    private fun initButton()
-    {
+    private fun initButton() {
         binding.etSearch.setOnClickListener {
             findNavController().navigate(R.id.searchFragment)
         }
@@ -95,7 +96,7 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
 
     }
 
-    private fun medicalServicesRecylerview(){
+    private fun medicalServicesRecylerview() {
         imageMedicalServicesAdapter = MedicalServicesAdapter()
         binding.rvSalamtakmedicalServices.apply {
             adapter = imageMedicalServicesAdapter
@@ -103,7 +104,7 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         }
     }
 
-    private fun popularDoctorsRecylerview(){
+    private fun popularDoctorsRecylerview() {
         popularDoctorsAdapter = PopularDoctorsAdapter()
         binding.rvPopularDoctors.apply {
             adapter = popularDoctorsAdapter
@@ -111,14 +112,15 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         }
     }
 
-    private fun healthTopicsRecylerview(){
+    private fun healthTopicsRecylerview() {
         healthTopicsAdapter = HealthTopicsAdapter()
         binding.rvHealthTopics.apply {
             adapter = healthTopicsAdapter
             setHasFixedSize(true)
         }
     }
-    private fun spotlightRecylerview(){
+
+    private fun spotlightRecylerview() {
         spotlightAdapter = SpotlightAdapter()
         binding.rvSpotlight.apply {
             adapter = spotlightAdapter
@@ -126,9 +128,9 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         }
     }
 
-    private fun imageServices(){
+    private fun imageServices() {
 
-        val list= mutableListOf<ImageServices>()
+        val list = mutableListOf<ImageServices>()
 
         list.add(
             ImageServices(
@@ -141,39 +143,40 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         list.add(
             ImageServices(
                 R.drawable.ic_hom_visit,
-                getString(R.string.Home_Visit)  ,
+                getString(R.string.Home_Visit),
                 Id = 2
 
-                )
+            )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_chat,
                 getString(R.string.Chat),
                 Id = 3
-                )
+            )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_call,
                 getString(R.string.Call),
                 Id = 4
-                )
+            )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_videocall,
                 getString(R.string.Video_Call),
                 Id = 5
-                )
+            )
         )
         imageServicesAdapter.submitList(list)
         imageServicesAdapter.notifyDataSetChanged()
 
     }
-    private fun medicalServices(){
 
-        val list= mutableListOf<ImageServices>()
+    private fun medicalServices() {
+
+        val list = mutableListOf<ImageServices>()
 
         list.add(
             ImageServices(
@@ -187,112 +190,114 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         list.add(
             ImageServices(
                 R.drawable.ic_polyclinics,
-                getString(R.string.polyclinics)  ,
-                R.color.color_2,2
-                )
+                getString(R.string.polyclinics),
+                R.color.color_2, 2
+            )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_pharmacies,
                 getString(R.string.pharmacies),
-                R.color.color_3,3
-                )
+                R.color.color_3, 3
+            )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_laboratories,
                 getString(R.string.laboratories),
-                R.color.color_4,4
-                )
+                R.color.color_4, 4
+            )
         )
         imageMedicalServicesAdapter.submitList(list)
         imageMedicalServicesAdapter.notifyDataSetChanged()
 
     }
-   private fun callBack(){
-       regviewmodel.imagevedioresponse.observe(viewLifecycleOwner, Observer {response->
 
-           when(response){
+    private fun callBack() {
+        regviewmodel.imagevedioresponse.observe(viewLifecycleOwner, Observer { response ->
 
-               is Resource.Loading->{
-                  showprogtessbar()
-               }
+            when (response) {
 
-               is Resource.sucess->{
-                  hideprogressbar()
-                   response.let {
-                       imageVideoAdapter.submitList(it.data?.Data)
-                       binding.viewPager.adapter = imageVideoAdapter
-                   }
-
-               }
-
-               is Resource.Error->{
-                   hideprogressbar()
-//                   loginresponse.data?.let {
-//                       Log.e("msg : ",it.message)
-//
-//                   }
-               }
-           }
-
-       })
-
-       regviewmodel.getHomeAdds()
-   }
-
-   private fun callBackPopularDoctors(){
-       viewmodel.popularResponse.observe(viewLifecycleOwner, Observer {response->
-
-           when(response){
-
-               is Resource.Loading->{
-                   showprogtessbar()
-               }
-
-               is Resource.sucess->{
-                   hideprogressbar()
-                   response.let {
-                       popularDoctorsAdapter.submitList(it.data)
-                       popularDoctorsAdapter.notifyDataSetChanged()
-                   }
-
-               }
-
-               is Resource.Error->{
-                   hideprogressbar()
-//                   loginresponse.data?.let {
-//                       Log.e("msg : ",it.message)
-//
-//                   }
-               }
-           }
-
-       })
-
-      viewmodel.getPopularDoctors()
-   }
-
-    private fun callBackDoctorHealthTopics(){
-        viewmodel.healthTopicsResponse.observe(viewLifecycleOwner, Observer {response->
-
-            when(response){
-
-                is Resource.Loading->{
-                    binding.healthProgressBar.visibility=View.VISIBLE
+                is Resource.Loading -> {
+                    showprogtessbar()
                 }
 
-                is Resource.sucess->{
-                    binding.healthProgressBar.visibility=View.GONE
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.let {
+                        imageVideoAdapter.submitList(it.data?.Data)
+                        binding.viewPager.adapter = imageVideoAdapter
+                    }
+
+                }
+
+                is Resource.Error -> {
+                    hideprogressbar()
+//                   loginresponse.data?.let {
+//                       Log.e("msg : ",it.message)
+//
+//                   }
+                }
+            }
+
+        })
+
+        regviewmodel.getHomeAdds()
+    }
+
+    private fun callBackPopularDoctors() {
+        viewmodel.popularResponse.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.let {
+                        popularDoctorsAdapter.submitList(it.data)
+                        popularDoctorsAdapter.notifyDataSetChanged()
+                    }
+
+                }
+
+                is Resource.Error -> {
+                    hideprogressbar()
+//                   loginresponse.data?.let {
+//                       Log.e("msg : ",it.message)
+//
+//                   }
+                }
+            }
+
+        })
+
+        viewmodel.getPopularDoctors()
+    }
+
+    private fun callBackDoctorHealthTopics() {
+        viewmodel.healthTopicsResponse.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response) {
+
+                is Resource.Loading -> {
+                    binding.healthProgressBar.visibility = View.VISIBLE
+                }
+
+                is Resource.sucess -> {
+                    binding.healthProgressBar.visibility = View.GONE
 
                     response.let {
                         healthTopicsAdapter.submitList(it.data?.data)
                         healthTopicsAdapter.notifyDataSetChanged()
                     }
                 }
-                is Resource.Error->{
-                    binding.healthProgressBar.visibility=View.GONE
-                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
+                is Resource.Error -> {
+                    binding.healthProgressBar.visibility = View.GONE
+                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
 
@@ -301,26 +306,27 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
         viewmodel.getDoctorHealthTopics()
     }
 
-    private fun callBackSpotlight(){
-        viewmodel.doctorSpotLightResponse.observe(viewLifecycleOwner, Observer {response->
+    private fun callBackSpotlight() {
+        viewmodel.doctorSpotLightResponse.observe(viewLifecycleOwner, Observer { response ->
 
-            when(response){
+            when (response) {
 
-                is Resource.Loading->{
-                    binding.healthProgressBar.visibility=View.VISIBLE
+                is Resource.Loading -> {
+                    binding.healthProgressBar.visibility = View.VISIBLE
                 }
 
-                is Resource.sucess->{
-                    binding.healthProgressBar.visibility=View.GONE
+                is Resource.sucess -> {
+                    binding.healthProgressBar.visibility = View.GONE
 
                     response.let {
                         spotlightAdapter.submitList(it.data?.data)
                         spotlightAdapter.notifyDataSetChanged()
                     }
                 }
-                is Resource.Error->{
-                    binding.healthProgressBar.visibility=View.GONE
-                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
+                is Resource.Error -> {
+                    binding.healthProgressBar.visibility = View.GONE
+                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
 
@@ -338,40 +344,41 @@ class HomeFragment : Fragment(),ServicesAdapter.Action {
     }
 
     override fun onItemClick(servicesID: Int) {
-        medicalExaminatioId=servicesID
-        val action =HomeFragmentDirections.actionHomeFragmentToDialogBottomSheetFragment("services")
-      findNavController().navigate(action)
+        medicalExaminatioId = servicesID
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToDialogBottomSheetFragment("services")
+        findNavController().navigate(action)
     }
 
 
-private fun bindDataToViews(){
+    private fun bindDataToViews() {
 
-    val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
 
-    if (sp.getUserLang(Constans.Language)=="En"){
-        if (currentTime.contains("pm")){
-            binding.tvWelcome.text=getString(R.string.good_evening)
-        }else{
-            binding.tvWelcome.text=getString(R.string.good_morning)
+        if (sp.getUserLang(Constans.Language) == "En") {
+            if (currentTime.contains("pm") || currentTime.contains("PM")) {
+                binding.tvWelcome.text = getString(R.string.good_evening)
+            } else {
+                binding.tvWelcome.text = getString(R.string.good_morning)
+            }
+            binding.tvPatientname.text = sp.getUser()?.name
+        } else {
+            if (currentTime.contains("pm") || currentTime.contains("PM")) {
+                binding.tvWelcome.text = getString(R.string.good_evening)
+            } else {
+                binding.tvWelcome.text = getString(R.string.good_morning)
+            }
+            binding.tvPatientname.text = sp.getUser()?.NameAR
         }
-        binding.tvPatientname.text= sp.getUser()?.name
-    }else{
-        if (currentTime.contains("pm")){
-            binding.tvWelcome.text=getString(R.string.good_evening)
-        }else{
-            binding.tvWelcome.text=getString(R.string.good_morning)
+
+        binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {
+            crossfade(true)
+            crossfade(1000)
+            placeholder(R.drawable.ic_profile)
+            transformations(CircleCropTransformation())
         }
-        binding.tvPatientname.text= sp.getUser()?.NameAR
-    }
 
-    binding.ivPatientProfile.load("https://salamtechapi.azurewebsites.net/${sp.getUser()?.image}") {
-        crossfade(true)
-        crossfade(1000)
-        placeholder(R.drawable.ic_profile)
-        transformations(CircleCropTransformation())
     }
-
-}
 
 
 }

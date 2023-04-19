@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.MedicalStatefragmentBinding
 import com.example.newdesign.viewmodel.SharedDataViewmodel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,6 +34,7 @@ class MedicalStateFragment : Fragment() {
 
     private fun  initButton(){
         binding.btnNext.setOnClickListener {
+            Snackbar.make(requireView(), getString(R.string.datasentsuccessfully), Snackbar.LENGTH_SHORT).show()
             sharedDataViewmodel.getProfileStatus(3)
             binding.btnNext.visibility=View.GONE
             binding.imageView.visibility=View.GONE
