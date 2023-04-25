@@ -69,7 +69,10 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_dialogBottomSheetFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            />
     </dialog>
     <fragment
         android:id="@+id/forgetPasswordFragment"
@@ -199,7 +202,8 @@
         tools:layout="@layout/morefragment" >
         <action
             android:id="@+id/action_moreFragment_to_dialogBottomSheetFragment"
-            app:destination="@id/dialogBottomSheetFragment" />
+            app:destination="@id/dialogBottomSheetFragment"
+            />
         <action
             android:id="@+id/action_moreFragment_to_changepasswordFragment"
             app:destination="@id/changepasswordFragment" />
@@ -254,7 +258,7 @@
             android:id="@+id/action_appointmentDetailsFragment_to_myScheduleFragment"
             app:destination="@id/myScheduleFragment"
             app:popUpTo="@id/myScheduleFragment"
-            app:popUpToInclusive="false" />
+            />
 
     </fragment>
     <fragment

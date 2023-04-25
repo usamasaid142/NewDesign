@@ -198,9 +198,14 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         }
 
         binding.itemSignOut.btnYes.setOnClickListener {
+
             sp.saveUserToken(Constans.TOKEN, "")
             DateUtils.setToken("")
+            dismiss()
+            findNavController().popBackStack()
+          //  val action=DialogBottomSheetFragmentDirections.actionDialogBottomSheetFragmentToLoginFragment()
             findNavController().navigate(R.id.loginFragment)
+
         }
 
     }
