@@ -18,17 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EditProfileFragment : Fragment() {
 
-    private lateinit var binding:EditProfilefragmentBinding
+    private lateinit var binding: EditProfilefragmentBinding
     private lateinit var navController: NavController
-    val profilefragment=PersonalInfoFragment()
-    val location=LocationFragment()
-    val medicalStateFragment=MedicalStateFragment()
+    val location = LocationFragment()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= EditProfilefragmentBinding.inflate(layoutInflater,container,false)
+        binding = EditProfilefragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -40,8 +38,7 @@ class EditProfileFragment : Fragment() {
     }
 
 
-
-    private fun initButton(){
+    private fun initButton() {
 
         binding.ivArrow.setOnClickListener {
             findNavController().navigate(R.id.moreFragment)
@@ -51,7 +48,7 @@ class EditProfileFragment : Fragment() {
         binding.layoutProfileInfo.setOnClickListener {
             binding.layoutProfileInfo.setBackgroundResource(R.drawable.bg_button_sellector)
             binding.tvProfileInfo.setTextColor(Color.parseColor("#FFFFFFFF"))
-            binding.layoutLocation.setBackgroundResource( R.drawable.bg_help)
+            binding.layoutLocation.setBackgroundResource(R.drawable.bg_help)
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
@@ -84,27 +81,26 @@ class EditProfileFragment : Fragment() {
     }
 
 
-    private fun setupNavigationBottom(type:Int) {
+    private fun setupNavigationBottom(type: Int) {
 
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.editProfile_NavContainer) as NavHostFragment
         navController = navHostFragment.navController
-        var navGraph = navController.navInflater.inflate(R.navigation.nav_editprofile)
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_editprofile)
 
-            when (type) {
-                1 -> {
-                    navGraph.setStartDestination(R.id.personalInfoFragment2)
-                }
-                2 -> {
-                    navGraph.setStartDestination(R.id.locationFragment2)
-                }
-                3->{
-                    navGraph.setStartDestination(R.id.medicalStateFragment)
-
-                }
+        when (type) {
+            1 -> {
+                navGraph.setStartDestination(R.id.personalInfoFragment2)
             }
+            2 -> {
+                navGraph.setStartDestination(R.id.locationFragment2)
+            }
+            3 -> {
+                navGraph.setStartDestination(R.id.medicalStateFragment)
+            }
+        }
 
-            navHostFragment.navController.graph = navGraph
+        navHostFragment.navController.graph = navGraph
 
     }
 

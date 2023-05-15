@@ -165,10 +165,11 @@ class LoginFragment : Fragment() {
                     loginresponse.data!!?.data?.let { DateUtils.setToken(it.token) }
                     sharedDataViewmodel.getProfileStatus( loginresponse.data?.data?.profileStatus!!)
                      if (loginresponse.data?.data?.profileStatus!!<2) {
-                    findNavController().navigate(R.id.docotorProfileFragment)
+                          findNavController().navigate(R.id.docotorProfileFragment)
                      }else{
-                        findNavController().navigate(R.id.homeFragment)
-                    }
+                         val action=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                        findNavController().navigate(action)
+                     }
 
                     Toast.makeText(
                         requireContext(),
@@ -200,7 +201,7 @@ class LoginFragment : Fragment() {
     private fun bindDataToviews() {
 
         if (sp.getUser() != null) {
-            binding.etMobile.setText(sp.getUser()!!.phone.toString())
+            binding.etMobile.setText(sp.getUser()!!.phone)
         }
 
     }

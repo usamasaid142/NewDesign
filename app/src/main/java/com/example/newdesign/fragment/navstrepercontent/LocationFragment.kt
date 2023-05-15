@@ -164,7 +164,7 @@ class LocationFragment : Fragment() {
                             )
                         }
                         Snackbar.make(requireView(), getString(R.string.datasentsuccessfully), Snackbar.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.medicalStateFragment)
+                            findNavController().navigate(R.id.medicalStateFragment)
                     }
 
                 }

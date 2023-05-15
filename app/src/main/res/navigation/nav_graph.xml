@@ -6,12 +6,11 @@
     app:startDestination="@id/splashFragment">
 
 
-
     <fragment
         android:id="@+id/chooseLanguageFragment"
         android:name="com.example.newdesign.fragment.splash.ChooseLanguageFragment"
         android:label="choose Language"
-        tools:layout="@layout/choose_languagefragment" >
+        tools:layout="@layout/choose_languagefragment">
         <action
             android:id="@+id/action_chooseLanguageFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment" />
@@ -43,8 +42,7 @@
         android:id="@+id/loginFragment"
         android:name="com.example.newdesign.fragment.loginandforgetpassword.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/loginfragment"
-        >
+        tools:layout="@layout/loginfragment">
         <action
             android:id="@+id/action_loginFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
@@ -57,12 +55,15 @@
         <action
             android:id="@+id/action_loginFragment_to_docotorProfileFragment"
             app:destination="@id/docotorProfileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <dialog
         android:id="@+id/dialogBottomSheetFragment"
         android:name="com.example.newdesign.fragment.dialog.DialogBottomSheetFragment"
         android:label="dialog_bottom_sheetfragment"
-        tools:layout="@layout/dialog_bottom_sheetfragment" >
+        tools:layout="@layout/dialog_bottom_sheetfragment">
         <argument
             android:name="changeview"
             app:argType="string"
@@ -70,15 +71,15 @@
         <action
             android:id="@+id/action_dialogBottomSheetFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"
+            app:popUpTo="@id/loginFragment"
             />
     </dialog>
     <fragment
         android:id="@+id/forgetPasswordFragment"
         android:name="com.example.newdesign.fragment.loginandforgetpassword.ForgetPasswordFragment"
         android:label="forget_passwordfragment"
-        tools:layout="@layout/forget_passwordfragment" >
+        tools:layout="@layout/forget_passwordfragment">
         <action
             android:id="@+id/action_forgetPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -93,7 +94,7 @@
         android:id="@+id/otpFragment"
         android:name="com.example.newdesign.fragment.loginandforgetpassword.OtpFragment"
         android:label="otpfragment"
-        tools:layout="@layout/otpfragment" >
+        tools:layout="@layout/otpfragment">
         <action
             android:id="@+id/action_otpFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
@@ -120,7 +121,7 @@
         android:id="@+id/changepasswordFragment"
         android:name="com.example.newdesign.fragment.loginandforgetpassword.ChangepasswordFragment"
         android:label="changepasswordfragment"
-        tools:layout="@layout/changepasswordfragment" >
+        tools:layout="@layout/changepasswordfragment">
         <argument
             android:name="userId"
             app:argType="integer" />
@@ -131,8 +132,8 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.SignupFragment"
-       tools:layout="@layout/signupfragment"
-        android:label="SignupFragment" >
+        android:label="SignupFragment"
+        tools:layout="@layout/signupfragment">
         <action
             android:id="@+id/action_signupFragment_to_otpFragment"
             app:destination="@id/otpFragment" />
@@ -144,7 +145,7 @@
         android:id="@+id/docotorProfileFragment"
         android:name="com.example.newdesign.fragment.signupanddocotorprofile.DocotorProfileFragment"
         android:label="docotor_profilefragment"
-        tools:layout="@layout/docotor_profilefragment" >
+        tools:layout="@layout/docotor_profilefragment">
         <action
             android:id="@+id/action_docotorProfileFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
@@ -153,7 +154,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.newdesign.fragment.home.HomeFragment"
         android:label="homefragment"
-        tools:layout="@layout/homefragment" >
+        tools:layout="@layout/homefragment">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -168,7 +169,7 @@
         android:id="@+id/searchFragment"
         android:name="com.example.newdesign.fragment.home.SearchFragment"
         android:label="searchfragment"
-        tools:layout="@layout/searchfragment" >
+        tools:layout="@layout/searchfragment">
         <action
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -190,7 +191,7 @@
         android:id="@+id/myScheduleFragment"
         android:name="com.example.newdesign.fragment.navbottom.MyScheduleFragment"
         android:label="my_schedulefragment"
-        tools:layout="@layout/my_schedulefragment" >
+        tools:layout="@layout/my_schedulefragment">
         <action
             android:id="@+id/action_myScheduleFragment_to_dialogSchduleFragment"
             app:destination="@id/dialogSchduleFragment" />
@@ -199,7 +200,7 @@
         android:id="@+id/moreFragment"
         android:name="com.example.newdesign.fragment.navbottom.MoreFragment"
         android:label="morefragment"
-        tools:layout="@layout/morefragment" >
+        tools:layout="@layout/morefragment">
         <action
             android:id="@+id/action_moreFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment"
@@ -231,14 +232,15 @@
         android:id="@+id/dialogClinkBookingFragment"
         android:name="com.example.newdesign.fragment.dialog.DialogClinkBookingFragment"
         android:label="dialog_clink_bookingfragment"
-        tools:layout="@layout/dialog_clink_bookingfragment" >
+        tools:layout="@layout/dialog_clink_bookingfragment">
         <argument
             android:name="appointmentrequest"
             app:argType="com.example.newdesign.model.booking.PatientAppointmentRequest" />
         <action
             android:id="@+id/action_dialogClinkBookingFragment_to_appointmentDetailsFragment"
             app:destination="@id/appointmentDetailsFragment" />
-        <argument android:name="appointments"
+        <argument
+            android:name="appointments"
             app:argType="com.example.newdesign.model.booking.BookingResponse"
             app:nullable="true" />
     </dialog>
@@ -246,7 +248,7 @@
         android:id="@+id/appointmentDetailsFragment"
         android:name="com.example.newdesign.fragment.booking.AppointmentDetailsFragment"
         android:label="appointment_detailsfragment"
-        tools:layout="@layout/appointment_detailsfragment" >
+        tools:layout="@layout/appointment_detailsfragment">
         <argument
             android:name="confirmappointments"
             app:argType="com.example.newdesign.model.booking.AppointmentDetailBooking"
@@ -257,16 +259,14 @@
         <action
             android:id="@+id/action_appointmentDetailsFragment_to_myScheduleFragment"
             app:destination="@id/myScheduleFragment"
-            app:popUpTo="@id/myScheduleFragment"
-            />
+            app:popUpTo="@id/myScheduleFragment" />
 
     </fragment>
     <fragment
         android:id="@+id/bookingAppointmentFragment"
         android:name="com.example.newdesign.fragment.booking.BookingAppointmentFragment"
         android:label="BookingAppointmentFragment"
-        tools:layout="@layout/booking_appointmentfragment"
-        >
+        tools:layout="@layout/booking_appointmentfragment">
         <action
             android:id="@+id/action_bookingAppointmentFragment_to_bookAppointmentFragment"
             app:destination="@id/bookAppointmentFragment" />
@@ -279,7 +279,7 @@
         android:id="@+id/bookAppointmentFragment"
         android:name="com.example.newdesign.fragment.booking.BookAppointmentFragment"
         android:label="book_appointmentfragment"
-        tools:layout="@layout/book_appointmentfragment" >
+        tools:layout="@layout/book_appointmentfragment">
         <argument
             android:name="doctorclinks"
             app:argType="com.example.newdesign.model.booking.clink.GetDoctorClinksResponse" />
@@ -298,7 +298,7 @@
         android:id="@+id/dialogSchduleFragment"
         android:name="com.example.newdesign.fragment.dialog.DialogSchduleFragment"
         android:label="dialog_schdulefragment"
-        tools:layout="@layout/dialog_schdulefragment" >
+        tools:layout="@layout/dialog_schdulefragment">
         <action
             android:id="@+id/action_dialogSchduleFragment_to_bookAppointmentFragment"
             app:destination="@id/bookAppointmentFragment" />
@@ -320,7 +320,7 @@
         android:id="@+id/healthEntityFragment"
         android:name="com.example.newdesign.fragment.healthy.HealthEntityFragment"
         android:label="health_entityfragment"
-        tools:layout="@layout/health_entityfragment" >
+        tools:layout="@layout/health_entityfragment">
         <argument
             android:name="healthname"
             app:argType="string" />
@@ -335,7 +335,7 @@
         android:id="@+id/medicalHistoryFragment"
         android:name="com.example.newdesign.fragment.medicalhistory.MedicalHistoryFragment"
         android:label="medical_historyfragment"
-        tools:layout="@layout/medical_historyfragment" >
+        tools:layout="@layout/medical_historyfragment">
         <argument
             android:name="doctorclinks"
             app:argType="com.example.newdesign.model.booking.clink.GetDoctorClinksResponse"

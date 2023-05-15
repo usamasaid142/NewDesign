@@ -33,9 +33,9 @@ class MoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (DateUtils.getLanguage()=="En"){
+        if (DateUtils.getLanguage() == "En") {
             binding.tvName.text = sp.getUser()?.name
-        }else{
+        } else {
             binding.tvName.text = sp.getUser()?.NameAR
         }
 
@@ -45,41 +45,42 @@ class MoreFragment : Fragment() {
             placeholder(R.drawable.ic_profile)
             transformations(CircleCropTransformation())
         }
-            initButton()
+        initButton()
+    }
+
+
+    private fun initButton() {
+
+        binding.layoutLanguage.setOnClickListener {
+            val action =
+                MoreFragmentDirections.actionMoreFragmentToDialogBottomSheetFragment("lang")
+            findNavController().navigate(action)
         }
 
+        binding.layoutCallUs.setOnClickListener {
+            val action =
+                MoreFragmentDirections.actionMoreFragmentToDialogBottomSheetFragment("help")
+            findNavController().navigate(action)
+        }
 
-        private fun initButton() {
+        binding.layoutSignOut.setOnClickListener {
+            val action =
+                MoreFragmentDirections.actionMoreFragmentToDialogBottomSheetFragment("signout")
+            findNavController().navigate(action)
+        }
 
-            binding.layoutLanguage.setOnClickListener {
-                val action =
-                    MoreFragmentDirections.actionMoreFragmentToDialogBottomSheetFragment("lang")
-                findNavController().navigate(action)
-            }
-
-            binding.layoutCallUs.setOnClickListener {
-                val action =
-                    MoreFragmentDirections.actionMoreFragmentToDialogBottomSheetFragment("help")
-                findNavController().navigate(action)
-            }
-
-            binding.layoutSignOut.setOnClickListener {
-                val action =
-                    MoreFragmentDirections.actionMoreFragmentToDialogBottomSheetFragment("signout")
-                findNavController().navigate(action)
-            }
-
-            binding.layoutChangePassword.setOnClickListener {
-                val action = MoreFragmentDirections.actionMoreFragmentToChangepasswordFragment(0)
-                findNavController().navigate(action)
-            }
-            binding.layoutTermsConditions.setOnClickListener {
-                findNavController().navigate(R.id.webViewFragment)
-            }
-            binding.layoutNextAvailableBooking.setOnClickListener {
-                findNavController().navigate(R.id.editProfileFragment)
-            }
-
+        binding.layoutChangePassword.setOnClickListener {
+            val action = MoreFragmentDirections.actionMoreFragmentToChangepasswordFragment(0)
+            findNavController().navigate(action)
+        }
+        binding.layoutTermsConditions.setOnClickListener {
+            findNavController().navigate(R.id.webViewFragment)
+        }
+        binding.layoutNextAvailableBooking.setOnClickListener {
+            findNavController().navigate(R.id.editProfileFragment)
         }
 
     }
+
+
+}

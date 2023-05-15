@@ -202,9 +202,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             sp.saveUserToken(Constans.TOKEN, "")
             DateUtils.setToken("")
             dismiss()
-            findNavController().popBackStack()
-          //  val action=DialogBottomSheetFragmentDirections.actionDialogBottomSheetFragmentToLoginFragment()
-            findNavController().navigate(R.id.loginFragment)
+         //   findNavController().popBackStack()
+           val action=DialogBottomSheetFragmentDirections.actionDialogBottomSheetFragmentToLoginFragment()
+            findNavController().navigate(action)
 
         }
 
@@ -602,7 +602,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
             when (checkedId) {
                 binding.itemLanguage.radioEnglish.id -> {
-                    // Pirates are the best
                     lang = "En"
                     sp.saveUserLang(Constans.Language, lang!!)
                     DateUtils.setLanguageFromMore(lang!!)
@@ -641,7 +640,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         return context
     }
 
-    fun setLocale(lang: String): Context? {
+    private fun setLocale(lang: String): Context? {
         return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
             updateResources(
                 requireContext(),
@@ -652,6 +651,5 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             lang
         )
     }
-
 
 }
