@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/joinwithAgoraFragment">
 
 
     <fragment
@@ -343,5 +343,24 @@
         <argument
             android:name="AppointmentId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinwithAgoraFragment"
+        android:name="com.example.newdesign.notification.JoinwithAgoraFragment"
+        android:label="joinwith_agorafragment"
+        tools:layout="@layout/joinwith_agorafragment" >
+        <action
+            android:id="@+id/action_joinwithAgoraFragment_to_videoCallingFragment"
+            app:destination="@id/videoCallingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoCallingFragment"
+        android:name="com.example.newdesign.notification.VideoCallingFragment"
+        android:label="video_callingfragment"
+        tools:layout="@layout/video_callingfragment" >
+        <argument
+            android:name="notificationresponse"
+            app:argType="com.example.newdesign.notification.model.NotificationResponse"
+            app:nullable="true" />
     </fragment>
 </navigation>

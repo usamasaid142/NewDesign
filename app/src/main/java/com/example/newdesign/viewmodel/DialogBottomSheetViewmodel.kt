@@ -18,6 +18,7 @@ import com.example.newdesign.model.profile.PatientProfileResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
+import com.example.newdesign.notification.model.NotificationResponse
 import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
 import com.google.gson.Gson
@@ -51,6 +52,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val popularResponse=MutableLiveData<Resource<List<PopularDoctorsResponseItem>>>()
     val healthTopicsResponse=MutableLiveData<Resource<GetDoctorHealthTopicsResponse>>()
     val doctorSpotLightResponse=MutableLiveData<Resource<GetDoctorSpotLightResponse>>()
+    val notificatioResponse=MutableLiveData<Resource<NotificationResponse>>()
 
 
 
@@ -350,6 +352,24 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
     private fun handleGetDoctorSpotLight(response: Response<GetDoctorSpotLightResponse>): Resource<GetDoctorSpotLightResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+
+     fun getAgraMeeting(appointmentID :Int)=viewModelScope.launch(Dispatchers.IO) {
+         notificatioResponse.postValue(Resource.Loading())
+         val response=repositry.getAgraMeeting(appointmentID)
+         notificatioResponse.postValue(response?.let {
+             handleGetAgraMeeting(it)
+         })
+     }
+
+    private fun handleGetAgraMeeting(response: Response<NotificationResponse>): Resource<NotificationResponse>? {
         if (response.isSuccessful){
             response.body()?.let {
                 return Resource.sucess(it)

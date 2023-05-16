@@ -15,6 +15,7 @@ import com.example.newdesign.model.profile.PatientProfileResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
+import com.example.newdesign.notification.model.NotificationResponse
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -174,6 +175,12 @@ interface ApiService {
     suspend fun getDoctorHealthTopics(
         @Path("culture") culture: String,
     ):Response<GetDoctorHealthTopicsResponse>
+
+    @GET("{culture}/Notification/GetAgraMeeting")
+    suspend fun getAgraMeeting(
+        @Path("culture") culture: String,
+        @Query("AppointmentID") appointmentID :Int,
+    ): Response<NotificationResponse>
 
 
 }
