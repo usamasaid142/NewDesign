@@ -27,7 +27,7 @@ class VideoCallingFragment : Fragment() {
         android.Manifest.permission.RECORD_AUDIO,
         android.Manifest.permission.CAMERA
     )
-    private val appId = "571628199b5a4fe681496f14f9951a67"
+    private val appId = "l"
     private val token = "007eJxTYLBTit95aaf+Zr59e31ijpStv+vAFRi29QjfTqk/1w48eKOkwGBqbmhmZGFoaZlkmmiSlmpmYWhiaZZmaJJmaWlqmGhmzmGclNIQyMiQxeDGwsgAgSA+K0N+cWJuIgMDAFYuHks="
     private val channelName = "osama"
     private val uid = 0
@@ -108,7 +108,7 @@ class VideoCallingFragment : Fragment() {
             agoraEngine!!.startPreview()
             // Join the channel with a temp token.
             // You need to specify the user ID yourself, and ensure that it is unique in the channel.
-            agoraEngine!!.joinChannel(token, channelName, uid, options)
+            agoraEngine!!.joinChannel(args.notificationresponse?.data?.token, args.notificationresponse?.data?.channelName, uid, options)
         } else {
             Toast.makeText(requireContext(), "Permissions was not granted", Toast.LENGTH_SHORT)
                 .show()

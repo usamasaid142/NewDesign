@@ -176,7 +176,7 @@ interface ApiService {
         @Path("culture") culture: String,
     ):Response<GetDoctorHealthTopicsResponse>
 
-    @GET("{culture}/Notification/GetAgraMeeting")
+    @GET("{culture}/Notification/GetAgoraMeeting")
     suspend fun getAgraMeeting(
         @Path("culture") culture: String,
         @Query("AppointmentID") appointmentID :Int,

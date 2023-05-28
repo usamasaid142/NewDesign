@@ -1,5 +1,6 @@
 package com.example.newdesign.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -362,11 +363,16 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
 
 
      fun getAgraMeeting(appointmentID :Int)=viewModelScope.launch(Dispatchers.IO) {
-         notificatioResponse.postValue(Resource.Loading())
-         val response=repositry.getAgraMeeting(appointmentID)
-         notificatioResponse.postValue(response?.let {
-             handleGetAgraMeeting(it)
-         })
+         try {
+             notificatioResponse.postValue(Resource.Loading())
+             val response=repositry.getAgraMeeting(appointmentID)
+             notificatioResponse.postValue(response?.let {
+                 handleGetAgraMeeting(it)
+             })
+         }catch (e:Exception){
+             Log.e("exception","osama${e.message.toString()}")
+         }
+
      }
 
     private fun handleGetAgraMeeting(response: Response<NotificationResponse>): Resource<NotificationResponse>? {

@@ -61,7 +61,7 @@ class JoinwithAgoraFragment : Fragment() {
                 }
 
                 is Resource.sucess -> {
-                   binding.etJoin.setText(response.data?.channelName)
+                   binding.etJoin.setText(response.data?.data?.channelName)
                     notificationResponse=response.data
                 }
 
@@ -73,9 +73,11 @@ class JoinwithAgoraFragment : Fragment() {
 
         })
 
-        viewmodel.getAgraMeeting(3)
+        viewmodel.getAgraMeeting(682)
 
     }
+
+
 
 
 }
