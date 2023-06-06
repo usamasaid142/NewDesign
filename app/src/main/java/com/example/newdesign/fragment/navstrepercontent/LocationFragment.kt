@@ -32,8 +32,10 @@ class LocationFragment : Fragment() {
     private lateinit var binding: LocationfragmentBinding
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     private val viewmodel: DialogBottomSheetViewmodel by viewModels()
-    var cityId=0
-    var areaId=0
+    private var cityId = 0
+    private var areaId = 0
+    private var status = false
+
     @Inject
     lateinit var sp: SpUtil
     override fun onCreateView(
@@ -41,7 +43,7 @@ class LocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= LocationfragmentBinding.inflate(layoutInflater,container,false)
+        binding = LocationfragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -53,41 +55,45 @@ class LocationFragment : Fragment() {
     }
 
 
-    private fun initButton(){
+    private fun initButton() {
 
         binding.btnNext.setOnClickListener {
 
-            if (isvalidateFeilds(binding.etChooseCity.text.toString(),
-                    binding.etChooseArea.text.toString())){
+            if (isvalidateFeilds(
+                    binding.etChooseCity.text.toString(),
+                    binding.etChooseArea.text.toString()
+                )
+            ) {
                 sendData()
             }
         }
 
         binding.layoutChooseCity.setOnClickListener {
 
-            val action=LocationFragmentDirections.actionLocationFragment2ToDialogBottomSheetFragment("AllCity")
+            val action =
+                LocationFragmentDirections.actionLocationFragment2ToDialogBottomSheetFragment("AllCity")
             findNavController().navigate(action)
         }
 
         binding.layoutChooseArea.setOnClickListener {
-            if (!binding.etChooseCity.text.toString().isNullOrEmpty()){
-                val action=LocationFragmentDirections.actionLocationFragment2ToDialogBottomSheetFragment("AllArea")
+            if (!binding.etChooseCity.text.toString().isNullOrEmpty()) {
+                val action =
+                    LocationFragmentDirections.actionLocationFragment2ToDialogBottomSheetFragment("AllArea")
                 findNavController().navigate(action)
-            }else{
-                Toast.makeText(requireContext(),"choose city first",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "choose city first", Toast.LENGTH_SHORT).show()
             }
 
         }
     }
 
 
-
     private fun isvalidateFeilds(
         city: String,
-       area: String,
+        area: String,
     ): Boolean {
 
-        var isValid=true
+        var isValid = true
 
         if (city.trim().isNullOrEmpty()) {
             binding.etChooseCity.setCompoundDrawablesWithIntrinsicBounds(
@@ -111,7 +117,12 @@ class LocationFragment : Fragment() {
             binding.tvAreaError.text = getString(R.string.required)
             binding.tvAreaError.visibility = View.VISIBLE
             binding.layoutChooseArea.setBackgroundResource(R.drawable.bg_edittext_error)
-            binding.etChooseArea.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            binding.etChooseArea.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_error,
+                0
+            )
             isValid = false
         } else {
             binding.tvAreaError.visibility = View.GONE
@@ -126,60 +137,86 @@ class LocationFragment : Fragment() {
 
     }
 
-    private fun getdata(){
+    private fun getdata() {
         sharedDataViewmodel.getCity.observe(viewLifecycleOwner, Observer {
-            cityId=it.id
+            cityId = it.id
             binding.etChooseCity.setText(it.name)
         })
 
         sharedDataViewmodel.getArea.observe(viewLifecycleOwner, Observer {
             binding.etChooseArea.setText(it.name)
-            areaId=it.id
+            areaId = it.id
         })
 
     }
 
-    private fun sendData(){
+    private fun sendData() {
 
-        var etFloorNumber=0
-        if (!binding.etFloorNumber.text.toString().isNullOrEmpty()){
-            etFloorNumber=binding.etFloorNumber.text.toString().toInt()
+        var etFloorNumber = 0
+        if (!binding.etFloorNumber.text.toString().isNullOrEmpty()) {
+            etFloorNumber = binding.etFloorNumber.text.toString().toInt()
 
         }
 
-        val locationRequest=LocationRequest("${binding.etApartmentNumber.text}"+"",areaId,"${binding.etBuildingNumber.text}"+"",
-        cityId,1,"",etFloorNumber,"${binding.etStreet.text}"+".")
+        val locationRequest = LocationRequest(
+            "${binding.etApartmentNumber.text}" + "",
+            areaId,
+            "${binding.etBuildingNumber.text}" + "",
+            cityId,
+            1,
+            "",
+            etFloorNumber,
+            "${binding.etStreet.text}" + "."
+        )
         viewmodel.sendPatientLocation(locationRequest)
 
         viewmodel.patientLocationResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.sucess -> {
-                    binding.progressBar.visibility=View.GONE
+                    binding.progressBar.visibility = View.GONE
                     response.data?.let {
-                        it.data?.profileStatus?.let { it1 -> sharedDataViewmodel.getProfileStatus(it1) }
+                        it.data?.profileStatus?.let { it1 ->
+                            sharedDataViewmodel.getProfileStatus(
+                                it1
+                            )
+                        }
                         it.data?.profileStatus?.let { it1 ->
                             sp.saveProfileStatus(
                                 Constans.PROFILE_STATUS,
                                 it1
                             )
                         }
-                        Snackbar.make(requireView(), getString(R.string.datasentsuccessfully), Snackbar.LENGTH_SHORT).show()
+                        if (!status){
+                            Snackbar.make(
+                                requireView(),
+                                getString(R.string.datasentsuccessfully),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                             findNavController().navigate(R.id.medicalStateFragment)
+                        }else{
+                            Snackbar.make(
+                                requireView(),
+                                getString(R.string.datasentsuccessfully),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+
                     }
 
                 }
                 is Resource.Error -> {
-                    binding.progressBar.visibility=View.GONE
-                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
+                    Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
 
                 is Resource.Loading -> {
-                    binding.progressBar.visibility=View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
 
 
-             }
+        }
     }
 
 }

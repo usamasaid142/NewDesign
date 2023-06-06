@@ -12,6 +12,7 @@ import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.profile.PatientLocationResponse
 import com.example.newdesign.model.profile.PatientProfileResponse
+import com.example.newdesign.model.profile.UpdateProfilePatientResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
@@ -124,6 +125,12 @@ interface ApiService {
         @Path("culture") culture: String,
         @Body part: RequestBody
     ): Response<PatientProfileResponse>
+
+    @POST("{culture}/Patient/updatePatientProfileFirstStep")
+    suspend fun updatePatientProfile(
+        @Path("culture") culture: String,
+        @Body part: RequestBody
+    ): Response<UpdateProfilePatientResponse>
 
     @POST("{culture}/Patient/CreateAndUpdatePatientProfileSecondStep")
     suspend fun sendPatientLocation(

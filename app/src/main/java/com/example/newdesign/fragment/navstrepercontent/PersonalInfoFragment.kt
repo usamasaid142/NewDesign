@@ -52,22 +52,24 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PersonalInfoFragment : Fragment() {
 
-     private lateinit var binding:PersonalinfofragmentBinding
-      private  var imageFile: File?=null
-      private val viewmodel:DialogBottomSheetViewmodel by viewModels()
+    private lateinit var binding: PersonalinfofragmentBinding
+    private var imageFile: File? = null
+    private val viewmodel: DialogBottomSheetViewmodel by viewModels()
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
-       private var partMap: Map<String, Any> = mutableMapOf()
+    private var partMap: Map<String, Any> = mutableMapOf()
+    private var status = false
+
     @Inject
     lateinit var sp: SpUtil
-    var genderID=0
-    var nationalityId=0
+    var genderID = 0
+    var nationalityId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding= PersonalinfofragmentBinding.inflate(layoutInflater,container,false)
+        binding = PersonalinfofragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -79,8 +81,7 @@ class PersonalInfoFragment : Fragment() {
     }
 
 
-  private fun initbutton()
-    {
+    private fun initbutton() {
 
 
         binding.etFullNameEn.setText(sp.getUserNameInEnglish(NameEN))
@@ -101,7 +102,7 @@ class PersonalInfoFragment : Fragment() {
 //            binding.btnNext.background= getDrawable(requireContext(),R.color.red)
 //        }
         binding.btnNext.setOnClickListener {
-        //    findNavController().navigate(R.id.specialtyFragment)
+            //    findNavController().navigate(R.id.specialtyFragment)
 
 
             if (isvalidateFeilds(
@@ -114,12 +115,16 @@ class PersonalInfoFragment : Fragment() {
                     binding.etNationality.text.toString()
                 )
             ) {
-              //  user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
-              //  viewmodel.registerUser("En", user!!)
+                //  user = CreateUser(email, fullNameEn, password, mobileNumber, 2)
+                //  viewmodel.registerUser("En", user!!)
 
-                sendData( binding.etFullNameEn.text.toString(),binding.etFullNameAR.text.toString(),binding.etDateOfbirth.text.toString())
+                sendData(
+                    binding.etFullNameEn.text.toString(),
+                    binding.etFullNameAR.text.toString(),
+                    binding.etDateOfbirth.text.toString()
+                )
 
-            }else{
+            } else {
 
             }
 
@@ -132,21 +137,29 @@ class PersonalInfoFragment : Fragment() {
 
 
         binding.layoutGender.setOnClickListener {
-            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("gender")
+            val action =
+                PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment(
+                    "gender"
+                )
             findNavController().navigate(action)
         }
         binding.layoutDateOfbirth.setOnClickListener {
-            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("date")
+            val action =
+                PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment(
+                    "date"
+                )
             findNavController().navigate(action)
         }
         binding.layoutNationality.setOnClickListener {
-            val action=PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment("Nationality")
+            val action =
+                PersonalInfoFragmentDirections.actionPersonalInfoFragment2ToDialogBottomSheetFragment(
+                    "Nationality"
+                )
             findNavController().navigate(action)
         }
 
 
     }
-
 
 
     private fun isvalidateFeilds(
@@ -155,11 +168,11 @@ class PersonalInfoFragment : Fragment() {
         mobileNumber: String,
         email: String,
         gender: String,
-        dateOfBirth:String,
-        nationality:String
+        dateOfBirth: String,
+        nationality: String
     ): Boolean {
 
-            var isValid=true
+        var isValid = true
 
         if (fullNameEn.trim().isNullOrEmpty()) {
             binding.etFullNameEn.setCompoundDrawablesWithIntrinsicBounds(
@@ -280,7 +293,12 @@ class PersonalInfoFragment : Fragment() {
             binding.tvDateOfBirthError.text = getString(R.string.required)
             binding.tvDateOfBirthError.visibility = View.VISIBLE
             binding.layoutDateOfbirth.setBackgroundResource(R.drawable.bg_edittext_error)
-            binding.etDateOfbirth.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            binding.etDateOfbirth.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_error,
+                0
+            )
             isValid = false
         } else {
             binding.tvDateOfBirthError.visibility = View.GONE
@@ -294,7 +312,12 @@ class PersonalInfoFragment : Fragment() {
             binding.tvNationaltyError.text = getString(R.string.required)
             binding.tvNationaltyError.visibility = View.VISIBLE
             binding.layoutNationality.setBackgroundResource(R.drawable.bg_edittext_error)
-            binding.etNationality.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            binding.etNationality.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_error,
+                0
+            )
             isValid = false
         } else {
             binding.tvNationaltyError.visibility = View.GONE
@@ -330,6 +353,7 @@ class PersonalInfoFragment : Fragment() {
         pictureImageDialog.show()
 
     }
+
     private fun checkPermissionFromCamera() {
 
         Dexter.withContext(requireActivity())
@@ -357,10 +381,12 @@ class PersonalInfoFragment : Fragment() {
                 }
             ).onSameThread().check()
     }
+
     private fun openCamera() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraOpening.launch(cameraIntent)
     }
+
     private fun getPicFromGallery() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -368,6 +394,7 @@ class PersonalInfoFragment : Fragment() {
         intent.type = "image/*"
         galleryOpening.launch(intent)
     }
+
     private var galleryOpening =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -397,7 +424,7 @@ class PersonalInfoFragment : Fragment() {
                     val selectedImage = BitmapFactory.decodeStream(imageStream)
                     val resizedBitmap = selectedImage.resizePic(1000)
                     val file = resizedBitmap.toFile(requireContext(), 20.getRandomString())
-                    imageFile=file
+                    imageFile = file
                     binding.ivDoctorProfile.load(file) {
                         crossfade(true)
                         crossfade(1000)
@@ -414,7 +441,7 @@ class PersonalInfoFragment : Fragment() {
                     val bitmap = data.extras?.get("data") as Bitmap
                     val resizedBitmap = bitmap.resizePic(2000)
                     val file = resizedBitmap.toFile(requireContext(), 20.getRandomString())
-                    imageFile=file
+                    imageFile = file
                     binding.ivDoctorProfile.load(bitmap) {
                         crossfade(true)
                         crossfade(1000)
@@ -456,13 +483,13 @@ class PersonalInfoFragment : Fragment() {
     }
 
 
-    private fun sendData(FullName:String,FullNameAr:String,Birthdate:String){
+    private fun sendData(FullName: String, FullNameAr: String, Birthdate: String) {
         imageFile?.let { it ->
 
             partMap = partMap + mapOf("profileImage" to it)
 
         }
-        partMap = partMap + mapOf("FullName" to FullName )
+        partMap = partMap + mapOf("FullName" to FullName)
         partMap = partMap + mapOf("FullNameAr" to FullNameAr)
         partMap = partMap + mapOf("NationalityId" to nationalityId)
         partMap = partMap + mapOf("Birthdate" to Birthdate)
@@ -482,44 +509,98 @@ class PersonalInfoFragment : Fragment() {
             builder.addFormDataPart(key, item.value.toString())
         }
 
-        viewmodel.createPatientProfile(builder.build())
-
-        viewmodel.patientProfileResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.sucess -> {
-                 binding.progressBar.visibility=View.GONE
-                    response.data?.let {
-                        it.data?.profileStatus?.let { it1 -> sharedDataViewmodel.getProfileStatus(it1) }
-                        it.data?.profileStatus?.let { it1 ->
-                            sp.saveProfileStatus(PROFILE_STATUS,
-                                it1
-                            )
+        if (!status) {
+            viewmodel.createPatientProfile(builder.build())
+            viewmodel.patientProfileResponse.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Resource.sucess -> {
+                        binding.progressBar.visibility = View.GONE
+                        response.data?.let {
+                            it.data?.profileStatus?.let { it1 ->
+                                sharedDataViewmodel.getProfileStatus(
+                                    it1
+                                )
+                            }
+                            it.data?.profileStatus?.let { it1 ->
+                                sp.saveProfileStatus(
+                                    PROFILE_STATUS,
+                                    it1
+                                )
+                            }
+                            Snackbar.make(
+                                requireView(),
+                                getString(R.string.datasentsuccessfully),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            findNavController().navigate(R.id.locationFragment2)
                         }
-                        Snackbar.make(requireView(), getString(R.string.datasentsuccessfully), Snackbar.LENGTH_SHORT).show()
-                           findNavController().navigate(R.id.locationFragment2)
+
+
+                    }
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.GONE
+
+                        response.message?.let {
+                            Snackbar.make(
+                                requireView(),
+                                "${response.message}",
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .show()
+                        }
                     }
 
-                }
-                is Resource.Error -> {
-                    binding.progressBar.visibility=View.GONE
-
-                    response.message?.let {
-                        Snackbar.make(requireView(), "${response.message}", Snackbar.LENGTH_SHORT).show()
+                    is Resource.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                 }
 
-                is Resource.Loading -> {
-                    binding.progressBar.visibility=View.VISIBLE
-                }
             }
+        }else{
+            viewmodel.updatePatientProfile(builder.build())
+            viewmodel.updatePatientProfileResponse.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is Resource.sucess -> {
+                        binding.progressBar.visibility = View.GONE
+                        response.data?.let {
+                            Snackbar.make(
+                                requireView(),
+                                getString(R.string.datasentsuccessfully),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
 
+                    }
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.GONE
+
+                        response.message?.let {
+                            Snackbar.make(
+                                requireView(),
+                                "${response.message}",
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                }
+
+
+            }
 
         }
     }
 
-    private fun getdata(){
+
+
+
+    private fun getdata() {
         sharedDataViewmodel.chooseGender.observe(viewLifecycleOwner, Observer {
-            genderID=it.id
+            genderID = it.id
             binding.etGender.setText(it.gender)
         })
 
@@ -529,8 +610,12 @@ class PersonalInfoFragment : Fragment() {
 
         sharedDataViewmodel.country.observe(viewLifecycleOwner, Observer {
             binding.etNationality.setText(it.name)
-            nationalityId=it.id
+            nationalityId = it.id
 
+        })
+
+        sharedDataViewmodel.updateProfileStatus.observe(viewLifecycleOwner, Observer {
+            status=it
         })
 
     }

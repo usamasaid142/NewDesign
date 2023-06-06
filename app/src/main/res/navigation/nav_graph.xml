@@ -164,6 +164,13 @@
         <action
             android:id="@+id/action_homeFragment_to_healthEntityFragment"
             app:destination="@id/healthEntityFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bookingAppointmentFragment"
+            app:destination="@id/bookingAppointmentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_healthyTopicsFragment"
+            app:destination="@id/healthyTopicsFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -343,5 +350,15 @@
         <argument
             android:name="AppointmentId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/healthyTopicsFragment"
+        android:name="com.example.newdesign.fragment.healthy.HealthyTopicsFragment"
+        android:label="healthy_topicsfragment"
+        tools:layout="@layout/healthy_topicsfragment" >
+        <argument
+            android:name="healthdata"
+            app:argType="com.example.newdesign.model.populardoctors.HealthData"
+            app:nullable="true" />
     </fragment>
 </navigation>

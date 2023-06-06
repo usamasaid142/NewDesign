@@ -348,14 +348,16 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_PopularDoctors"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingBottom="5dp"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
                 tools:listitem="@layout/item_layout_poulardoctors"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/tv_PopularDoctors"
+                app:layout_constraintBottom_toTopOf="@+id/tv_HealthTopics"
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -395,11 +397,13 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:clipToPadding="false"
                 android:paddingBottom="5dp"
                 android:orientation="horizontal"
                 tools:listitem="@layout/item_layout_health_topics"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/tv_HealthTopics"
+                app:layout_constraintBottom_toTopOf="@+id/tv_Spotlight"
                 />
 
             <ProgressBar
@@ -455,6 +459,7 @@
                 tools:listitem="@layout/item_layout_health_topics"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/tv_Spotlight"
+                app:layout_constraintBottom_toBottomOf="parent"
                 />
 
             <ProgressBar

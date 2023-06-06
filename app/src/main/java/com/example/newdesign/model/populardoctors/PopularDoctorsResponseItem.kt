@@ -12,5 +12,7 @@ data class PopularDoctorsResponseItem (
     @SerializedName("DoctorSpec")
     val doctorSpec: String?,
     @SerializedName("Rate")
-    val rate: Double?
+    val rate: Double?,
+    @SerializedName("DoctorId")
+    val DoctorId: Int?
 )

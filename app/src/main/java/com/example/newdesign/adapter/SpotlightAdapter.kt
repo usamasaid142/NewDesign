@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newdesign.databinding.ItemLayoutHealthTopicsBinding
+import com.example.newdesign.model.populardoctors.HealthData
 import com.example.newdesign.model.populardoctors.SpotlightData
 
 
-class SpotlightAdapter():ListAdapter<SpotlightData,SpotlightAdapter.ViewHolder>(DiffCallback()) {
+class SpotlightAdapter(val onItemClick:Action):ListAdapter<SpotlightData,SpotlightAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -27,6 +28,10 @@ class SpotlightAdapter():ListAdapter<SpotlightData,SpotlightAdapter.ViewHolder>(
 
         holder.binding.tvHealthTopics.text=services.title
         holder.binding.tvHealthTopicsDetails.text=services.details
+
+        holder.binding.cardview.setOnClickListener {
+            onItemClick.onItemClickSpotLightDetails(HealthData(services.details,services.imageURL,services.title))
+        }
 
 
     }
@@ -48,7 +53,9 @@ class SpotlightAdapter():ListAdapter<SpotlightData,SpotlightAdapter.ViewHolder>(
         }
     }
 
-
+    interface Action{
+        fun onItemClickSpotLightDetails(healthTopicsData: HealthData)
+    }
 
 
 }

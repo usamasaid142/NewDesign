@@ -1,5 +1,6 @@
 package com.example.newdesign.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,7 @@ import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.model.profile.LocationRequest
 import com.example.newdesign.model.profile.PatientLocationResponse
 import com.example.newdesign.model.profile.PatientProfileResponse
+import com.example.newdesign.model.profile.UpdateProfilePatientResponse
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
@@ -22,6 +24,7 @@ import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -51,12 +54,12 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val popularResponse=MutableLiveData<Resource<List<PopularDoctorsResponseItem>>>()
     val healthTopicsResponse=MutableLiveData<Resource<GetDoctorHealthTopicsResponse>>()
     val doctorSpotLightResponse=MutableLiveData<Resource<GetDoctorSpotLightResponse>>()
+    val updatePatientProfileResponse=MutableLiveData<Resource<UpdateProfilePatientResponse>>()
 
 
 
 
-
-    fun getSpecialist()=viewModelScope.launch(Dispatchers.IO) {
+    fun getSpecialist()=viewModelScope.launch(Dispatchers.IO+handler) {
         specialistResponse.postValue(Resource.Loading())
         val response=repositry.getSpecialist()
         specialistResponse.postValue(response?.let { handleGetSpecialist(it) })
@@ -70,7 +73,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         }
         return Resource.Error(response.message())    }
 
-    fun getCountries()=viewModelScope.launch(Dispatchers.IO) {
+    fun getCountries()=viewModelScope.launch(Dispatchers.IO+handler) {
         nationalityResponse.postValue(Resource.Loading())
         val response=repositry.getCountries()
         nationalityResponse.postValue(response?.let { handleGetCountries(it) })
@@ -86,7 +89,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
 
-    fun getSubSpecialist(specialListId:Int)=viewModelScope.launch(Dispatchers.IO) {
+    fun getSubSpecialist(specialListId:Int)=viewModelScope.launch(Dispatchers.IO+handler) {
         subSpecialistResponse.postValue(Resource.Loading())
         val response=repositry.getSubSpecialist(specialListId)
         subSpecialistResponse.postValue(response?.let { handelGetSUBSpecialist(it) })
@@ -102,7 +105,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
 
-    fun getSeniorityLevel()=viewModelScope.launch(Dispatchers.IO) {
+    fun getSeniorityLevel()=viewModelScope.launch(Dispatchers.IO+handler) {
         seniorityLevelResponse.postValue(Resource.Loading())
         val response=repositry.getSeniorityLevel()
         seniorityLevelResponse.postValue(response?.let { handelGetseniorityLevel(it) })
@@ -118,7 +121,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
 
     }
 
-    fun getAllCities()=viewModelScope.launch(Dispatchers.IO) {
+    fun getAllCities()=viewModelScope.launch(Dispatchers.IO+handler) {
         allCitiesResponse.postValue(Resource.Loading())
         val response=repositry.getAllCities()
         allCitiesResponse.postValue(response?.let { handelGetAllCities(it) })
@@ -132,7 +135,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         }
         return Resource.Error(response.message())    }
 
-    fun getAreasByCityId(cityId:Int)=viewModelScope.launch(Dispatchers.IO) {
+    fun getAreasByCityId(cityId:Int)=viewModelScope.launch(Dispatchers.IO+handler) {
         allAreasByCityIdResponse.postValue(Resource.Loading())
         val response=repositry.getAreasByCityId(cityId)
         allAreasByCityIdResponse.postValue(response?.let { handelgetAreasByCityId(it) })
@@ -147,7 +150,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
     }
 
-     fun searchDoctors(doctorSearchRequest: DoctorSearchRequest)=viewModelScope.launch(Dispatchers.IO) {
+     fun searchDoctors(doctorSearchRequest: DoctorSearchRequest)=viewModelScope.launch(Dispatchers.IO+handler) {
         docorsResponse.postValue(Resource.Loading())
         val response=repositry.searchDoctors(doctorSearchRequest)
         docorsResponse.postValue(response?.let { handlingSearchDoctors(it) })
@@ -163,7 +166,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
 
     }
 
-    fun getMedicalExaminationType()=viewModelScope.launch(Dispatchers.IO) {
+    fun getMedicalExaminationType()=viewModelScope.launch(Dispatchers.IO+handler) {
         medicalExamination.postValue(Resource.Loading())
         val response=repositry.getMedicalExamination()
         medicalExamination.postValue(response?.let { handleGetMedicalExamination(it) })
@@ -181,7 +184,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
 
     fun getClinicSchedualByClinicDayId(ClinicId: Int,DayId:Int,
                                        MedicalExaminationTypeId:Int,
-                                       BookDate:String)=viewModelScope.launch(Dispatchers.IO) {
+                                       BookDate:String)=viewModelScope.launch(Dispatchers.IO+handler) {
         bookingResponse.postValue(Resource.Loading())
         val response=repositry.getClinicSchedualByClinicDayId(ClinicId,DayId,MedicalExaminationTypeId,BookDate)
         bookingResponse.postValue(response?.let { handleGetClinicSchedualByClinicDayId(it) })
@@ -197,7 +200,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     }
 
 
-    fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=viewModelScope.launch(Dispatchers.IO) {
+    fun createPatientAppointment(appointmentRequest: PatientAppointmentRequest)=viewModelScope.launch(Dispatchers.IO+handler) {
         patientAppointmentResponse.postValue(Resource.Loading())
         val response=repositry.createPatientAppointment(appointmentRequest)
         patientAppointmentResponse.postValue(response?.let { handlecreatePatientAppointment(it) })
@@ -213,7 +216,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(error.message)
     }
 
-    fun getDoctorProfileByDoctorId(DoctorId :Int)=viewModelScope.launch(Dispatchers.IO) {
+    fun getDoctorProfileByDoctorId(DoctorId :Int)=viewModelScope.launch(Dispatchers.IO+handler) {
         doctorClinkResponse.postValue(Resource.Loading())
         val response=repositry.getDoctorProfileByDoctorId(DoctorId)
         doctorClinkResponse.postValue(response?.let { handleGetDoctorProfileByDoctorId(it) })
@@ -229,7 +232,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
     }
 
-    fun getPatientAppointmentes(medicalExaminationTypeId :Int?)=viewModelScope.launch(Dispatchers.IO) {
+    fun getPatientAppointmentes(medicalExaminationTypeId :Int?)=viewModelScope.launch(Dispatchers.IO+handler) {
         patientsAppointmentesResponse.postValue(Resource.Loading())
         val response=repositry.getPatientAppointmentes(medicalExaminationTypeId)
         patientsAppointmentesResponse.postValue(response?.let { handleGetPatientAppointmentes(it) })
@@ -245,7 +248,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
     }
 
-    fun cancelPatientAppointment(AppointmentId :Int)=viewModelScope.launch(Dispatchers.IO) {
+    fun cancelPatientAppointment(AppointmentId :Int)=viewModelScope.launch(Dispatchers.IO+handler) {
         cancelPatientResponse.postValue(Resource.Loading())
         val response=repositry.cancelPatientAppointment(AppointmentId)
         cancelPatientResponse.postValue(response?.let { handleCancelPatientAppointment(it) })
@@ -261,7 +264,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
 
     }
-    fun createPatientProfile(partmap: MultipartBody)= viewModelScope.launch(Dispatchers.IO) {
+    fun createPatientProfile(partmap: MultipartBody)= viewModelScope.launch(Dispatchers.IO+handler) {
         patientProfileResponse.postValue(Resource.Loading())
         val response = repositry.createPatientProfile(partmap)
 
@@ -278,8 +281,25 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
     }
 
+    fun updatePatientProfile(partmap: MultipartBody)= viewModelScope.launch(Dispatchers.IO+handler) {
+        updatePatientProfileResponse.postValue(Resource.Loading())
+        val response = repositry.updatePatientProfile(partmap)
 
-    fun sendPatientLocation(locationRequest: LocationRequest)= viewModelScope.launch(Dispatchers.IO) {
+        updatePatientProfileResponse.postValue(response?.let { handleupdatePatientProfile(it) })
+    }
+
+    private fun handleupdatePatientProfile(response: Response<UpdateProfilePatientResponse>): Resource<UpdateProfilePatientResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<UpdateProfilePatientResponse>(response.errorBody()!!.string(), UpdateProfilePatientResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+
+    fun sendPatientLocation(locationRequest: LocationRequest)= viewModelScope.launch(Dispatchers.IO+handler) {
         patientLocationResponse.postValue(Resource.Loading())
         val response = repositry.sendPatientLocation(locationRequest)
         patientLocationResponse.postValue(response?.let { handlePatientLocation(it) })
@@ -313,7 +333,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return error.message?.let { Resource.Error(it) }
     }
 
-    fun getPopularDoctors()=viewModelScope.launch(Dispatchers.IO) {
+    fun getPopularDoctors()=viewModelScope.launch(Dispatchers.IO+handler) {
         popularResponse.postValue(Resource.Loading())
         val response=repositry.getPopularDoctors()
         popularResponse.postValue(response?.let { handlegetPopularDoctors(it) })
@@ -328,7 +348,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
     }
 
-    fun getDoctorHealthTopics()=viewModelScope.launch(Dispatchers.IO) {
+    fun getDoctorHealthTopics()=viewModelScope.launch(Dispatchers.IO+handler) {
         healthTopicsResponse.postValue(Resource.Loading())
         val response=repositry.getDoctorHealthTopics()
         healthTopicsResponse.postValue(response?.let { handlegetDoctorHealthTopics(it) })
@@ -343,7 +363,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
     }
 
-    fun getDoctorSpotLight()=viewModelScope.launch(Dispatchers.IO) {
+    fun getDoctorSpotLight()=viewModelScope.launch(Dispatchers.IO+handler) {
         doctorSpotLightResponse.postValue(Resource.Loading())
         val response=repositry.getDoctorSpotLight()
         doctorSpotLightResponse.postValue(response?.let { handleGetDoctorSpotLight(it) })
@@ -358,5 +378,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
     }
 
-
+    val handler = CoroutineExceptionHandler { _, exception ->
+        Log.e("exception","osama${exception.message.toString()}")
+    }
 }

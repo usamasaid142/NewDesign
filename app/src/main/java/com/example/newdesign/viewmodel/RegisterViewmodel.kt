@@ -1,5 +1,6 @@
 package com.example.newdesign.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import com.example.newdesign.repository.RegisterRepositry
 import com.example.newdesign.utils.Resource
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -27,7 +29,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     val updatePasswordesponse=MutableLiveData<Resource<UpdatePasswordResponse>>()
     val changePasswordesponse=MutableLiveData<Resource<ChangePasswordResponse>>()
 
-    fun registerUser(culture:String,createUser: CreateUser)=viewModelScope.launch(Dispatchers.IO)  {
+    fun registerUser(culture:String,createUser: CreateUser)=viewModelScope.launch(Dispatchers.IO+handler)  {
 
         response.postValue(Resource.Loading())
         val registerResponse=repositry.registerUser(culture,createUser)
@@ -35,7 +37,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     }
 
 
-    fun loginUser(culture:String,loginUser: LoginUser)=viewModelScope.launch(Dispatchers.IO) {
+    fun loginUser(culture:String,loginUser: LoginUser)=viewModelScope.launch(Dispatchers.IO+handler) {
         loginResponse.postValue(Resource.Loading())
         val response=repositry.login(culture,loginUser)
         loginResponse.postValue(handleLogin(response))
@@ -51,14 +53,14 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
         return Resource.Error(error.message)
     }
 
-    fun Sentotp(culture:String,registerUser: CreateUser)=viewModelScope.launch(Dispatchers.IO) {
+    fun Sentotp(culture:String,registerUser: CreateUser)=viewModelScope.launch(Dispatchers.IO+handler) {
 
         otpResponse.postValue(Resource.Loading())
         val response=repositry.SendOTP(culture,registerUser)
         otpResponse.postValue(handleOTP(response))
     }
 
-    fun createuser(culture:String,createUser: CreateUser)=viewModelScope.launch(Dispatchers.IO)  {
+    fun createuser(culture:String,createUser: CreateUser)=viewModelScope.launch(Dispatchers.IO+handler)  {
 
         createResponse.postValue(Resource.Loading())
         val response=repositry.createUser(culture,createUser)
@@ -103,7 +105,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     }
 
 
-    fun getHomeAdds()=viewModelScope.launch(Dispatchers.IO)  {
+    fun getHomeAdds()=viewModelScope.launch(Dispatchers.IO+handler)  {
 
         imagevedioresponse.postValue(Resource.Loading())
         val imageVedioResponse=repositry.getHomeAds()
@@ -120,7 +122,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     }
 
 
-    fun resetPassword(resetRequest: ResetRequest)=viewModelScope.launch(Dispatchers.IO) {
+    fun resetPassword(resetRequest: ResetRequest)=viewModelScope.launch(Dispatchers.IO+handler) {
         resetPasswordesponse.postValue(Resource.Loading())
         val response=repositry.resetPassword(resetRequest)
         resetPasswordesponse.postValue(response?.let { handleResetPassword(it) })
@@ -137,7 +139,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
     }
 
 
-    fun updatePassword(resetChangePassword: ResetChangePassword)=viewModelScope.launch(Dispatchers.IO) {
+    fun updatePassword(resetChangePassword: ResetChangePassword)=viewModelScope.launch(Dispatchers.IO+handler) {
         updatePasswordesponse.postValue(Resource.Loading())
         val response=repositry.updatePassword(resetChangePassword)
         updatePasswordesponse.postValue(response?.let { handleUpdatePassword(it) })
@@ -153,7 +155,7 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
         return error.message?.let { Resource.Error(it) }
     }
 
-    fun changePassword(changePasswordRequest: ChangePasswordRequest)=viewModelScope.launch(Dispatchers.IO) {
+    fun changePassword(changePasswordRequest: ChangePasswordRequest)=viewModelScope.launch(Dispatchers.IO+handler) {
         changePasswordesponse.postValue(Resource.Loading())
         val response=repositry.changePassword(changePasswordRequest)
         changePasswordesponse.postValue(response?.let { handleChangePassword(it) })
@@ -169,5 +171,8 @@ class RegisterViewmodel @Inject constructor(private val repositry: RegisterRepos
         return error.message?.let { Resource.Error(it) }
     }
 
+    val handler = CoroutineExceptionHandler { _, exception ->
+        Log.e("exception","osama${exception.message.toString()}")
+    }
 
 }

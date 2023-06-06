@@ -82,7 +82,9 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivPrevious.isEnabled = step != 1
-        examinationtypeid = HomeFragment.instance?.medicalExaminatioId!!
+        examinationtypeid = HomeFragment.instance?.let {
+            it.medicalExaminatioId?.toInt()
+        }?:1
         bottomsheetbeahavoir =
             BottomSheetBehavior.from(binding.layoutBottomsheetpersistant.filterBottomsheet)
         bottomsheetbeahavoir.state = BottomSheetBehavior.STATE_HIDDEN

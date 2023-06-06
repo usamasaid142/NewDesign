@@ -61,6 +61,10 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
         ?.let { apiService.cancelPatientAppointment(it,AppointmentId) }
     suspend fun createPatientProfile(partmap:MultipartBody)=
         sp.getUserLang(Constans.Language)?.let { apiService.createPatientProfile(it,partmap) }
+
+    suspend fun updatePatientProfile(partmap:MultipartBody)=
+        sp.getUserLang(Constans.Language)?.let { apiService.updatePatientProfile(it,partmap) }
+
     suspend fun sendPatientLocation(locationRequest: LocationRequest)=
         sp.getUserLang(Constans.Language)
             ?.let { apiService.sendPatientLocation(it,locationRequest) }

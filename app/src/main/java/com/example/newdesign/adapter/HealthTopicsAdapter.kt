@@ -11,12 +11,13 @@ import com.example.newdesign.databinding.ItemLayoutHealthTopicsBinding
 import com.example.newdesign.databinding.ItemLayoutPoulardoctorsBinding
 import com.example.newdesign.databinding.ItemLayoutRvservicesBinding
 import com.example.newdesign.model.ImageServices
+import com.example.newdesign.model.populardoctors.HealthData
 import com.example.newdesign.model.populardoctors.HealthTopicsData
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
 import com.example.newdesign.utils.DateUtils
 
 
-class HealthTopicsAdapter():ListAdapter<HealthTopicsData,HealthTopicsAdapter.ViewHolder>(DiffCallback()) {
+class HealthTopicsAdapter(val onItemClick:Action):ListAdapter<HealthTopicsData,HealthTopicsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -32,7 +33,14 @@ class HealthTopicsAdapter():ListAdapter<HealthTopicsData,HealthTopicsAdapter.Vie
        if (DateUtils.getLanguage()=="En"){
            holder.binding.tvHealthTopics.text=services.title
            holder.binding.tvHealthTopicsDetails.text=services.details
+       }else{
+           holder.binding.tvHealthTopics.text=services.title
+           holder.binding.tvHealthTopicsDetails.text=services.details
        }
+
+        holder.binding.cardview.setOnClickListener {
+            onItemClick.onItemClickHealthTopicsDetails(HealthData(services.details,services.imageURL,services.title))
+        }
 
 
 
@@ -56,6 +64,9 @@ class HealthTopicsAdapter():ListAdapter<HealthTopicsData,HealthTopicsAdapter.Vie
     }
 
 
+    interface Action{
+        fun onItemClickHealthTopicsDetails(healthTopicsData: HealthData)
+    }
 
 
 }

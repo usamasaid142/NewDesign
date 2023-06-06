@@ -17,7 +17,7 @@ import com.example.newdesign.utils.SpUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class PopularDoctorsAdapter():ListAdapter<PopularDoctorsResponseItem,PopularDoctorsAdapter.ViewHolder>(DiffCallback()) {
+class PopularDoctorsAdapter(val onitemclick:Action):ListAdapter<PopularDoctorsResponseItem,PopularDoctorsAdapter.ViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,6 +40,10 @@ class PopularDoctorsAdapter():ListAdapter<PopularDoctorsResponseItem,PopularDoct
         holder.binding.tvSpecialization.text=services.doctorSpec
         holder.binding.tvReviews.text=services.rate.toString()
 
+        holder.binding.layoutDoctorsDetail.setOnClickListener {
+            services.DoctorId?.let { it1 -> onitemclick.onItemClickDoctorsDetails(it1) }
+        }
+
 
     }
 
@@ -61,7 +65,7 @@ class PopularDoctorsAdapter():ListAdapter<PopularDoctorsResponseItem,PopularDoct
     }
 
     interface Action{
-        fun onItemClick(servicesId: Int)
+        fun onItemClickDoctorsDetails(DoctorId: Int)
     }
 
 

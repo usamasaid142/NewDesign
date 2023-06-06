@@ -10,11 +10,10 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/layout_btn"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -90,31 +89,32 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
-
                     android:hint="@string/full_name_in_english_first_middle_last"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
                     android:inputType="text"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_fullNameError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="2dp"
-                android:visibility="gone"
                 android:text="33333333333333333333333"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_En"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/textinput_fullName_Ar"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_En" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_fullName_Ar"
@@ -139,29 +139,30 @@
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
                     android:inputType="text"
-
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_FullNameARError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="2dp"
-                android:visibility="gone"
                 android:text="33333333333333333333333"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_Ar"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/textinput_PhoneNumber"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_Ar" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_PhoneNumber"
@@ -173,8 +174,8 @@
                 android:elevation="1dp"
                 android:hint="@string/mobile_number"
                 android:paddingTop="2dp"
-                app:boxBackgroundMode="none"
                 android:visibility="gone"
+                app:boxBackgroundMode="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textinput_fullName_Ar">
@@ -190,13 +191,14 @@
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_pohneError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="2dp"
@@ -204,10 +206,9 @@
                 android:textColor="@color/red"
                 android:textSize="12sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_PhoneNumber"
                 app:layout_constraintBottom_toTopOf="@+id/textinput_Email"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textinput_PhoneNumber" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinput_Email"
@@ -218,8 +219,8 @@
                 android:background="@drawable/bg_edittext"
                 android:elevation="1dp"
                 android:hint="@string/occupation"
-                android:visibility="gone"
                 android:paddingTop="2dp"
+                android:visibility="gone"
                 app:boxBackgroundMode="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -237,13 +238,14 @@
                     android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_emailError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="3dp"
@@ -251,10 +253,9 @@
                 android:textColor="@color/red"
                 android:textSize="12sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_Email"
                 app:layout_constraintBottom_toTopOf="@+id/layout_gender"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textinput_Email" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_gender"
@@ -302,9 +303,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
+                        android:enabled="false"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
                         android:fontFamily="@font/avenirltstd_roman"
                         android:inputType="text"
-                        android:enabled="false"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -316,20 +319,19 @@
                 android:id="@+id/tv_genderError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="3dp"
-                android:visibility="gone"
                 android:text="555555555555555555555"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_gender"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/layout_Date_ofbirth"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_gender" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -378,9 +380,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
+                        android:enabled="false"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
                         android:fontFamily="@font/avenirltstd_roman"
                         android:inputType="text"
-                        android:enabled="false"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -392,20 +396,19 @@
                 android:id="@+id/tv_dateOfBirthError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="3dp"
-                android:visibility="gone"
                 android:text="555555555555555555555"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_Date_ofbirth"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/layout_Nationality"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Date_ofbirth" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_Nationality"
@@ -453,33 +456,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
+                        android:enabled="false"
                         android:fontFamily="@font/avenirltstd_roman"
                         android:inputType="text"
-                        android:enabled="false"
+                        android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_NationaltyError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginStart="15dp"
                 android:fontFamily="@font/avenirltstd_roman"
                 android:gravity="center"
                 android:padding="3dp"
                 android:text="555555555555555555555"
-                android:visibility="gone"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_Nationality"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/layout_National_ID"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_Nationality" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_National_ID"
@@ -572,45 +577,44 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/layout_btn"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/layout"
-    app:layout_constraintBottom_toTopOf="@+id/imageView"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent">
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_next"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_chooselang_button"
-        android:fontFamily="@font/avenirltstd_black"
-        android:padding="5dp"
-        android:text="@string/next"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".9" />
+        app:layout_constraintTop_toBottomOf="@+id/layout">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_chooselang_button"
+            android:fontFamily="@font/avenirltstd_black"
+            android:padding="5dp"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_btn"
         app:layout_constraintEnd_toEndOf="@+id/layout_btn"
         app:layout_constraintStart_toStartOf="@+id/layout_btn"
-        app:layout_constraintBottom_toBottomOf="@+id/layout_btn"
-        app:layout_constraintTop_toTopOf="@+id/layout_btn"
-       android:visibility="gone"
-        />
+        app:layout_constraintTop_toTopOf="@+id/layout_btn" />
 
     <ImageView
         android:id="@+id/imageView"

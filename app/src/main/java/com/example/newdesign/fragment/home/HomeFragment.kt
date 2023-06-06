@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,11 +16,13 @@ import com.example.newdesign.R
 import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.HomefragmentBinding
 import com.example.newdesign.model.ImageServices
+import com.example.newdesign.model.populardoctors.HealthData
 import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.RegisterViewmodel
+import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.intellij.lang.annotations.Language
@@ -28,7 +31,7 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), ServicesAdapter.Action {
+class HomeFragment : Fragment(), ServicesAdapter.Action,PopularDoctorsAdapter.Action,HealthTopicsAdapter.Action,SpotlightAdapter.Action{
 
     private lateinit var binding: HomefragmentBinding
     private lateinit var imageServicesAdapter: ServicesAdapter
@@ -37,7 +40,7 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
     private lateinit var popularDoctorsAdapter: PopularDoctorsAdapter
     private lateinit var healthTopicsAdapter: HealthTopicsAdapter
     private lateinit var spotlightAdapter: SpotlightAdapter
-
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     @Inject
     lateinit var sp: SpUtil
     var medicalExaminatioId: Int? = null
@@ -105,7 +108,7 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
     }
 
     private fun popularDoctorsRecylerview() {
-        popularDoctorsAdapter = PopularDoctorsAdapter()
+        popularDoctorsAdapter = PopularDoctorsAdapter(this)
         binding.rvPopularDoctors.apply {
             adapter = popularDoctorsAdapter
             setHasFixedSize(true)
@@ -113,7 +116,7 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
     }
 
     private fun healthTopicsRecylerview() {
-        healthTopicsAdapter = HealthTopicsAdapter()
+        healthTopicsAdapter = HealthTopicsAdapter(this)
         binding.rvHealthTopics.apply {
             adapter = healthTopicsAdapter
             setHasFixedSize(true)
@@ -121,7 +124,7 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
     }
 
     private fun spotlightRecylerview() {
-        spotlightAdapter = SpotlightAdapter()
+        spotlightAdapter = SpotlightAdapter(this)
         binding.rvSpotlight.apply {
             adapter = spotlightAdapter
             setHasFixedSize(true)
@@ -183,7 +186,7 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
                 R.drawable.ic_hospitals,
                 getString(R.string.hospitals),
                 R.color.color_1,
-                1
+                2
             )
         )
 
@@ -191,21 +194,21 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
             ImageServices(
                 R.drawable.ic_polyclinics,
                 getString(R.string.polyclinics),
-                R.color.color_2, 2
+                R.color.color_2, 6
             )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_pharmacies,
                 getString(R.string.pharmacies),
-                R.color.color_3, 3
+                R.color.color_3, 5
             )
         )
         list.add(
             ImageServices(
                 R.drawable.ic_laboratories,
                 getString(R.string.laboratories),
-                R.color.color_4, 4
+                R.color.color_4, 3
             )
         )
         imageMedicalServicesAdapter.submitList(list)
@@ -265,10 +268,6 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
 
                 is Resource.Error -> {
                     hideprogressbar()
-//                   loginresponse.data?.let {
-//                       Log.e("msg : ",it.message)
-//
-//                   }
                 }
             }
 
@@ -351,6 +350,8 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
     }
 
 
+
+
     private fun bindDataToViews() {
 
         val currentTime = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).format(Date())
@@ -378,6 +379,22 @@ class HomeFragment : Fragment(), ServicesAdapter.Action {
             transformations(CircleCropTransformation())
         }
 
+    }
+
+    override fun onItemClickDoctorsDetails(DoctorId: Int) {
+        sharedDataViewmodel.getDocotorId(DoctorId)
+       val action=HomeFragmentDirections.actionHomeFragmentToBookingAppointmentFragment()
+        findNavController().navigate(action)
+    }
+
+    override fun onItemClickHealthTopicsDetails(healthTopicsData: HealthData) {
+        val action=HomeFragmentDirections.actionHomeFragmentToHealthyTopicsFragment(healthTopicsData)
+        findNavController().navigate(action)
+    }
+
+    override fun onItemClickSpotLightDetails(healthTopicsData: HealthData) {
+        val action=HomeFragmentDirections.actionHomeFragmentToHealthyTopicsFragment(healthTopicsData)
+        findNavController().navigate(action)
     }
 
 

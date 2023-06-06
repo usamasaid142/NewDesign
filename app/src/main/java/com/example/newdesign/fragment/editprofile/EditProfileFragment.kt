@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -13,12 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.EditProfilefragmentBinding
 import com.example.newdesign.fragment.navstrepercontent.*
+import com.example.newdesign.viewmodel.SharedDataViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EditProfileFragment : Fragment() {
 
     private lateinit var binding: EditProfilefragmentBinding
+    val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     private lateinit var navController: NavController
     val location = LocationFragment()
     override fun onCreateView(
@@ -52,7 +55,7 @@ class EditProfileFragment : Fragment() {
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
-
+            sharedDataViewmodel.getUpdateProfileStatus(true)
             setupNavigationBottom(1)
         }
 
@@ -63,6 +66,7 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
+            sharedDataViewmodel.getUpdateProfileStatus(true)
             setupNavigationBottom(2)
 
         }
@@ -74,6 +78,7 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutLocation.setBackgroundResource(R.drawable.bg_help)
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
+            sharedDataViewmodel.getUpdateProfileStatus(true)
             setupNavigationBottom(3)
 
         }
