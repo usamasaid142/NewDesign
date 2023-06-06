@@ -155,7 +155,7 @@
     <string name="apartment_number">Apartment Number</string>
     <string name="hight">Hight</string>
     <string name="weight">Weight</string>
-    <string name="blood_group">Blood Group</string>
+    <string name="blood_group">Blood Type</string>
     <string name="pressure_mm_gg">Pressure ( MM/GG )</string>
     <string name="sugar_level_mg_dl">Sugar Level ( MG/DL )</string>
     <string name="medical_allergies">Medical Allergies</string>

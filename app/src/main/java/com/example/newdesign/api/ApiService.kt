@@ -9,10 +9,7 @@ import com.example.newdesign.model.healthy.GetHealthEntityResponse
 import com.example.newdesign.model.populardoctors.GetDoctorHealthTopicsResponse
 import com.example.newdesign.model.populardoctors.GetDoctorSpotLightResponse
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
-import com.example.newdesign.model.profile.LocationRequest
-import com.example.newdesign.model.profile.PatientLocationResponse
-import com.example.newdesign.model.profile.PatientProfileResponse
-import com.example.newdesign.model.profile.UpdateProfilePatientResponse
+import com.example.newdesign.model.profile.*
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
@@ -137,6 +134,13 @@ interface ApiService {
         @Path("culture") culture: String,
         @Body locationRequest: LocationRequest
     ): Response<PatientLocationResponse>
+
+    @POST("{culture}/Patient/CreatePatientMedicallInfo")
+    suspend fun CreatePatientMedicallInfo(
+        @Path("culture") culture: String,
+        @Body medicalInfoRquest: MedicalInfoRquest,
+    ): Response<PatientMedicalInfoResponse>
+
 
     @POST("{culture}/User/ResetPassword")
     suspend fun resetPassword(

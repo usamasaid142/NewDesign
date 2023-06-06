@@ -13,10 +13,7 @@ import com.example.newdesign.model.healthy.GetHealthEntityResponse
 import com.example.newdesign.model.populardoctors.GetDoctorHealthTopicsResponse
 import com.example.newdesign.model.populardoctors.GetDoctorSpotLightResponse
 import com.example.newdesign.model.populardoctors.PopularDoctorsResponseItem
-import com.example.newdesign.model.profile.LocationRequest
-import com.example.newdesign.model.profile.PatientLocationResponse
-import com.example.newdesign.model.profile.PatientProfileResponse
-import com.example.newdesign.model.profile.UpdateProfilePatientResponse
+import com.example.newdesign.model.profile.*
 import com.example.newdesign.model.register.*
 import com.example.newdesign.model.scheduling.CancelPatientAppointmentResponse
 import com.example.newdesign.model.scheduling.GetPatientAppointmentesResponse
@@ -55,6 +52,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val healthTopicsResponse=MutableLiveData<Resource<GetDoctorHealthTopicsResponse>>()
     val doctorSpotLightResponse=MutableLiveData<Resource<GetDoctorSpotLightResponse>>()
     val updatePatientProfileResponse=MutableLiveData<Resource<UpdateProfilePatientResponse>>()
+    val patientMedicalInfoResponse=MutableLiveData<Resource<PatientMedicalInfoResponse>>()
 
 
 
@@ -377,6 +375,23 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         }
         return Resource.Error(response.message())
     }
+
+    fun createPatientMedicalInfo(medicalInfoRequest: MedicalInfoRquest)=viewModelScope.launch(Dispatchers.IO+handler) {
+        patientMedicalInfoResponse.postValue(Resource.Loading())
+        val response=repositry.CreatePatientMedicallInfo(medicalInfoRequest)
+        patientMedicalInfoResponse.postValue(response?.let { handlecreatePatientMedicallInfo(it) })
+    }
+
+    private fun handlecreatePatientMedicallInfo(response: Response<PatientMedicalInfoResponse>): Resource<PatientMedicalInfoResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<PatientMedicalInfoResponse>(response.errorBody()!!.string(), PatientMedicalInfoResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
 
     val handler = CoroutineExceptionHandler { _, exception ->
         Log.e("exception","osama${exception.message.toString()}")

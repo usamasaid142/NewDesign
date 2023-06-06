@@ -4,6 +4,7 @@ import com.example.newdesign.api.ApiService
 import com.example.newdesign.model.booking.PatientAppointmentRequest
 import com.example.newdesign.model.docotorsearch.DoctorSearchRequest
 import com.example.newdesign.model.profile.LocationRequest
+import com.example.newdesign.model.profile.MedicalInfoRquest
 import com.example.newdesign.model.register.*
 import com.example.newdesign.utils.Constans
 import com.example.newdesign.utils.SpUtil
@@ -68,6 +69,9 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun sendPatientLocation(locationRequest: LocationRequest)=
         sp.getUserLang(Constans.Language)
             ?.let { apiService.sendPatientLocation(it,locationRequest) }
+    suspend fun CreatePatientMedicallInfo(medicalInfoRequest: MedicalInfoRquest)=
+        sp.getUserLang(Constans.Language)
+            ?.let { apiService.CreatePatientMedicallInfo(it,medicalInfoRequest) }
     suspend fun getHealthEntityPagedList(CityId :Int,AreaId :Int,HealthEntityTypeId :Int,
                                          MaxResultCount :Int,SkipCount :Int)=
         sp.getUserLang(Constans.Language)?.let { apiService.getHealthEntityPagedList(it,CityId,AreaId,HealthEntityTypeId,MaxResultCount,SkipCount) }
@@ -77,4 +81,6 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
         ?.let { apiService.getDoctorHealthTopics(it) }
     suspend fun getDoctorSpotLight()= sp.getUserLang(Constans.Language)
         ?.let { apiService.getDoctorSpotLight(it) }
+
+
 }

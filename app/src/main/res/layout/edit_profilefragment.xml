@@ -38,6 +38,7 @@
         android:layout_marginEnd="15dp"
         android:fontFamily="@font/avenirltstd_black"
         android:text="@string/save_edit"
+        android:visibility="invisible"
         android:textColor="@color/blue"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
