@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btn_next"
+        app:layout_constraintBottom_toTopOf="@+id/layout_btn"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,11 +40,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_Hight"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
-                    android:padding="5dp"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="number"
@@ -70,11 +69,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_Weight"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
-                    android:padding="5dp"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="number"
@@ -279,7 +277,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_PressureMMGG"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
@@ -492,9 +490,12 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/avenirltstd_roman"
                     android:gravity="start"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="DuplicateClickableBoundsCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -535,34 +536,43 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_next"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_chooselang_button"
-        android:fontFamily="@font/avenirltstd_black"
-        android:padding="5dp"
-        android:text="@string/next"
-        android:visibility="visible"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/layout"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".9" />
+        app:layout_constraintTop_toBottomOf="@+id/layout">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_chooselang_button"
+            android:fontFamily="@font/avenirltstd_black"
+            android:padding="5dp"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@+id/btn_next"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_next"
-        app:layout_constraintStart_toStartOf="@+id/btn_next"
-        app:layout_constraintEnd_toEndOf="@+id/btn_next"
+        app:layout_constraintTop_toTopOf="@+id/layout_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_btn"
+        app:layout_constraintStart_toStartOf="@+id/layout_btn"
+        app:layout_constraintEnd_toEndOf="@+id/layout_btn"
          />
 
     <ImageView

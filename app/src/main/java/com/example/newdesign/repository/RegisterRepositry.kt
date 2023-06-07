@@ -35,6 +35,14 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
         ?.let { apiService.getMedicalExamination(it) }
     suspend fun getSubSpecialist(specialListId:Int)=
         sp.getUserLang(Constans.Language)?.let { apiService.getSubSpecialist(it,specialListId) }
+
+    suspend fun getBloodTypes()=
+        sp.getUserLang(Constans.Language)?.let { apiService.getBloodTypes(it) }
+    suspend fun getMedicineAllergy()=
+        sp.getUserLang(Constans.Language)?.let { apiService.getMedicineAllergy(it) }
+    suspend fun getFoodAllergy()=
+        sp.getUserLang(Constans.Language)?.let { apiService.getFoodAllergy(it) }
+
     suspend fun getSeniorityLevel()= sp.getUserLang(Constans.Language)
         ?.let { apiService.getSeniorityLevel(it) }
     suspend fun getAllCities()= sp.getUserLang(Constans.Language)
@@ -69,7 +77,7 @@ class RegisterRepositry @Inject constructor(private val apiService: ApiService) 
     suspend fun sendPatientLocation(locationRequest: LocationRequest)=
         sp.getUserLang(Constans.Language)
             ?.let { apiService.sendPatientLocation(it,locationRequest) }
-    suspend fun CreatePatientMedicallInfo(medicalInfoRequest: MedicalInfoRquest)=
+    suspend fun CreatePatientMedicallInfo(medicalInfoRequest: HashMap<String,String>)=
         sp.getUserLang(Constans.Language)
             ?.let { apiService.CreatePatientMedicallInfo(it,medicalInfoRequest) }
     suspend fun getHealthEntityPagedList(CityId :Int,AreaId :Int,HealthEntityTypeId :Int,

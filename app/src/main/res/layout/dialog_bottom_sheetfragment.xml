@@ -188,7 +188,25 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_subSpecialist"
+        android:id="@+id/layout_subSpecialist"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <include
+            android:id="@+id/item_subSpecialist"
+            layout="@layout/layout_bottomsheetsubspecialist"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_bloodtypes"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="5dp"
@@ -196,11 +214,47 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-          >
+            >
 
             <include
-                android:id="@+id/item_subSpecialist"
-                layout="@layout/layout_bottomsheetsubspecialist"
+                android:id="@+id/item_bloodtypes"
+                layout="@layout/layout_bottomsheetbloddtypes"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_MedicineAllergy"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <include
+                android:id="@+id/item_MedicineAllergy"
+                layout="@layout/layout_bottomsheetmedicineallergy"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_FoodAllergy"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <include
+                android:id="@+id/item_FoodAllergy"
+                layout="@layout/layout_bottomsheetfoodallergy"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

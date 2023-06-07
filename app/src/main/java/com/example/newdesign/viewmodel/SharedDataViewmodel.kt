@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.example.newdesign.adapter.GetAllAreaAdapter
 import com.example.newdesign.model.*
 import com.example.newdesign.model.booking.ClinicSchedualByClinicDayId
+import com.example.newdesign.model.profile.DataBloodType
+import com.example.newdesign.model.profile.DataFoodAllergy
+import com.example.newdesign.model.profile.DataMedicineAllergy
 import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +27,11 @@ class SharedDataViewmodel:ViewModel() {
     val ClinicSchedualByClinicDayId=MutableLiveData<ClinicSchedualByClinicDayId>()
     val ExaminationTypeId=MutableLiveData<ImageServices>()
     val updateProfileStatus=MutableLiveData<Boolean>()
+    val bloodTypesList= MutableLiveData<DataBloodType>()
+    val medicineAllergyList=MutableLiveData<List<DataMedicineAllergy>>()
+    val foodAllergyList=MutableLiveData<List<DataFoodAllergy>>()
+
+
 
     fun getspecialication(specialist:SpecialistData){
         specialication.postValue(specialist)
@@ -31,6 +39,16 @@ class SharedDataViewmodel:ViewModel() {
 
     fun getSubSpecialication(subSpecialist:List<SubSpecialistData>){
         subSpecialication.postValue(subSpecialist)
+    }
+    fun getMedicineAllergy(medicineAllergy:List<DataMedicineAllergy>){
+        medicineAllergyList.postValue(medicineAllergy)
+    }
+    fun getFoodAllergy(foodAllergy:List<DataFoodAllergy>){
+        foodAllergyList.postValue(foodAllergy)
+    }
+
+    fun getBloodTypes(bloodTypes:DataBloodType){
+        bloodTypesList.postValue(bloodTypes)
     }
 
     fun getSeniorityLevelData(seniorityLevel:SeniorityLevelData){

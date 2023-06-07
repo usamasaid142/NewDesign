@@ -5,21 +5,6 @@
     android:id="@+id/nav_streper"
     app:startDestination="@id/personalInfoFragment2">
 
-    <fragment
-        android:id="@+id/specialtyFragment"
-        android:name="com.example.newdesign.fragment.navstrepercontent.SpecialtyFragment"
-        android:label="specialtyfragment"
-        tools:layout="@layout/specialtyfragment" />
-    <fragment
-        android:id="@+id/legalDocFragment"
-        android:name="com.example.newdesign.fragment.navstrepercontent.LegalDocFragment"
-        android:label="legal_docfragment"
-        tools:layout="@layout/legal_docfragment" />
-    <fragment
-        android:id="@+id/certificatesFragment"
-        android:name="com.example.newdesign.fragment.navstrepercontent.CertificatesFragment"
-        android:label="certificatesfragment"
-        tools:layout="@layout/certificatesfragment" />
     <dialog
         android:id="@+id/dialogBottomSheetFragment"
         android:name="com.example.newdesign.fragment.dialog.DialogBottomSheetFragment"
@@ -44,11 +29,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/medicalStateFragment"
-        android:name="com.example.newdesign.fragment.navstrepercontent.MedicalStateFragment"
-        android:label="medical_statefragment"
-        tools:layout="@layout/medical_statefragment" />
-    <fragment
         android:id="@+id/locationFragment2"
         android:name="com.example.newdesign.fragment.navstrepercontent.LocationFragment"
         android:label="locationfragment"
@@ -56,5 +36,18 @@
         <action
             android:id="@+id/action_locationFragment2_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment" />
+        <action
+            android:id="@+id/action_locationFragment2_to_medicalStateFragment2"
+            app:destination="@id/medicalStateFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/medicalStateFragment2"
+        android:name="com.example.newdesign.fragment.navstrepercontent.MedicalStateFragment"
+        android:label="medical_statefragment"
+        tools:layout="@layout/medical_statefragment" >
+        <action
+            android:id="@+id/action_medicalStateFragment2_to_dialogBottomSheetFragment"
+            app:destination="@id/dialogBottomSheetFragment" />
+    </fragment>
+
 </navigation>

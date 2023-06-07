@@ -23,6 +23,9 @@ import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
 import com.example.newdesign.fragment.home.HomeFragment
 import com.example.newdesign.model.*
+import com.example.newdesign.model.profile.DataBloodType
+import com.example.newdesign.model.profile.DataFoodAllergy
+import com.example.newdesign.model.profile.DataMedicineAllergy
 import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.Constans
@@ -46,7 +49,7 @@ import javax.inject.Inject
 class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter.SelectSpecialist,
     SubSpecialistAdapter.SelectSubSpecialist, SeniorityLevelAdapter.SelectSeniorityLevel,
     GetAllCitiesAdapter.SelectCity, GetAllAreaAdapter.SelectArea, NationalityAdapter.SelectCountry,
-    MedicalEaxminationTypeAdapter.Action {
+    MedicalEaxminationTypeAdapter.Action,BloodTypesAdapter.SelectBloodTypeList,MedicineAllergyAdapter.SelectMedicineAllergy,FoodAllergyAdapter.SelectFoodAllergy{
 
 
     private lateinit var binding: DialogBottomSheetfragmentBinding
@@ -60,6 +63,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     private lateinit var getAllCitiesAdapter: GetAllCitiesAdapter
     private lateinit var getAllAreaAdapter: GetAllAreaAdapter
     private lateinit var examinationAdapter: MedicalEaxminationTypeAdapter
+    private lateinit var bloodTypesAdapter: BloodTypesAdapter
+    private lateinit var medicineAllergyAdapter: MedicineAllergyAdapter
+    private lateinit var foodAllergyAdapter: FoodAllergyAdapter
     var lang: String? = null
 
     //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
@@ -87,6 +93,9 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         setupresyclerview()
         setupresyclerviewSpecialist()
         setupresyclerviewSubSpecialist()
+        setupresyclerviewBloodTypes()
+        setupresyclerviewMedicineAllergy()
+        setupresyclerviewFoodAllergy()
         setupresyclerviewSeniorityLevel()
         setupresyclerviewGetAllCities()
         setupresyclerviewGetAllArea()
@@ -119,6 +128,32 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         subSpecialistAdapter = SubSpecialistAdapter(this)
         binding.itemSubSpecialist.rvSubspecialist.apply {
             adapter = subSpecialistAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
+        }
+    }
+
+    fun setupresyclerviewBloodTypes() {
+        bloodTypesAdapter = BloodTypesAdapter(this)
+        binding.itemBloodtypes.rvBloodtypes.apply {
+            adapter = bloodTypesAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
+        }
+    }
+
+    fun setupresyclerviewMedicineAllergy() {
+        medicineAllergyAdapter = MedicineAllergyAdapter(this)
+        binding.itemMedicineAllergy.rvMedicineAllergy.apply {
+            adapter = medicineAllergyAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
+        }
+    }
+    fun setupresyclerviewFoodAllergy() {
+        foodAllergyAdapter = FoodAllergyAdapter(this)
+        binding.itemFoodAllergy.rvFoodAllergy.apply {
+            adapter = foodAllergyAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(object : DividerItemDecoration(activity, LinearLayout.VERTICAL) {})
         }
@@ -284,6 +319,22 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
                 binding.tvAllSpecial.text = getString(R.string.examination_type)
 
 
+            }
+            "bloodTypes" -> {
+                binding.layoutBloodtypes.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.blood_group)
+                callBackGetBloodTypes()
+            }
+
+            "medicineAllergy" -> {
+                binding.layoutMedicineAllergy.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.medical_allergies)
+                callBackGetMedicineAllergy()
+            }
+            "FoodAllergy" -> {
+                binding.layoutFoodAllergy.visibility = View.VISIBLE
+                binding.tvAllSpecial.text = getString(R.string.food_allergies)
+                callBackGetFoodAllergy()
             }
         }
 
@@ -468,6 +519,89 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         }
 
     }
+    private fun callBackGetBloodTypes() {
+        viewmodel.bloodTypesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        bloodTypesAdapter.submitList(it)
+                        bloodTypesAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+
+        }
+            viewmodel.getBloodTypes()
+    }
+    private fun callBackGetMedicineAllergy() {
+        viewmodel.medicineAllergyResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        medicineAllergyAdapter.submitList(it)
+                        medicineAllergyAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getMedicineAllergy()
+    }
+    private fun callBackGetFoodAllergy() {
+        viewmodel.foodAllergyResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data.let {
+                        foodAllergyAdapter.submitList(it)
+                        foodAllergyAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+
+        }
+        viewmodel.getFoodAllergy()
+    }
+
+
 
     private fun showprogtessbar() {
         binding.itemNationality.progressBar.visibility = View.VISIBLE
@@ -477,6 +611,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         binding.itemAllcities.progressBar.visibility = View.VISIBLE
         binding.itemAllArea.progressBar.visibility = View.VISIBLE
         binding.itemExaminationtype.progressBar.visibility = View.VISIBLE
+        binding.itemBloodtypes.progressBar.visibility = View.VISIBLE
+        binding.itemMedicineAllergy.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideprogressbar() {
@@ -487,14 +623,18 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         binding.itemAllcities.progressBar.visibility = View.GONE
         binding.itemAllArea.progressBar.visibility = View.GONE
         binding.itemExaminationtype.progressBar.visibility = View.GONE
+        binding.itemBloodtypes.progressBar.visibility = View.GONE
+        binding.itemMedicineAllergy.progressBar.visibility = View.GONE
+
     }
 
     override fun onItemSelected(specialist: SpecialistData) {
-        if (args.changeview == "services") {
+        if (args.changeview !="services") {
+            sharedDataViewmodel.getspecialication(specialist)
+        }else{
             sharedDataViewmodel.getspecialication(specialist)
             findNavController().navigate(R.id.searchFragment)
         }
-        sharedDataViewmodel.getspecialication(specialist)
     }
 
     override fun onSelectSubcialist(listofsubSpecialist: MutableList<SubSpecialistData>) {
@@ -519,6 +659,16 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
     override fun onItemClick(medicalExamination: ImageServices) {
         sharedDataViewmodel.getMedicalExaminationTypeId(medicalExamination)
+    }
+
+    override fun onSelectBloodType(listOfBloodType: DataBloodType) {
+       sharedDataViewmodel.getBloodTypes(listOfBloodType)
+    }
+    override fun onSelectMedicineAllergy(listofMedicineAllergy: MutableList<DataMedicineAllergy>) {
+        sharedDataViewmodel.getMedicineAllergy(listofMedicineAllergy)
+    }
+    override fun onSelectFoodAllergy(listofFoodAllergy: MutableList<DataFoodAllergy>) {
+        sharedDataViewmodel.getFoodAllergy(listofFoodAllergy)
     }
 
     private fun chooseGender() {
@@ -651,5 +801,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             lang
         )
     }
+
+
+
 
 }

@@ -62,6 +62,22 @@ interface ApiService {
         @Query("specialListId") specialListId:Int,
     ): Response<GetSubSpecilistResponse>
 
+    @GET("{culture}/PatientLookUp/GetBloodTypes")
+    suspend fun getBloodTypes(
+        @Path("culture") culture: String,
+    ): Response<BloodTypeResponse>
+
+    @GET("{culture}/PatientLookUp/GetMedicineAllergy")
+    suspend fun getMedicineAllergy(
+        @Path("culture") culture: String,
+    ): Response<MedicineAllergyResponse>
+
+    @GET("{culture}/PatientLookUp/GetFoodAllergy")
+    suspend fun getFoodAllergy(
+        @Path("culture") culture: String,
+    ): Response<FoodAllergyResponse>
+
+
     @GET("{culture}/SeniorityLevel/GetSeniorityLevel")
     suspend fun getSeniorityLevel(
         @Path("culture") culture: String,
@@ -138,7 +154,7 @@ interface ApiService {
     @POST("{culture}/Patient/CreatePatientMedicallInfo")
     suspend fun CreatePatientMedicallInfo(
         @Path("culture") culture: String,
-        @Body medicalInfoRquest: MedicalInfoRquest,
+        @Body medicalInfoRequest: Map<String, String>,
     ): Response<PatientMedicalInfoResponse>
 
 

@@ -209,6 +209,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
                 sub_SpecialistId
             )
             viewmodel.searchDoctors(doctorssearchRequset)
+            bottomsheetbeahavoir.state=BottomSheetBehavior.STATE_HIDDEN
         }
 
     }
@@ -322,6 +323,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
             }
             binding.layoutBottomsheetpersistant.etSubSpecialization.setText(name)
             if (!binding.layoutBottomsheetpersistant.etSubSpecialization.toString().isEmpty()) {
+                sub_SpecialistId.clear()
                 for (i in it.indices) {
                     sub_SpecialistId.add(it[i].id)
                 }

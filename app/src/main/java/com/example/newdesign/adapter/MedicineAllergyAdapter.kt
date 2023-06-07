@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newdesign.databinding.ItemLayoutSubspecialistBinding
 import com.example.newdesign.model.SubSpecialistData
+import com.example.newdesign.model.profile.DataMedicineAllergy
 
 
-class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):ListAdapter<SubSpecialistData,SubSpecialistAdapter.ViewHolder>(DiffCallback()) {
+class MedicineAllergyAdapter(private val selectMedicineAllergy:SelectMedicineAllergy):ListAdapter<DataMedicineAllergy,MedicineAllergyAdapter.ViewHolder>(DiffCallback()) {
 
-    val subSpeciaListData= mutableListOf<SubSpecialistData>()
+    private val medicineAllergyList= mutableListOf<DataMedicineAllergy>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -27,17 +28,12 @@ class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):
         holder.binding.radioSpecialist.text=sp.name
           holder.binding.radioSpecialist.setOnCheckedChangeListener { buttonView, isChecked ->
               if (isChecked) {
-                  subSpeciaListData.add(sp)
+                  medicineAllergyList.add(sp)
               } else {
-                  subSpeciaListData.remove(sp)
+                  medicineAllergyList.remove(sp)
               }
-              selectsubSpecialist.onSelectSubcialist(subSpeciaListData)
+              selectMedicineAllergy.onSelectMedicineAllergy(medicineAllergyList)
           }
-
-        holder.binding.radioSpecialist.setOnClickListener { view ->
-
-            notifyDataSetChanged()
-        }
 
     }
 
@@ -47,19 +43,19 @@ class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):
     }
 
 
-    private class DiffCallback : DiffUtil.ItemCallback<SubSpecialistData>() {
-        override fun areItemsTheSame(oldItem: SubSpecialistData, newItem: SubSpecialistData): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<DataMedicineAllergy>() {
+        override fun areItemsTheSame(oldItem: DataMedicineAllergy, newItem: DataMedicineAllergy): Boolean {
             return oldItem==newItem
         }
 
-        override fun areContentsTheSame(oldItem: SubSpecialistData, newItem: SubSpecialistData): Boolean {
+        override fun areContentsTheSame(oldItem: DataMedicineAllergy, newItem: DataMedicineAllergy): Boolean {
             return true
         }
     }
 
 
-    interface SelectSubSpecialist{
-        fun onSelectSubcialist(listofsubSpecialist:MutableList<SubSpecialistData>)
+    interface SelectMedicineAllergy{
+        fun onSelectMedicineAllergy(listofMedicineAllergy:MutableList<DataMedicineAllergy>)
     }
 
 

@@ -361,4 +361,5 @@
             app:argType="com.example.newdesign.model.populardoctors.HealthData"
             app:nullable="true" />
     </fragment>
+
 </navigation>

@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newdesign.databinding.ItemLayoutSubspecialistBinding
 import com.example.newdesign.model.SubSpecialistData
+import com.example.newdesign.model.profile.DataBloodType
 
 
-class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):ListAdapter<SubSpecialistData,SubSpecialistAdapter.ViewHolder>(DiffCallback()) {
+class BloodTypesAdapter(private val onItemSelect:SelectBloodTypeList):ListAdapter<DataBloodType,BloodTypesAdapter.ViewHolder>(DiffCallback()) {
 
-    val subSpeciaListData= mutableListOf<SubSpecialistData>()
 
+    var selectedPosition=-1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view=ItemLayoutSubspecialistBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -27,17 +28,16 @@ class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):
         holder.binding.radioSpecialist.text=sp.name
           holder.binding.radioSpecialist.setOnCheckedChangeListener { buttonView, isChecked ->
               if (isChecked) {
-                  subSpeciaListData.add(sp)
-              } else {
-                  subSpeciaListData.remove(sp)
+                  onItemSelect.onSelectBloodType(sp)
               }
-              selectsubSpecialist.onSelectSubcialist(subSpeciaListData)
           }
-
         holder.binding.radioSpecialist.setOnClickListener { view ->
-
+            selectedPosition = holder.bindingAdapterPosition
             notifyDataSetChanged()
         }
+
+        holder.binding.radioSpecialist.isChecked = selectedPosition == position
+
 
     }
 
@@ -47,19 +47,19 @@ class SubSpecialistAdapter(private val selectsubSpecialist:SelectSubSpecialist):
     }
 
 
-    private class DiffCallback : DiffUtil.ItemCallback<SubSpecialistData>() {
-        override fun areItemsTheSame(oldItem: SubSpecialistData, newItem: SubSpecialistData): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<DataBloodType>() {
+        override fun areItemsTheSame(oldItem: DataBloodType, newItem: DataBloodType): Boolean {
             return oldItem==newItem
         }
 
-        override fun areContentsTheSame(oldItem: SubSpecialistData, newItem: SubSpecialistData): Boolean {
+        override fun areContentsTheSame(oldItem: DataBloodType, newItem: DataBloodType): Boolean {
             return true
         }
     }
 
 
-    interface SelectSubSpecialist{
-        fun onSelectSubcialist(listofsubSpecialist:MutableList<SubSpecialistData>)
+    interface SelectBloodTypeList{
+        fun onSelectBloodType(listOfBloodType:DataBloodType)
     }
 
 

@@ -20,10 +20,6 @@ import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -192,7 +188,7 @@ class LocationFragment : Fragment() {
                                 getString(R.string.datasentsuccessfully),
                                 Snackbar.LENGTH_SHORT
                             ).show()
-                            findNavController().navigate(R.id.medicalStateFragment)
+                            findNavController().navigate(R.id.medicalStateFragment2)
                         }else{
                             Snackbar.make(
                                 requireView(),

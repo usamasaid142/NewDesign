@@ -39,6 +39,7 @@ class SplashFragment : Fragment() {
                  DateUtils.setLanguageFromMore("")
             }else if(!DateUtils.getToken().isNullOrEmpty()){
                 Log.e("lang",DateUtils.getLanguage().toString())
+
                 findNavController().navigate(R.id.homeFragment)
             }else{
                 findNavController().navigate(R.id.onboardingFragment)

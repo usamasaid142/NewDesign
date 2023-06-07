@@ -53,6 +53,9 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val doctorSpotLightResponse=MutableLiveData<Resource<GetDoctorSpotLightResponse>>()
     val updatePatientProfileResponse=MutableLiveData<Resource<UpdateProfilePatientResponse>>()
     val patientMedicalInfoResponse=MutableLiveData<Resource<PatientMedicalInfoResponse>>()
+    val bloodTypesResponse=MutableLiveData<Resource<BloodTypeResponse>>()
+    val medicineAllergyResponse=MutableLiveData<Resource<MedicineAllergyResponse>>()
+    val foodAllergyResponse=MutableLiveData<Resource<FoodAllergyResponse>>()
 
 
 
@@ -100,6 +103,52 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
             }
         }
         return Resource.Error(response.message())
+    }
+
+    fun getBloodTypes()=viewModelScope.launch(Dispatchers.IO+handler) {
+        bloodTypesResponse.postValue(Resource.Loading())
+        val response=repositry.getBloodTypes()
+        bloodTypesResponse.postValue(response?.let { handelgetBloodTypes(it) })
+    }
+
+    private fun handelgetBloodTypes(response: Response<BloodTypeResponse>): Resource<BloodTypeResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<BloodTypeResponse>(response.errorBody()!!.string(), BloodTypeResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+    fun getMedicineAllergy()=viewModelScope.launch(Dispatchers.IO+handler) {
+        medicineAllergyResponse.postValue(Resource.Loading())
+        val response=repositry.getMedicineAllergy()
+        medicineAllergyResponse.postValue(response?.let { handelgetMedicineAllergys(it) })
+    }
+    private fun handelgetMedicineAllergys(response: Response<MedicineAllergyResponse>): Resource<MedicineAllergyResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<MedicineAllergyResponse>(response.errorBody()!!.string(), MedicineAllergyResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+    fun getFoodAllergy()=viewModelScope.launch(Dispatchers.IO+handler) {
+        foodAllergyResponse.postValue(Resource.Loading())
+        val response=repositry.getFoodAllergy()
+        foodAllergyResponse.postValue(response?.let { handelGetFoodAllergy(it) })
+    }
+    private fun handelGetFoodAllergy(response: Response<FoodAllergyResponse>): Resource<FoodAllergyResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<FoodAllergyResponse>(response.errorBody()!!.string(), FoodAllergyResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
     }
 
 
@@ -376,7 +425,7 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
         return Resource.Error(response.message())
     }
 
-    fun createPatientMedicalInfo(medicalInfoRequest: MedicalInfoRquest)=viewModelScope.launch(Dispatchers.IO+handler) {
+    fun createPatientMedicalInfo(medicalInfoRequest: HashMap<String,String>)=viewModelScope.launch(Dispatchers.IO+handler) {
         patientMedicalInfoResponse.postValue(Resource.Loading())
         val response=repositry.CreatePatientMedicallInfo(medicalInfoRequest)
         patientMedicalInfoResponse.postValue(response?.let { handlecreatePatientMedicallInfo(it) })
