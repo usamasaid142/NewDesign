@@ -36,6 +36,7 @@ import com.example.newdesign.utils.DateUtils.convertLongToDate
 import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
+import com.example.newdesign.utils.localization.DefaultLocaleHelper
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -205,7 +206,8 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                setLocale(lang!!)
+
+                DefaultLocaleHelper.getInstance(requireContext()).setCurrentLocale(lang!!)
                 requireActivity().finish()
                 startActivity(requireActivity().intent)
             }
@@ -237,7 +239,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             sp.saveUserToken(Constans.TOKEN, "")
             DateUtils.setToken("")
             dismiss()
-         //   findNavController().popBackStack()
+
            val action=DialogBottomSheetFragmentDirections.actionDialogBottomSheetFragmentToLoginFragment()
             findNavController().navigate(action)
 
@@ -769,40 +771,5 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         }
 
     }
-
-    @TargetApi(Build.VERSION_CODES.N)
-    private fun updateResources(context: Context, language: String): Context? {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val configuration = context.resources.configuration
-        configuration.setLocale(locale)
-        return context.createConfigurationContext(configuration)
-    }
-
-    @Suppress("deprecation")
-    private fun updateResourcesLegacy(context: Context, language: String): Context? {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val resources = context.resources
-        val configuration = resources.configuration
-        configuration.locale = locale
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-        return context
-    }
-
-    private fun setLocale(lang: String): Context? {
-        return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-            updateResources(
-                requireContext(),
-                lang
-            )
-        } else updateResourcesLegacy(
-            requireContext(),
-            lang
-        )
-    }
-
-
-
 
 }

@@ -1,6 +1,8 @@
 package com.example.newdesign
 
+import android.content.Context
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -10,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.example.newdesign.databinding.ActivityMainBinding
+import com.example.newdesign.utils.localization.DefaultLocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +24,12 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var instance: MainActivity? = null
     }
+
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(DefaultLocaleHelper.getInstance(newBase!!).onAttach())
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()||super.onSupportNavigateUp()
     }
-
 
 
 }

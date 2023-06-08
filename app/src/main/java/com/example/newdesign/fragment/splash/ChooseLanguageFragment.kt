@@ -2,7 +2,6 @@ package com.example.newdesign.fragment.splash
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.newdesign.R
 import com.example.newdesign.databinding.ChooseLanguagefragmentBinding
 import com.example.newdesign.utils.Constans.Language
 import com.example.newdesign.utils.DateUtils
-import com.example.newdesign.utils.LocaleHelper
 import com.example.newdesign.utils.SpUtil
+import com.example.newdesign.utils.localization.DefaultLocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -47,8 +45,7 @@ class ChooseLanguageFragment : Fragment() {
             if (sp.getUserLang(Language).isNullOrEmpty()) {
                 Toast.makeText(requireContext(),getString(R.string.choose_language), Toast.LENGTH_SHORT).show()
             } else {
-
-                setLocale(lang!!)
+                DefaultLocaleHelper.getInstance(requireContext()).setCurrentLocale(lang!!)
                 requireActivity().finish()
                 startActivity(requireActivity().intent)
             }
@@ -85,37 +82,6 @@ class ChooseLanguageFragment : Fragment() {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    private fun updateResources(context: Context, language: String): Context? {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val configuration = context.resources.configuration
-        configuration.setLocale(locale)
-        return context.createConfigurationContext(configuration)
-    }
-
-    @Suppress("deprecation")
-    private fun updateResourcesLegacy(context: Context, language: String): Context? {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val resources = context.resources
-        val configuration = resources.configuration
-        configuration.locale = locale
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-        return context
-    }
-
-    fun setLocale(lang: String): Context? {
-        return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-            updateResources(
-                requireContext(),
-                lang
-            )
-        } else updateResourcesLegacy(
-            requireContext(),
-            lang
-        )
-    }
 
 
 }

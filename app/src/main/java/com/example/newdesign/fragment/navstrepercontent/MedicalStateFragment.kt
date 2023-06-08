@@ -100,27 +100,12 @@ class MedicalStateFragment : Fragment() {
             partMap = partMap + mapOf("PatientMedicineAllergiesDto" to medicineAllergyListId)
         }
 
-//        val medicalInfoRequest=MedicalInfoRquest(bloodTypeId,binding.etChronicDiseases.text.toString()?:" ",binding.etCurrentMedication.text.toString()?:" "
-//        ,binding.etHight.text.toString().toInt(),binding.etInjuries.text.toString()?:" ",binding.etOtherAllergies.text.toString()?:" ",binding.etPastMedication.text.toString()?:" "
-//        ,foodAllergyListId,medicineAllergyListId,binding.etPrescriptions.text.toString()?:" ",binding.etPressureMMGG.text.toString()?:" "
-//        ,binding.etSugarLevelMGDL.text.toString()?:" ",binding.etSurgeries.text.toString()?:"",binding.etWeight.text.toString().toInt())
         viewmodel.createPatientMedicalInfo(partMap as HashMap<String, String>)
         viewmodel.patientMedicalInfoResponse.observe(viewLifecycleOwner, Observer {response->
             when (response) {
                 is Resource.sucess -> {
                     binding.progressBar.visibility = View.GONE
                     response.data?.let {
-//                        it.data?.profileStatus?.let { it1 ->
-//                            sharedDataViewmodel.getProfileStatus(
-//                                it1
-//                            )
-//                        }
-//                        it.data?.profileStatus?.let { it1 ->
-//                            sp.saveProfileStatus(
-//                                Constans.PROFILE_STATUS,
-//                                it1
-//                            )
-//                        }
                         Snackbar.make(
                             requireView(),
                             getString(R.string.datasentsuccessfully),
