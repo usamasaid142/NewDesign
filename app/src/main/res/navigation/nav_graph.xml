@@ -57,6 +57,8 @@
             app:destination="@id/docotorProfileFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/homeFragment" />
     </fragment>
     <dialog
@@ -71,7 +73,6 @@
         <action
             android:id="@+id/action_dialogBottomSheetFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpToInclusive="true"
             app:popUpTo="@id/loginFragment"
             />
     </dialog>
@@ -171,6 +172,7 @@
             android:id="@+id/action_homeFragment_to_healthyTopicsFragment"
             app:destination="@id/healthyTopicsFragment" />
 
+
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -211,7 +213,8 @@
         <action
             android:id="@+id/action_moreFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment"
-            />
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_moreFragment_to_changepasswordFragment"
             app:destination="@id/changepasswordFragment" />

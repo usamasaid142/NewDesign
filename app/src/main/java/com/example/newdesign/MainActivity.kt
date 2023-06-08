@@ -6,7 +6,9 @@ import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.navigateUp
@@ -60,8 +62,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
         navController = navHostFragment.navController
         binding.bottomViewNav.setupWithNavController(navController)
-
-    }
+        NavigationUI.setupWithNavController( binding.bottomViewNav, navController, false)
+        }
 
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,10 +1,7 @@
 package com.example.newdesign.fragment.dialog
 
-import android.annotation.TargetApi
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -21,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newdesign.R
 import com.example.newdesign.adapter.*
 import com.example.newdesign.databinding.DialogBottomSheetfragmentBinding
-import com.example.newdesign.fragment.home.HomeFragment
 import com.example.newdesign.model.*
 import com.example.newdesign.model.profile.DataBloodType
 import com.example.newdesign.model.profile.DataFoodAllergy
@@ -29,20 +24,14 @@ import com.example.newdesign.model.profile.DataMedicineAllergy
 import com.example.newdesign.model.register.ChooseGender
 import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.Constans
-import com.example.newdesign.utils.DataBinding.displayToastText
 import com.example.newdesign.utils.DateUtils
-import com.example.newdesign.utils.DateUtils.convertDateToLong
-import com.example.newdesign.utils.DateUtils.convertLongToDate
-import com.example.newdesign.utils.DateUtils.toTimeDateString
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.utils.SpUtil
 import com.example.newdesign.utils.localization.DefaultLocaleHelper
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 
 
@@ -69,7 +58,7 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
     private lateinit var foodAllergyAdapter: FoodAllergyAdapter
     var lang: String? = null
 
-    //  private lateinit var autoCompleteAdapter: AutoCompleteAdapter
+
     @Inject
     lateinit var sp: SpUtil
 
@@ -82,7 +71,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DialogBottomSheetfragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -238,11 +226,11 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
 
             sp.saveUserToken(Constans.TOKEN, "")
             DateUtils.setToken("")
+            findNavController().navigate(R.id.loginFragment)
+            if (findNavController().currentDestination?.id==R.id.homeFragment){
+                findNavController().clearBackStack(R.id.fragmentContainerView2)
+            }
             dismiss()
-
-           val action=DialogBottomSheetFragmentDirections.actionDialogBottomSheetFragmentToLoginFragment()
-            findNavController().navigate(action)
-
         }
 
     }
