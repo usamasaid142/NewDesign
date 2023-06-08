@@ -12,6 +12,7 @@ import com.example.newdesign.databinding.ItemLayoutSubspecialistBinding
 import com.example.newdesign.model.CityData
 import com.example.newdesign.model.SpecialistData
 import com.example.newdesign.model.SubSpecialistData
+import com.example.newdesign.utils.localization.DefaultLocaleHelper
 
 
 class GetAllCitiesAdapter(private val selectCity: SelectCity):ListAdapter<CityData,GetAllCitiesAdapter.ViewHolder>(DiffCallback()) {
@@ -25,7 +26,12 @@ class GetAllCitiesAdapter(private val selectCity: SelectCity):ListAdapter<CityDa
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sp=getItem(position)
 
-        holder.binding.radioSpecialist.text=sp.name
+        if (DefaultLocaleHelper.getInstance(holder.binding.radioSpecialist.context).getCurrentLocale()=="AR"){
+            holder.binding.radioSpecialist.text=sp.nameAr
+        }else{
+            holder.binding.radioSpecialist.text=sp.name
+
+        }
 
         holder.binding.radioSpecialist.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {

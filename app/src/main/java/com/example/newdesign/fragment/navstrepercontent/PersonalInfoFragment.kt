@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -24,10 +25,15 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.PersonalinfofragmentBinding
+import com.example.newdesign.model.profile.PatientDataInfo
+import com.example.newdesign.model.profile.UpdateProfileInfo
+import com.example.newdesign.model.register.ChooseGender
+import com.example.newdesign.model.register.DataCountry
 import com.example.newdesign.utils.*
 import com.example.newdesign.utils.Constans.NameAR
 import com.example.newdesign.utils.Constans.NameEN
 import com.example.newdesign.utils.Constans.PROFILE_STATUS
+import com.example.newdesign.utils.DateUtils.convertDateToLong
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
 import com.google.android.material.snackbar.Snackbar
@@ -44,6 +50,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,6 +65,7 @@ class PersonalInfoFragment : Fragment() {
     val sharedDataViewmodel: SharedDataViewmodel by activityViewModels()
     private var partMap: Map<String, Any> = mutableMapOf()
     private var status = false
+    private lateinit var updateProfileInfo:UpdateProfileInfo
 
     @Inject
     lateinit var sp: SpUtil
@@ -75,6 +86,8 @@ class PersonalInfoFragment : Fragment() {
 
         initbutton()
         getdata()
+        viewmodel.getPatientInfo()
+        callBackGetdataInfo()
     }
 
 
@@ -100,8 +113,6 @@ class PersonalInfoFragment : Fragment() {
 //        }
         binding.btnNext.setOnClickListener {
             //    findNavController().navigate(R.id.specialtyFragment)
-
-
             if (isvalidateFeilds(
                     binding.etFullNameEn.text.toString(),
                     binding.etFullNameAR.text.toString(),
@@ -481,6 +492,7 @@ class PersonalInfoFragment : Fragment() {
 
 
     private fun sendData(FullName: String, FullNameAr: String, Birthdate: String) {
+
         imageFile?.let { it ->
 
             partMap = partMap + mapOf("profileImage" to it)
@@ -592,7 +604,54 @@ class PersonalInfoFragment : Fragment() {
         }
     }
 
+    private fun callBackGetdataInfo(){
+        viewmodel.patientInfoResponse.observe(viewLifecycleOwner, Observer {response->
+            when (response) {
 
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data?.let {
+                        val date=DateParsing(it.birthdate.toString())
+                        updateProfileInfo= UpdateProfileInfo(it.genderId,it.nationalityId,it.nationalityName,date)
+                        bindDataToViews(it)
+                    }
+
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        })
+    }
+
+     private fun updatedata(patientInfo:UpdateProfileInfo){
+         patientInfo.genderId?.let { it1 ->
+             if (it1==1){
+                 ChooseGender(
+                     getString(R.string.male),
+                     it1
+                 )
+             }else{
+                 ChooseGender(
+                     getString(R.string.female),
+                     it1
+                 )
+             }
+
+         }?.let { it2 -> sharedDataViewmodel.getGender(it2) }
+
+         patientInfo.nationalityId?.let { it1 -> DataCountry(it1, patientInfo.nationalityName.toString()) }
+             ?.let { it2 -> sharedDataViewmodel.getCountry(it2) }
+         patientInfo.date?.let { it1 -> sharedDataViewmodel.getBirthDate(it1) }
+     }
 
 
     private fun getdata() {
@@ -615,6 +674,50 @@ class PersonalInfoFragment : Fragment() {
             status=it
         })
 
+    }
+
+    private fun showprogtessbar() {
+        binding.progressBarInfo.visibility = View.VISIBLE
+    }
+
+    private fun hideprogressbar() {
+        binding.progressBarInfo.visibility = View.GONE
+    }
+    private fun bindDataToViews(patientInfo:PatientDataInfo) {
+
+        if (patientInfo!=null) {
+            binding.etFullNameEn.setText(patientInfo.fullName)
+            binding.etFullNameAR.setText(patientInfo.fullNameAr)
+            if (patientInfo.genderId == 1) {
+                binding.etGender.setText(getString(R.string.male))
+            } else {
+                binding.etGender.setText(getString(R.string.female))
+            }
+            binding.etNationality.setText(patientInfo.nationalityName)
+            binding.etDateOfbirth.setText(DateParsing(patientInfo.birthdate.toString()))
+
+            binding.ivDoctorProfile.load("https://salamtechapi.azurewebsites.net/${patientInfo.image}") {
+                crossfade(true)
+                crossfade(1000)
+                transformations(CircleCropTransformation())
+            }
+        }
+        updatedata(updateProfileInfo)
+    }
+
+
+    private fun DateParsing(dateParsing:String):String{
+        var day=""
+      try {
+            val sdf = SimpleDateFormat("d-M-yyyy", Locale.US)
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
+            val date = dateParsing.let { format.parse(it) }
+             day = sdf.format(date)
+
+        }catch (e:Exception){
+            Log.e("",e.localizedMessage)
+        }
+        return day
     }
 
 

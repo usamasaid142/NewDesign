@@ -202,5 +202,16 @@ interface ApiService {
         @Path("culture") culture: String,
     ):Response<GetDoctorHealthTopicsResponse>
 
+    @GET("{culture}/Patient/GetPatient")
+    suspend fun getPatientInfo(
+        @Path("culture") culture: String,
+    ):Response<GetPatientInfoResponse>
+
+    @GET("{culture}/Patient/GetPatientMedicalInfo")
+    suspend fun getPatientMedicalInfo(
+        @Path("culture") culture: String,
+    ):Response<PatientMedicalInfo>
+
+
 
 }

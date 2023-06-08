@@ -1,6 +1,7 @@
 package com.example.newdesign.adapter
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +11,8 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.newdesign.databinding.ItemLayoutScheduleBinding
 import com.example.newdesign.model.scheduling.DataAppointment
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MyScheduleAdapter(private val schedule: ActionSchedule) :
@@ -29,7 +32,7 @@ class MyScheduleAdapter(private val schedule: ActionSchedule) :
             tvSpecialization.text = services.specialistName
             Service.text=services.medicalExaminationTypeName
             location.text = services.clinicAddress
-            waitingTime.text = " ${services.appointmentDate}"
+            waitingTime.text = " ${DateParsing(services.appointmentDate.toString())}"
             Feesresult.text = services.fees.toString()
         }
         holder.binding.btnMoreAction.setOnClickListener {
@@ -79,5 +82,19 @@ class MyScheduleAdapter(private val schedule: ActionSchedule) :
 
     interface ActionSchedule {
         fun onItemClick(clinicId: Int, doctorId: Int,clinkname:String,formaterDate:String,medicalExaminationTypeId:Int,AppointmentId:Int)
+    }
+
+    private fun DateParsing(dateParsing:String):String{
+        var day=""
+        try {
+            val sdf = SimpleDateFormat("dd-MM-yyyy  hh:mm a", Locale.getDefault())
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            val date = dateParsing.let { format.parse(it) }
+            day = sdf.format(date)
+
+        }catch (e:Exception){
+            Log.e("",e.localizedMessage)
+        }
+        return day
     }
 }

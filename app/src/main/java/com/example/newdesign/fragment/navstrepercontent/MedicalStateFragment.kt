@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.newdesign.R
 import com.example.newdesign.databinding.MedicalStatefragmentBinding
-import com.example.newdesign.model.profile.MedicalInfoRquest
+import com.example.newdesign.model.profile.*
 import com.example.newdesign.utils.Resource
 import com.example.newdesign.viewmodel.DialogBottomSheetViewmodel
 import com.example.newdesign.viewmodel.SharedDataViewmodel
@@ -42,6 +45,8 @@ class MedicalStateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initButton()
         getData()
+        viewmodel.getPatientMedicalInfo()
+        callBackPatientMedicalInfo()
     }
 
     private fun  initButton(){
@@ -176,6 +181,121 @@ class MedicalStateFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun callBackPatientMedicalInfo(){
+
+        viewmodel.patientMedicalInfo.observe(viewLifecycleOwner, Observer {response->
+            when (response) {
+
+                is Resource.Loading -> {
+                    showprogtessbar()
+                }
+
+                is Resource.sucess -> {
+                    hideprogressbar()
+                    response.data?.data?.let {
+
+                        bindDataToViews(it)
+                    }
+
+                }
+                is Resource.Error -> {
+                    hideprogressbar()
+                    response.data?.let {
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        })
+
+    }
+
+    private fun showprogtessbar() {
+        binding.progressBarInfo.visibility = View.VISIBLE
+    }
+
+    private fun hideprogressbar() {
+        binding.progressBarInfo.visibility = View.GONE
+    }
+
+    private fun bindDataToViews(patientInfo: DataPatientMedicalInfo) {
+
+        if (patientInfo.height!=null){
+            binding.etHight.setText(patientInfo.height.toString())
+        }
+        if (patientInfo.weight!=null)
+        binding.etWeight.setText(patientInfo.weight.toString())
+        if (patientInfo.bloodName!=null) {
+            binding.etBloodGroup.setText(patientInfo.bloodName.toString())
+        }else{
+            binding.etBloodGroup.setText("")
+        }
+        if (patientInfo.pressure!=null){
+            binding.etPressureMMGG.setText(patientInfo.pressure.toString())
+        }else{
+            binding.etPressureMMGG.setText("")
+        }
+        if (patientInfo.prescriptions!=null){
+        binding.etPrescriptions.setText(patientInfo.prescriptions.toString())
+        }else{
+            binding.etPrescriptions.setText("")
+        }
+        if (patientInfo.sugarLevel!=null) {
+            binding.etSugarLevelMGDL.setText(patientInfo.sugarLevel.toString())
+        }else{
+            binding.etSugarLevelMGDL.setText("")
+        }
+        if (patientInfo.surgeries!=null) {
+            binding.etSurgeries.setText(patientInfo.surgeries.toString())
+        }else{
+            binding.etSurgeries.setText("")
+        }
+        if (patientInfo.currentMedication!=null) {
+            binding.etCurrentMedication.setText(patientInfo.currentMedication.toString())
+        }else{
+            binding.etCurrentMedication.setText("")
+        }
+        if (patientInfo.pastMedication!=null){
+            binding.etPastMedication.setText(patientInfo.pastMedication.toString())
+        }else{
+            binding.etPastMedication.setText("")
+        }
+        if (patientInfo.iinjuries!=null) {
+            binding.etInjuries.setText(patientInfo.iinjuries.toString())
+        }else{
+            binding.etInjuries.setText("")
+        }
+        if (patientInfo.otherAllergies!=null){
+            binding.etOtherAllergies.setText(patientInfo.otherAllergies.toString())
+        }else{
+            binding.etOtherAllergies.setText("")
+        }
+
+        if (!patientInfo.patientFoodAllergiesName.toString().isNullOrEmpty()){
+            var name = ""
+            for (i in patientInfo.patientFoodAllergiesName!!.indices) {
+
+                name += "${patientInfo.patientFoodAllergiesName!![i]},"
+            }
+            binding.etFoodAllergies.setText(name)
+        }else{
+            binding.etFoodAllergies.setText("")
+        }
+
+        if (!patientInfo.patientMedicineAllergiesName.toString().isNullOrEmpty()){
+            var medName = ""
+            for (i in patientInfo.patientMedicineAllergiesName!!.indices) {
+
+                medName += "${patientInfo.patientMedicineAllergiesName!![i]},"
+            }
+            binding.etMedicalAllergies.setText(medName)
+        }else{
+            binding.etMedicalAllergies.setText("")
+        }
+
+
     }
 
 }

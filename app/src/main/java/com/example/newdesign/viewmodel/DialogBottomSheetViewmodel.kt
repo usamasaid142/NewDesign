@@ -56,6 +56,8 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
     val bloodTypesResponse=MutableLiveData<Resource<BloodTypeResponse>>()
     val medicineAllergyResponse=MutableLiveData<Resource<MedicineAllergyResponse>>()
     val foodAllergyResponse=MutableLiveData<Resource<FoodAllergyResponse>>()
+    val patientInfoResponse=MutableLiveData<Resource<GetPatientInfoResponse>>()
+    val patientMedicalInfo=MutableLiveData<Resource<PatientMedicalInfo>>()
 
 
 
@@ -438,6 +440,38 @@ class DialogBottomSheetViewmodel @Inject constructor(private val repositry: Regi
             }
         }
         val error = Gson().fromJson<PatientMedicalInfoResponse>(response.errorBody()!!.string(), PatientMedicalInfoResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+    fun getPatientInfo()=viewModelScope.launch(Dispatchers.IO+handler) {
+        patientInfoResponse.postValue(Resource.Loading())
+        val response=repositry.getPatientInfo()
+        patientInfoResponse.postValue(response?.let { handlegetPatientInfo(it) })
+    }
+
+    private fun handlegetPatientInfo(response: Response<GetPatientInfoResponse>): Resource<GetPatientInfoResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<GetPatientInfoResponse>(response.errorBody()!!.string(), GetPatientInfoResponse::class.java)
+        return error.message?.let { Resource.Error(it) }
+    }
+
+    fun getPatientMedicalInfo()=viewModelScope.launch(Dispatchers.IO+handler) {
+        patientMedicalInfo.postValue(Resource.Loading())
+        val response=repositry.getPatientMedicalInfo()
+        patientMedicalInfo.postValue(response?.let { handleGetPatientMedicalInfo(it) })
+    }
+
+    private fun handleGetPatientMedicalInfo(response: Response<PatientMedicalInfo>): Resource<PatientMedicalInfo>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.sucess(it)
+            }
+        }
+        val error = Gson().fromJson<PatientMedicalInfo>(response.errorBody()!!.string(), PatientMedicalInfo::class.java)
         return error.message?.let { Resource.Error(it) }
     }
 

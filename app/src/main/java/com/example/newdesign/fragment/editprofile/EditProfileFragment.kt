@@ -36,7 +36,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        sharedDataViewmodel.getUpdateProfileStatus(true)
         initButton()
     }
 
@@ -55,7 +55,7 @@ class EditProfileFragment : Fragment() {
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
-            sharedDataViewmodel.getUpdateProfileStatus(true)
+
             setupNavigationBottom(1)
         }
 
@@ -66,7 +66,6 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutMedicalState.setBackgroundResource(R.drawable.bg_help)
             binding.tvMedicalState.setTextColor(Color.parseColor("#262D70"))
-            sharedDataViewmodel.getUpdateProfileStatus(true)
             setupNavigationBottom(2)
 
         }
@@ -78,7 +77,6 @@ class EditProfileFragment : Fragment() {
             binding.tvProfileInfo.setTextColor(Color.parseColor("#262D70"))
             binding.layoutLocation.setBackgroundResource(R.drawable.bg_help)
             binding.tvLocation.setTextColor(Color.parseColor("#262D70"))
-            sharedDataViewmodel.getUpdateProfileStatus(true)
             setupNavigationBottom(3)
 
         }
@@ -107,6 +105,11 @@ class EditProfileFragment : Fragment() {
 
         navHostFragment.navController.graph = navGraph
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sharedDataViewmodel.getUpdateProfileStatus(false)
     }
 
 }

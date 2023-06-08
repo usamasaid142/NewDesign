@@ -2,6 +2,7 @@ package com.example.newdesign.fragment.booking
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +86,7 @@ class AppointmentDetailsFragment : Fragment() {
         val outputText: String = outputFormat.format(date)
         binding.tvDoctorName.text=args.confirmappointments?.doctorName
         binding.tvSpecialization.text=args.confirmappointments?.SpecialistName
-        binding.tvDate.text=outputText
+        binding.tvDate.text=DateParsing(args.confirmappointments?.formattedDate.toString())
         binding.Service.text=args.confirmappointments?.MedicalExaminationTypeName
         binding.WaitingTime.text=args.confirmappointments?.timeInterval.toString()
         binding.TotalFees.text=args.confirmappointments?.fees.toString()+" "+getString(R.string.le)
@@ -124,6 +125,21 @@ class AppointmentDetailsFragment : Fragment() {
     private fun hideprogressbar() {
         binding.progressBar.visibility = View.GONE
 
+    }
+
+
+    private fun DateParsing(dateParsing:String):String{
+        var day=""
+        try {
+            val sdf = SimpleDateFormat("dd-MM-yyyy  hh:mm a", Locale.getDefault())
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            val date = dateParsing.let { format.parse(it) }
+            day = sdf.format(date)
+
+        }catch (e:Exception){
+            Log.e("",e.localizedMessage)
+        }
+        return day
     }
 
 

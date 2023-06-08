@@ -47,7 +47,7 @@ class SearchFragment : Fragment(), CalenderAdapter.Action, SearchDoctorsAdapter.
     private lateinit var searchDoctorsAdapter: SearchDoctorsAdapter
     private lateinit var bottomsheetbeahavoir: BottomSheetBehavior<ConstraintLayout>
 
-    private val sdf = SimpleDateFormat("MMMM yyyy", Locale.US)
+    private val sdf = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
     private val cal = Calendar.getInstance(Locale.US)
     private val dates = ArrayList<Date>()
     val now = Calendar.getInstance(TimeZone.getTimeZone("CST"))

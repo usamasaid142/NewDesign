@@ -12,8 +12,6 @@ data class GetCountry(
 data class DataCountry(
     @SerializedName("Id")
     val id: Int,
-    @SerializedName("Isdefault")
-    val isdefault: Boolean,
     @SerializedName("Name")
     val name: String
 ): Serializable

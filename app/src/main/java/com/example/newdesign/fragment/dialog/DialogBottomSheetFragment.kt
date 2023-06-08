@@ -227,9 +227,6 @@ class DialogBottomSheetFragment : BottomSheetDialogFragment(), SpecialistAdapter
             sp.saveUserToken(Constans.TOKEN, "")
             DateUtils.setToken("")
             findNavController().navigate(R.id.loginFragment)
-            if (findNavController().currentDestination?.id==R.id.homeFragment){
-                findNavController().clearBackStack(R.id.fragmentContainerView2)
-            }
             dismiss()
         }
 
