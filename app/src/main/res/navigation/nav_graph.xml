@@ -171,6 +171,9 @@
         <action
             android:id="@+id/action_homeFragment_to_healthyTopicsFragment"
             app:destination="@id/healthyTopicsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_videoCallFragment"
+            app:destination="@id/videoCallFragment" />
 
 
     </fragment>
@@ -362,6 +365,16 @@
         <argument
             android:name="healthdata"
             app:argType="com.example.newdesign.model.populardoctors.HealthData"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoCallFragment"
+        android:name="com.example.newdesign.fragment.addagora.VideoCallFragment"
+        android:label="video_callfragment"
+        tools:layout="@layout/video_callfragment" >
+        <argument
+            android:name="callingType"
+            app:argType="string"
             app:nullable="true" />
     </fragment>
 

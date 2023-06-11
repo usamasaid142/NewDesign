@@ -84,9 +84,12 @@ class HomeFragment : Fragment(), ServicesAdapter.Action,PopularDoctorsAdapter.Ac
     }
 
     private fun initButton() {
-        binding.etSearch.setOnClickListener {
-            findNavController().navigate(R.id.searchFragment)
+        binding.ivCam.setOnClickListener {
+           val action=HomeFragmentDirections.actionHomeFragmentToVideoCallFragment("voice")
+            findNavController().navigate(action)
         }
+
+
     }
 
     private fun servicesRecylerview() {
