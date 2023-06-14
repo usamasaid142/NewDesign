@@ -213,5 +213,8 @@
     <string name="enter_your_email_we_will_send_you_code_to_reset_the_password">أدخل بريدك الإلكتروني أو هاتفك وسنرسل لك رمزًا لإعادة تعيين كلمة المرور</string>
     <string name="gotohome">اذهب الى الرئيسية</string>
     <string name="datasentsuccessfully">تم إرسال البيانات بنجاح</string>
+    <string name="Notification_channel_Id">Notification_channel_Id</string>
+    <string name="Notification_channel_Name">Notification_channel_Name</string>
+
 
 </resources>

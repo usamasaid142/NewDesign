@@ -57,8 +57,6 @@
             app:destination="@id/docotorProfileFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"
             app:destination="@id/homeFragment" />
     </fragment>
     <dialog
@@ -73,7 +71,6 @@
         <action
             android:id="@+id/action_dialogBottomSheetFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/loginFragment"
             />
     </dialog>
     <fragment
@@ -197,7 +194,7 @@
         <action
             android:id="@+id/action_searchFragment_to_bookingAppointmentFragment"
             app:destination="@id/bookingAppointmentFragment"
-            app:popUpTo="@id/homeFragment" />
+           />
     </fragment>
     <fragment
         android:id="@+id/myScheduleFragment"
@@ -216,8 +213,7 @@
         <action
             android:id="@+id/action_moreFragment_to_dialogBottomSheetFragment"
             app:destination="@id/dialogBottomSheetFragment"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
+            />
         <action
             android:id="@+id/action_moreFragment_to_changepasswordFragment"
             app:destination="@id/changepasswordFragment" />
@@ -371,11 +367,17 @@
         android:id="@+id/videoCallFragment"
         android:name="com.korashiGroup.salamtakPatient.fragment.addagora.VideoCallFragment"
         android:label="video_callfragment"
-        tools:layout="@layout/video_callfragment" >
+        tools:layout="@layout/video_callfragment">
         <argument
             android:name="callingType"
             app:argType="string"
             app:nullable="true" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="www.navcomponent.com/{callingType}"
+            app:action="android.intent.action.MY_ACTION"
+            app:mimeType="type/subtype"
+            />
     </fragment>
 
 </navigation>

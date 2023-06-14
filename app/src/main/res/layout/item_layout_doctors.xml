@@ -75,6 +75,7 @@
                         android:layout_height="15dp"
                         android:layout_marginStart="10dp"
                         android:adjustViewBounds="true"
+                        android:visibility="gone"
                         android:src="@drawable/ic_star"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_doctorProfile"
