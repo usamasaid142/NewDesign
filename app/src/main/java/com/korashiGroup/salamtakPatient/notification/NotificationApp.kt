@@ -34,14 +34,6 @@ class NotificationApp {
     }
 
 
-//  fun  getInstance(context: Context):NotificationApp{
-//        if (instance==null){
-//            instance= NotificationApp(context)
-//        }
-//        return instance as NotificationApp
-//    }
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     fun createChannel(
         notification_id: String,

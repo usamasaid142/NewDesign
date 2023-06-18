@@ -7,19 +7,24 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
+import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.korashiGroup.salamtakPatient.R
-import com.korashiGroup.salamtakPatient.fragment.addagora.VideoCallFragmentArgs
 import java.util.*
 import javax.inject.Inject
+
 
 class MyNotificationManager @Inject constructor(private val mCtx: Application) {
 
     fun textNotification(title: String?, message: String?) {
         val rand = Random()
         val idNotification = rand.nextInt(1000000000)
-        val pendingdeeplink= NavDeepLinkBuilder(mCtx).setGraph(R.navigation.nav_graph).setDestination(R.id.videoCallFragment)
+        // deep link
+        val args = Bundle()
+        args.putString("callingType", title)
+        val pendingDeeplink= NavDeepLinkBuilder(mCtx).setGraph(R.navigation.nav_graph).setDestination(R.id.videoCallFragment)
+            .setArguments(args)
             .createPendingIntent()
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationManager =  mCtx.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -47,7 +52,7 @@ class MyNotificationManager @Inject constructor(private val mCtx: Application) {
             .setTicker(mCtx.resources.getString(R.string.app_name))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(soundUri)
-            .setContentIntent(pendingdeeplink)
+            .setContentIntent(pendingDeeplink)
             .setContentTitle(title)
             .setContentText(message)
         notificationManager.notify(idNotification, notificationBuilder.build())

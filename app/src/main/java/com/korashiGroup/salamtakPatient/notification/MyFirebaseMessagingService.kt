@@ -1,8 +1,6 @@
 package com.korashiGroup.salamtakPatient.notification
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.korashiGroup.salamtakPatient.utils.DateUtils
@@ -20,13 +18,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         DateUtils.setFcmToken(token)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.e("fcm", "Refreshed token: ${message.notification?.link}")
-        mNotificationManager.textNotification(message.notification?.title.toString(), message.notification?.title.toString())
-       // (application as (SamlamtakApp)).ttrigerNotifiction(message.notification?.title.toString(), message.notification?.title.toString())
+        Log.e("TAG", "payload: ${message.notification?.link}")
+
+        mNotificationManager.textNotification(message.notification?.title.toString(), message.notification?.body.toString())
 
     }
+
+
+
     
 }
