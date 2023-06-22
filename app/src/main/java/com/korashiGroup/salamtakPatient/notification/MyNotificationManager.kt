@@ -24,7 +24,9 @@ class MyNotificationManager @Inject constructor(private val mCtx: Application) {
         val args = Bundle()
         args.putString("callingType", title)
         val pendingDeeplink= NavDeepLinkBuilder(mCtx).setGraph(R.navigation.nav_graph).setDestination(R.id.videoCallFragment)
-            .setArguments(args)
+            .setArguments(Bundle().apply {
+                putString("callingType","osama")
+            })
             .createPendingIntent()
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationManager =  mCtx.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

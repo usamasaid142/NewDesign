@@ -56,6 +56,7 @@ class NotificationApp {
     fun triggerNotification(channel_id: String, title: String, conenttext: String) {
 
         val intent = Intent(context, MainActivity::class.java)
+        val openurl=Intent(Intent.ACTION_VIEW)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
         //val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
